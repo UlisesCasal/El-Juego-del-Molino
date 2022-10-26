@@ -4,11 +4,13 @@ public class Jugador {
     private String nombre;
     private Ficha[] fichas;
     private int puntaje;
+    private int numero;
 
-    public Jugador(String nombre){
+    public Jugador(String nombre, int numero){
         this.nombre = nombre;
         this.fichas = new Ficha[20];
         this.puntaje = 0;
+        this.numero = numero;
     }
 
     public void incPuntaje(){
@@ -27,4 +29,7 @@ public class Jugador {
     }
 
 
+    public int getNumero() {
+        return this.numero;
+    }
 }
