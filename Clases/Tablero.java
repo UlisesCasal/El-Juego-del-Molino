@@ -262,7 +262,7 @@ public class Tablero {
                 if (tablero[t][f + 1][c] == 0) {lista.add(crearArrayPosiciones(t, f + 1, c));}
                 if (tablero[t][f][c - 1] == 0) {lista.add(crearArrayPosiciones(t, f, c - 1));}
             }
-            if ((c == 2) && (f == 0)){
+            if ((c == 2) && (f == 1)){
                 /*8. si c == 2 y f == 1:
                 si f - 1 = 0 -> movi.add()
                 si f + 1 = 0 -> movi.add()
@@ -285,5 +285,121 @@ public class Tablero {
             salida = true;
         }
         return salida;
+    }
+
+    public boolean verificarRaya(int t, int f, int c, Jugador jugador){
+        /*funcion que verifica si se produjo una raya o no,
+        le ingresa la posicion de la ultima ficha, y cuenta las fichas adyacentes.
+         */
+        boolean raya = false;
+        if (t == 0){
+            if ((c == 0) && (f ==2)){
+                if ((tablero[t][f][c+1] == jugador.getNumero()) && (tablero[t][f][c+2] == jugador.getNumero())) {raya = true;}
+                if ((tablero[t][f-1][c] == jugador.getNumero()) && ((tablero[t][f-2][c] == jugador.getNumero()))){raya = true;}
+            }
+            if ((c == 1) && (f == 2)){
+                if ((tablero[t][f][c+1] == jugador.getNumero()) && (tablero[t][f][c-1] == jugador.getNumero())){raya = true;}
+                if ((tablero[t+1][f][c] == jugador.getNumero()) &&(tablero[t+2][f][c] == jugador.getNumero())){raya = true;}
+            }
+            if ((c == 2) && (f == 2)){
+
+                if ((tablero[t][f-1][c] == jugador.getNumero() ) && (tablero[t][f-2][c] == jugador.getNumero())){raya = true;}
+                if ((tablero[t][f][c-1] == jugador.getNumero()) && (tablero[t][f][c-2] == jugador.getNumero())){raya = true;}
+            }
+            if ((c == 0) && (f == 1)){
+                if ((tablero[t][f+1][c] == jugador.getNumero()) && (tablero[t][f-1][c] == jugador.getNumero())){raya = true;}
+                if ((tablero[t+1][f][c] == jugador.getNumero()) && (tablero[t+2][f][c] == jugador.getNumero())){raya = true;}
+            }
+            if ((c == 0) && (f == 0)){
+                if ((tablero[t][f][c+1] == jugador.getNumero()) && (tablero[t][f][c+2] == jugador.getNumero())){raya = true;}
+                if ((tablero[t][f+1][c] == jugador.getNumero()) && (tablero[t][f+2][c] == jugador.getNumero())){raya = true;}
+            }
+            if ((c == 1) && (f == 0)) {
+                if ((tablero[t][f][c + 1] == jugador.getNumero()) && (tablero[t][f][c - 1] == jugador.getNumero())) {raya = true;}
+                if ((tablero[t + 1][f][c] == jugador.getNumero()) && (tablero[t + 2][f][c] == jugador.getNumero())) {raya = true;}
+            }
+            if ((c == 2) && (f == 0)){
+                if ((tablero[t][f][c - 1] == jugador.getNumero()) && ((tablero[t][f][c - 2] == jugador.getNumero()))) {raya = true;}
+                if ((tablero[t][f + 1][c] == jugador.getNumero()) && (tablero[t][f + 2][c] == jugador.getNumero())) {raya = true;}
+            }
+            if ((c == 2) && (f == 1)){
+                if ((tablero[t][f + 1][c] == jugador.getNumero()) && (tablero[t][f - 1][c] == jugador.getNumero())) {raya = true;}
+                if (tablero[t + 1][f][c] == jugador.getNumero() && (tablero[t + 2][f][c] == jugador.getNumero())) {raya = true;}
+            }
+
+        } else if (t == 1) {
+
+            if ((c == 0) && (f == 2)){
+                if ((tablero[t][f][c+1] == jugador.getNumero()) && (tablero[t][f][c+2] == jugador.getNumero())) {raya = true;}
+                if ((tablero[t][f-1][c] == jugador.getNumero()) && ((tablero[t][f-2][c] == jugador.getNumero()))){raya = true;}
+            }
+            if ((c == 1) && (f == 2)){
+                if ((tablero[t][f][c - 1] == jugador.getNumero()) && (tablero[t][f][c + 1] == jugador.getNumero())) {raya = true;}
+                if ((tablero[t - 1][f][c] == jugador.getNumero()) && (tablero[t + 1][f][c] == jugador.getNumero())) {raya = true;}
+            }
+            if ((c == 2) && (f == 2)){
+                if ((tablero[t][f-1][c] == jugador.getNumero() ) && (tablero[t][f-2][c] == jugador.getNumero())){raya = true;}
+                if ((tablero[t][f][c-1] == jugador.getNumero()) && (tablero[t][f][c-2] == jugador.getNumero())){raya = true;}
+            }
+            if ((c == 0) && (f == 1)){
+                if ((tablero[t - 1][f][c] == jugador.getNumero()) && (tablero[t + 1][f][c] == jugador.getNumero())) {raya = true;}
+                if ((tablero[t][f - 1][c] == jugador.getNumero()) && (tablero[t][f + 1][c] == jugador.getNumero())) {raya = true;}
+            }
+            if ((c == 0) && (f == 0)){
+                if ((tablero[t][f][c+1] == jugador.getNumero()) && (tablero[t][f][c+2] == jugador.getNumero())){raya = true;}
+                if ((tablero[t][f+1][c] == jugador.getNumero()) && (tablero[t][f+2][c] == jugador.getNumero())){raya = true;}
+            }
+            if ((c == 1) && (f == 0)){
+                if ((tablero[t][f][c - 1] == jugador.getNumero()) && (tablero[t][f][c + 1] == jugador.getNumero())) {raya = true;}
+                if ((tablero[t + 1][f][c] == jugador.getNumero()) && (tablero[t - 1][f][c] == jugador.getNumero())) {raya = true;}
+
+            }
+            if ((c == 2) && (f == 0)){
+                if ((tablero[t][f][c - 1] == jugador.getNumero()) && ((tablero[t][f][c - 2] == jugador.getNumero()))) {raya = true;}
+                if ((tablero[t][f + 1][c] == jugador.getNumero()) && (tablero[t][f + 2][c] == jugador.getNumero())) {raya = true;}
+            }
+            if ((c == 2) && (f == 1)){
+                if ((tablero[t][f - 1][c] == jugador.getNumero()) && ((tablero[t][f + 1][c] == jugador.getNumero()))) {raya = true;}
+                if ((tablero[t - 1][f][c] == jugador.getNumero()) && (tablero[t + 1][f][c] == jugador.getNumero())) {raya = true;}
+            }
+
+        }else if (t == 2){
+
+            if ((c == 0) && (f == 2)){
+                if ((tablero[t][f][c+1] == jugador.getNumero()) && (tablero[t][f][c+2] == jugador.getNumero())) {raya = true;}
+                if ((tablero[t][f-1][c] == jugador.getNumero()) && ((tablero[t][f-2][c] == jugador.getNumero()))){raya = true;}
+            }
+            if ((c == 1) && (f == 2)){
+                if ((tablero[t][f][c + 1] == jugador.getNumero()) && (tablero[t][f][c - 1] == jugador.getNumero())) {raya = true;}
+                if ((tablero[t - 1][f][c] == jugador.getNumero()) && (tablero[t - 2][f][c] == jugador.getNumero())) {raya = true;}
+            }
+            if ((c == 2) && (f == 2)){
+                if ((tablero[t][f-1][c] == jugador.getNumero() ) && (tablero[t][f-2][c] == jugador.getNumero())){raya = true;}
+                if ((tablero[t][f][c-1] == jugador.getNumero()) && (tablero[t][f][c-2] == jugador.getNumero())){raya = true;}
+            }
+            if ((c == 0) && (f == 1)){
+                if ((tablero[t][f + 1][c] == jugador.getNumero()) && (tablero[t][f - 1][c] == jugador.getNumero())) {raya = true;}
+                if ((tablero[t - 1][f][c] == jugador.getNumero()) && ((tablero[t - 2][f][c] == jugador.getNumero()))) {raya = true;}
+            }
+            if ((c == 0) && (f == 0)){
+                if ((tablero[t][f][c+1] == jugador.getNumero()) && (tablero[t][f][c+2] == jugador.getNumero())){raya = true;}
+                if ((tablero[t][f+1][c] == jugador.getNumero()) && (tablero[t][f+2][c] == jugador.getNumero())){raya = true;}
+            }
+            if ((c == 1) && (f == 0)){
+
+                if ((tablero[t][f][c - 1] == jugador.getNumero()) && (tablero[t][f][c + 1] == jugador.getNumero())) {raya = true;}
+                if ((tablero[t - 1][f][c] == jugador.getNumero()) && (tablero[t - 2][f][c] == jugador.getNumero())) {raya = true;}
+            }
+            if ((c == 2) && (f == 0)){
+
+                if ((tablero[t][f][c - 1] == jugador.getNumero()) && ((tablero[t][f][c - 2] == jugador.getNumero()))) {raya = true;}
+                if ((tablero[t][f + 1][c] == jugador.getNumero()) && (tablero[t][f + 2][c] == jugador.getNumero())) {raya = true;}
+            }
+            if ((c == 2) && (f == 1)){
+                if ((tablero[t][f - 1][c] == jugador.getNumero()) && (tablero[t][f + 1][c] == jugador.getNumero())) {raya = true;}
+                if ((tablero[t - 1][f][c] == jugador.getNumero()) && (tablero[t - 2][f][c] == jugador.getNumero())) {raya = true;}
+            }
+        }
+        return raya;
     }
 }
