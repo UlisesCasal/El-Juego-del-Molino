@@ -23,7 +23,28 @@ public class Tablero {
         }
     }
 
-    public void moverFichas();
+    public boolean moverFichas(int tficha, int fficha, int cficha, int tmover, int fmover, int cmover, Jugador jugador){
+        //metoodo que se encarga de mover una ficha
+        //primero verifica si es un movimiento valida, y luego lo realiza
+        List listaMovimientos = moviPosibles(tmover,fmover,cmover);
+        boolean encontro = false;
+        int i = 0;
+        int[] arregloLista = new int[3];
+
+        while ((!encontro) || (i >= arregloLista.length)){
+            arregloLista = (int[]) listaMovimientos.get(i);
+
+            if ((arregloLista[0] == tmover) && (arregloLista[1] == fmover) && (arregloLista[2] == cmover)){
+                encontro = true;
+                this.tablero[tficha][fficha][cficha] = 0;
+                this.tablero[tmover][fmover][cmover] = jugador.getNumero();
+            }
+            i ++;
+
+        }
+        //PROBAR QUE RETORNA BIEN
+        return encontro;
+    }
 
     private int[] crearArrayPosiciones(int t, int f, int c){
         int[] posiciones = new int[3];
@@ -33,7 +54,7 @@ public class Tablero {
         return posiciones;
     }
 
-    public List moviPosibles(Jugador jugador, int t, int f, int c){
+    public List moviPosibles(int t, int f, int c){
         //metodo que al pasarle una posicion de una ficha devuelve todos sus movimientos posibles:
         List lista = new ArrayList<int[]>();
         int[] posicion = new int[3];
