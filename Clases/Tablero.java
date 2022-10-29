@@ -26,7 +26,7 @@ public class Tablero {
     public boolean moverFichas(Ficha ficha, int tmover, int fmover, int cmover, Jugador jugador){
         //metodo que se encarga de mover una ficha
         //primero verifica si es un movimiento valida, y luego lo realiza
-        List listaMovimientos = moviPosibles(ficha.getPosicion()[0],ficha.getPosicion()[1],ficha.getPosicion()[2]);
+        List listaMovimientos = moviPosibles(ficha);
         boolean encontro = false;
         int i = 0;
         int[] arregloLista = new int[3];
@@ -56,7 +56,10 @@ public class Tablero {
         return posiciones;
     }
 
-    public List moviPosibles(int t, int f, int c){
+    public List moviPosibles(Ficha ficha){
+        int t = ficha.getPosicion()[0];
+        int f = ficha.getPosicion()[1];
+        int c = ficha.getPosicion()[2];
         //metodo que al pasarle una posicion de una ficha devuelve todos sus movimientos posibles:
         List lista = new ArrayList<int[]>();
         int[] posicion = new int[3];
@@ -297,110 +300,110 @@ public class Tablero {
         boolean raya = false;
         if (t == 0){
             if ((c == 0) && (f ==2)){
-                if ((tablero[t][f][c+1] == jugador.getNumero()) && (tablero[t][f][c+2] == jugador.getNumero())) {raya = true;}
-                if ((tablero[t][f-1][c] == jugador.getNumero()) && ((tablero[t][f-2][c] == jugador.getNumero()))){raya = true;}
+                if ((tablero[t][f][c+1].getJugador().getNumero() == jugador.getNumero()) && (tablero[t][f][c+2].getJugador().getNumero() == jugador.getNumero())) {raya = true;}
+                if ((tablero[t][f-1][c].getJugador().getNumero() == jugador.getNumero()) && ((tablero[t][f-2][c].getJugador().getNumero() == jugador.getNumero()))){raya = true;}
             }
             if ((c == 1) && (f == 2)){
-                if ((tablero[t][f][c+1] == jugador.getNumero()) && (tablero[t][f][c-1] == jugador.getNumero())){raya = true;}
-                if ((tablero[t+1][f][c] == jugador.getNumero()) &&(tablero[t+2][f][c] == jugador.getNumero())){raya = true;}
+                if ((tablero[t][f][c+1].getJugador().getNumero() == jugador.getNumero()) && (tablero[t][f][c-1].getJugador().getNumero() == jugador.getNumero())){raya = true;}
+                if ((tablero[t+1][f][c].getJugador().getNumero() == jugador.getNumero()) &&(tablero[t+2][f][c].getJugador().getNumero() == jugador.getNumero())){raya = true;}
             }
             if ((c == 2) && (f == 2)){
 
-                if ((tablero[t][f-1][c] == jugador.getNumero() ) && (tablero[t][f-2][c] == jugador.getNumero())){raya = true;}
-                if ((tablero[t][f][c-1] == jugador.getNumero()) && (tablero[t][f][c-2] == jugador.getNumero())){raya = true;}
+                if ((tablero[t][f-1][c].getJugador().getNumero() == jugador.getNumero() ) && (tablero[t][f-2][c].getJugador().getNumero() == jugador.getNumero())){raya = true;}
+                if ((tablero[t][f][c-1].getJugador().getNumero() == jugador.getNumero()) && (tablero[t][f][c-2].getJugador().getNumero() == jugador.getNumero())){raya = true;}
             }
             if ((c == 0) && (f == 1)){
-                if ((tablero[t][f+1][c] == jugador.getNumero()) && (tablero[t][f-1][c] == jugador.getNumero())){raya = true;}
-                if ((tablero[t+1][f][c] == jugador.getNumero()) && (tablero[t+2][f][c] == jugador.getNumero())){raya = true;}
+                if ((tablero[t][f+1][c].getJugador().getNumero() == jugador.getNumero()) && (tablero[t][f-1][c].getJugador().getNumero() == jugador.getNumero())){raya = true;}
+                if ((tablero[t+1][f][c].getJugador().getNumero() == jugador.getNumero()) && (tablero[t+2][f][c].getJugador().getNumero() == jugador.getNumero())){raya = true;}
             }
             if ((c == 0) && (f == 0)){
-                if ((tablero[t][f][c+1] == jugador.getNumero()) && (tablero[t][f][c+2] == jugador.getNumero())){raya = true;}
-                if ((tablero[t][f+1][c] == jugador.getNumero()) && (tablero[t][f+2][c] == jugador.getNumero())){raya = true;}
+                if ((tablero[t][f][c+1].getJugador().getNumero() == jugador.getNumero()) && (tablero[t][f][c+2].getJugador().getNumero() == jugador.getNumero())){raya = true;}
+                if ((tablero[t][f+1][c].getJugador().getNumero() == jugador.getNumero()) && (tablero[t][f+2][c].getJugador().getNumero() == jugador.getNumero())){raya = true;}
             }
             if ((c == 1) && (f == 0)) {
-                if ((tablero[t][f][c + 1] == jugador.getNumero()) && (tablero[t][f][c - 1] == jugador.getNumero())) {raya = true;}
-                if ((tablero[t + 1][f][c] == jugador.getNumero()) && (tablero[t + 2][f][c] == jugador.getNumero())) {raya = true;}
+                if ((tablero[t][f][c + 1].getJugador().getNumero() == jugador.getNumero()) && (tablero[t][f][c - 1].getJugador().getNumero() == jugador.getNumero())) {raya = true;}
+                if ((tablero[t + 1][f][c].getJugador().getNumero() == jugador.getNumero()) && (tablero[t + 2][f][c].getJugador().getNumero() == jugador.getNumero())) {raya = true;}
             }
             if ((c == 2) && (f == 0)){
-                if ((tablero[t][f][c - 1] == jugador.getNumero()) && ((tablero[t][f][c - 2] == jugador.getNumero()))) {raya = true;}
-                if ((tablero[t][f + 1][c] == jugador.getNumero()) && (tablero[t][f + 2][c] == jugador.getNumero())) {raya = true;}
+                if ((tablero[t][f][c - 1].getJugador().getNumero() == jugador.getNumero()) && ((tablero[t][f][c - 2].getJugador().getNumero() == jugador.getNumero()))) {raya = true;}
+                if ((tablero[t][f + 1][c].getJugador().getNumero() == jugador.getNumero()) && (tablero[t][f + 2][c].getJugador().getNumero() == jugador.getNumero())) {raya = true;}
             }
             if ((c == 2) && (f == 1)){
-                if ((tablero[t][f + 1][c] == jugador.getNumero()) && (tablero[t][f - 1][c] == jugador.getNumero())) {raya = true;}
-                if (tablero[t + 1][f][c] == jugador.getNumero() && (tablero[t + 2][f][c] == jugador.getNumero())) {raya = true;}
+                if ((tablero[t][f + 1][c].getJugador().getNumero() == jugador.getNumero()) && (tablero[t][f - 1][c].getJugador().getNumero() == jugador.getNumero())) {raya = true;}
+                if (tablero[t + 1][f][c].getJugador().getNumero() == jugador.getNumero() && (tablero[t + 2][f][c].getJugador().getNumero() == jugador.getNumero())) {raya = true;}
             }
 
         } else if (t == 1) {
 
             if ((c == 0) && (f == 2)){
-                if ((tablero[t][f][c+1] == jugador.getNumero()) && (tablero[t][f][c+2] == jugador.getNumero())) {raya = true;}
-                if ((tablero[t][f-1][c] == jugador.getNumero()) && ((tablero[t][f-2][c] == jugador.getNumero()))){raya = true;}
+                if ((tablero[t][f][c+1].getJugador().getNumero() == jugador.getNumero()) && (tablero[t][f][c+2].getJugador().getNumero() == jugador.getNumero())) {raya = true;}
+                if ((tablero[t][f-1][c].getJugador().getNumero() == jugador.getNumero()) && ((tablero[t][f-2][c].getJugador().getNumero() == jugador.getNumero()))){raya = true;}
             }
             if ((c == 1) && (f == 2)){
-                if ((tablero[t][f][c - 1] == jugador.getNumero()) && (tablero[t][f][c + 1] == jugador.getNumero())) {raya = true;}
-                if ((tablero[t - 1][f][c] == jugador.getNumero()) && (tablero[t + 1][f][c] == jugador.getNumero())) {raya = true;}
+                if ((tablero[t][f][c - 1].getJugador().getNumero() == jugador.getNumero()) && (tablero[t][f][c + 1].getJugador().getNumero() == jugador.getNumero())) {raya = true;}
+                if ((tablero[t - 1][f][c].getJugador().getNumero() == jugador.getNumero()) && (tablero[t + 1][f][c].getJugador().getNumero() == jugador.getNumero())) {raya = true;}
             }
             if ((c == 2) && (f == 2)){
-                if ((tablero[t][f-1][c] == jugador.getNumero() ) && (tablero[t][f-2][c] == jugador.getNumero())){raya = true;}
-                if ((tablero[t][f][c-1] == jugador.getNumero()) && (tablero[t][f][c-2] == jugador.getNumero())){raya = true;}
+                if ((tablero[t][f-1][c].getJugador().getNumero() == jugador.getNumero() ) && (tablero[t][f-2][c].getJugador().getNumero() == jugador.getNumero())){raya = true;}
+                if ((tablero[t][f][c-1].getJugador().getNumero() == jugador.getNumero()) && (tablero[t][f][c-2].getJugador().getNumero() == jugador.getNumero())){raya = true;}
             }
             if ((c == 0) && (f == 1)){
-                if ((tablero[t - 1][f][c] == jugador.getNumero()) && (tablero[t + 1][f][c] == jugador.getNumero())) {raya = true;}
-                if ((tablero[t][f - 1][c] == jugador.getNumero()) && (tablero[t][f + 1][c] == jugador.getNumero())) {raya = true;}
+                if ((tablero[t - 1][f][c].getJugador().getNumero() == jugador.getNumero()) && (tablero[t + 1][f][c].getJugador().getNumero() == jugador.getNumero())) {raya = true;}
+                if ((tablero[t][f - 1][c].getJugador().getNumero() == jugador.getNumero()) && (tablero[t][f + 1][c].getJugador().getNumero() == jugador.getNumero())) {raya = true;}
             }
             if ((c == 0) && (f == 0)){
-                if ((tablero[t][f][c+1] == jugador.getNumero()) && (tablero[t][f][c+2] == jugador.getNumero())){raya = true;}
-                if ((tablero[t][f+1][c] == jugador.getNumero()) && (tablero[t][f+2][c] == jugador.getNumero())){raya = true;}
+                if ((tablero[t][f][c+1].getJugador().getNumero() == jugador.getNumero()) && (tablero[t][f][c+2].getJugador().getNumero() == jugador.getNumero())){raya = true;}
+                if ((tablero[t][f+1][c].getJugador().getNumero() == jugador.getNumero()) && (tablero[t][f+2][c].getJugador().getNumero() == jugador.getNumero())){raya = true;}
             }
             if ((c == 1) && (f == 0)){
-                if ((tablero[t][f][c - 1] == jugador.getNumero()) && (tablero[t][f][c + 1] == jugador.getNumero())) {raya = true;}
-                if ((tablero[t + 1][f][c] == jugador.getNumero()) && (tablero[t - 1][f][c] == jugador.getNumero())) {raya = true;}
+                if ((tablero[t][f][c - 1].getJugador().getNumero() == jugador.getNumero()) && (tablero[t][f][c + 1].getJugador().getNumero() == jugador.getNumero())) {raya = true;}
+                if ((tablero[t + 1][f][c].getJugador().getNumero() == jugador.getNumero()) && (tablero[t - 1][f][c].getJugador().getNumero() == jugador.getNumero())) {raya = true;}
 
             }
             if ((c == 2) && (f == 0)){
-                if ((tablero[t][f][c - 1] == jugador.getNumero()) && ((tablero[t][f][c - 2] == jugador.getNumero()))) {raya = true;}
-                if ((tablero[t][f + 1][c] == jugador.getNumero()) && (tablero[t][f + 2][c] == jugador.getNumero())) {raya = true;}
+                if ((tablero[t][f][c - 1].getJugador().getNumero() == jugador.getNumero()) && ((tablero[t][f][c - 2].getJugador().getNumero() == jugador.getNumero()))) {raya = true;}
+                if ((tablero[t][f + 1][c].getJugador().getNumero() == jugador.getNumero()) && (tablero[t][f + 2][c].getJugador().getNumero() == jugador.getNumero())) {raya = true;}
             }
             if ((c == 2) && (f == 1)){
-                if ((tablero[t][f - 1][c] == jugador.getNumero()) && ((tablero[t][f + 1][c] == jugador.getNumero()))) {raya = true;}
-                if ((tablero[t - 1][f][c] == jugador.getNumero()) && (tablero[t + 1][f][c] == jugador.getNumero())) {raya = true;}
+                if ((tablero[t][f - 1][c].getJugador().getNumero() == jugador.getNumero()) && ((tablero[t][f + 1][c].getJugador().getNumero() == jugador.getNumero()))) {raya = true;}
+                if ((tablero[t - 1][f][c].getJugador().getNumero() == jugador.getNumero()) && (tablero[t + 1][f][c].getJugador().getNumero() == jugador.getNumero())) {raya = true;}
             }
 
         }else if (t == 2){
 
             if ((c == 0) && (f == 2)){
-                if ((tablero[t][f][c+1] == jugador.getNumero()) && (tablero[t][f][c+2] == jugador.getNumero())) {raya = true;}
-                if ((tablero[t][f-1][c] == jugador.getNumero()) && ((tablero[t][f-2][c] == jugador.getNumero()))){raya = true;}
+                if ((tablero[t][f][c+1].getJugador().getNumero() == jugador.getNumero()) && (tablero[t][f][c+2].getJugador().getNumero() == jugador.getNumero())) {raya = true;}
+                if ((tablero[t][f-1][c].getJugador().getNumero() == jugador.getNumero()) && ((tablero[t][f-2][c].getJugador().getNumero() == jugador.getNumero()))){raya = true;}
             }
             if ((c == 1) && (f == 2)){
-                if ((tablero[t][f][c + 1] == jugador.getNumero()) && (tablero[t][f][c - 1] == jugador.getNumero())) {raya = true;}
-                if ((tablero[t - 1][f][c] == jugador.getNumero()) && (tablero[t - 2][f][c] == jugador.getNumero())) {raya = true;}
+                if ((tablero[t][f][c + 1].getJugador().getNumero() == jugador.getNumero()) && (tablero[t][f][c - 1].getJugador().getNumero() == jugador.getNumero())) {raya = true;}
+                if ((tablero[t - 1][f][c].getJugador().getNumero() == jugador.getNumero()) && (tablero[t - 2][f][c].getJugador().getNumero() == jugador.getNumero())) {raya = true;}
             }
             if ((c == 2) && (f == 2)){
-                if ((tablero[t][f-1][c] == jugador.getNumero() ) && (tablero[t][f-2][c] == jugador.getNumero())){raya = true;}
-                if ((tablero[t][f][c-1] == jugador.getNumero()) && (tablero[t][f][c-2] == jugador.getNumero())){raya = true;}
+                if ((tablero[t][f-1][c].getJugador().getNumero() == jugador.getNumero()) && (tablero[t][f-2][c].getJugador().getNumero() == jugador.getNumero())){raya = true;}
+                if ((tablero[t][f][c-1].getJugador().getNumero() == jugador.getNumero()) && (tablero[t][f][c-2].getJugador().getNumero() == jugador.getNumero())){raya = true;}
             }
             if ((c == 0) && (f == 1)){
-                if ((tablero[t][f + 1][c] == jugador.getNumero()) && (tablero[t][f - 1][c] == jugador.getNumero())) {raya = true;}
-                if ((tablero[t - 1][f][c] == jugador.getNumero()) && ((tablero[t - 2][f][c] == jugador.getNumero()))) {raya = true;}
+                if ((tablero[t][f + 1][c].getJugador().getNumero() == jugador.getNumero()) && (tablero[t][f - 1][c].getJugador().getNumero() == jugador.getNumero())) {raya = true;}
+                if ((tablero[t - 1][f][c].getJugador().getNumero() == jugador.getNumero()) && ((tablero[t - 2][f][c].getJugador().getNumero() == jugador.getNumero()))) {raya = true;}
             }
             if ((c == 0) && (f == 0)){
-                if ((tablero[t][f][c+1] == jugador.getNumero()) && (tablero[t][f][c+2] == jugador.getNumero())){raya = true;}
-                if ((tablero[t][f+1][c] == jugador.getNumero()) && (tablero[t][f+2][c] == jugador.getNumero())){raya = true;}
+                if ((tablero[t][f][c+1].getJugador().getNumero() == jugador.getNumero()) && (tablero[t][f][c+2].getJugador().getNumero() == jugador.getNumero())){raya = true;}
+                if ((tablero[t][f+1][c].getJugador().getNumero() == jugador.getNumero()) && (tablero[t][f+2][c].getJugador().getNumero() == jugador.getNumero())){raya = true;}
             }
             if ((c == 1) && (f == 0)){
 
-                if ((tablero[t][f][c - 1] == jugador.getNumero()) && (tablero[t][f][c + 1] == jugador.getNumero())) {raya = true;}
-                if ((tablero[t - 1][f][c] == jugador.getNumero()) && (tablero[t - 2][f][c] == jugador.getNumero())) {raya = true;}
+                if ((tablero[t][f][c - 1].getJugador().getNumero() == jugador.getNumero()) && (tablero[t][f][c + 1].getJugador().getNumero() == jugador.getNumero())) {raya = true;}
+                if ((tablero[t - 1][f][c].getJugador().getNumero() == jugador.getNumero()) && (tablero[t - 2][f][c].getJugador().getNumero() == jugador.getNumero())) {raya = true;}
             }
             if ((c == 2) && (f == 0)){
 
-                if ((tablero[t][f][c - 1] == jugador.getNumero()) && ((tablero[t][f][c - 2] == jugador.getNumero()))) {raya = true;}
-                if ((tablero[t][f + 1][c] == jugador.getNumero()) && (tablero[t][f + 2][c] == jugador.getNumero())) {raya = true;}
+                if ((tablero[t][f][c - 1].getJugador().getNumero() == jugador.getNumero()) && ((tablero[t][f][c - 2].getJugador().getNumero() == jugador.getNumero()))) {raya = true;}
+                if ((tablero[t][f + 1][c].getJugador().getNumero() == jugador.getNumero()) && (tablero[t][f + 2][c].getJugador().getNumero() == jugador.getNumero())) {raya = true;}
             }
             if ((c == 2) && (f == 1)){
-                if ((tablero[t][f - 1][c] == jugador.getNumero()) && (tablero[t][f + 1][c] == jugador.getNumero())) {raya = true;}
-                if ((tablero[t - 1][f][c] == jugador.getNumero()) && (tablero[t - 2][f][c] == jugador.getNumero())) {raya = true;}
+                if ((tablero[t][f - 1][c].getJugador().getNumero() == jugador.getNumero()) && (tablero[t][f + 1][c].getJugador().getNumero() == jugador.getNumero())) {raya = true;}
+                if ((tablero[t - 1][f][c].getJugador().getNumero() == jugador.getNumero()) && (tablero[t - 2][f][c].getJugador().getNumero() == jugador.getNumero())) {raya = true;}
             }
         }
         return raya;

@@ -21,5 +21,7 @@ public class Ficha {
         return posicion;
     }
 
-
+    public Jugador getJugador() {
+        return jugador;
+    }
 }
