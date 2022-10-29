@@ -5,10 +5,10 @@ import java.util.List;
 
 public class Tablero {
     //Utilizare de tablero un tensor, que representara los 3 cuadrados, el 0-> mas externo, el 1-> el del medio y el 3-> interno.
-    private int[][][] tablero;
+    private Ficha[][][] tablero;
 
     public Tablero(){
-        this.tablero = new int[3][3][3];
+        this.tablero = new Ficha[3][3][3];
         inicializarTablero();
     }
 
@@ -17,27 +17,29 @@ public class Tablero {
         for(int i = 0; i < 3; i++){
             for (int j = 0; j < 3; j++) {
                 for (int k = 0; k < 3; k++){
-                    this.tablero[i][j][k] = 0;
+                    this.tablero[i][j][k] = null;
                 }
             }
         }
     }
 
-    public boolean moverFichas(int tficha, int fficha, int cficha, int tmover, int fmover, int cmover, Jugador jugador){
-        //metoodo que se encarga de mover una ficha
+    public boolean moverFichas(Ficha ficha, int tmover, int fmover, int cmover, Jugador jugador){
+        //metodo que se encarga de mover una ficha
         //primero verifica si es un movimiento valida, y luego lo realiza
-        List listaMovimientos = moviPosibles(tmover,fmover,cmover);
+        List listaMovimientos = moviPosibles(ficha.getPosicion()[0],ficha.getPosicion()[1],ficha.getPosicion()[2]);
         boolean encontro = false;
         int i = 0;
         int[] arregloLista = new int[3];
 
-        while ((!encontro) || (i >= arregloLista.length)){
+        while ((!encontro) || (i <= listaMovimientos.size())){
             arregloLista = (int[]) listaMovimientos.get(i);
 
             if ((arregloLista[0] == tmover) && (arregloLista[1] == fmover) && (arregloLista[2] == cmover)){
                 encontro = true;
-                this.tablero[tficha][fficha][cficha] = 0;
-                this.tablero[tmover][fmover][cmover] = jugador.getNumero();
+                //Asigno a la posicion anterior nulo y luego muevo la ficha a la nueva posicion:
+                this.tablero[ficha.getPosicion()[0]][ficha.getPosicion()[1]][ficha.getPosicion()[2]] = null;
+                this.tablero[tmover][fmover][cmover] = ficha;
+                ficha.setPosicion(arregloLista);
             }
             i ++;
 
@@ -67,17 +69,17 @@ public class Tablero {
                /*1. si c == 0 y f == 2:
                si c + 1 = 0 -> movi.add()
                si f - 1 = 0 -> movi.add()*/
-               if (tablero[t][f][c+1] == 0) {lista.add(crearArrayPosiciones(t, f, c + 1));}
-               if (tablero[t][f-1][c] == 0){lista.add(crearArrayPosiciones(t,f-1,c));}
+               if (tablero[t][f][c+1] == null) {lista.add(crearArrayPosiciones(t, f, c + 1));}
+               if (tablero[t][f-1][c] == null){lista.add(crearArrayPosiciones(t,f-1,c));}
            }
            if ((c == 1) && (f == 2)){
                /*2. si c == 1 y f == 2:
                si c + 1 = 0 -> movi.add()
                si c - 1 = 0 -> movi.add()
                si t + 1 = 0 -> movi.add()*/
-               if (tablero[t][f][c+1] == 0){lista.add(crearArrayPosiciones(t,f,c+1));}
-               if (tablero[t][f][c-1] == 0) {lista.add(crearArrayPosiciones(t,f,c-1));}
-               if ((tablero[t+1][f][c]) == 0){lista.add(crearArrayPosiciones(t+1,f,c));}
+               if (tablero[t][f][c+1] == null){lista.add(crearArrayPosiciones(t,f,c+1));}
+               if (tablero[t][f][c-1] == null) {lista.add(crearArrayPosiciones(t,f,c-1));}
+               if ((tablero[t+1][f][c]) == null){lista.add(crearArrayPosiciones(t+1,f,c));}
            }
            if ((c == 2) && (f == 2)){
                 /*
@@ -85,24 +87,24 @@ public class Tablero {
                         si f - 1 = 0 -> movi.add()
                         si c - 1 = 0 -> movi.add()
                  */
-               if (tablero[t][f-1][c] == 0 ){lista.add(crearArrayPosiciones(t,f-1,c));}
-               if (tablero[t][f][c-1] == 0){lista.add(crearArrayPosiciones(t,f,c-1));}
+               if (tablero[t][f-1][c] == null ){lista.add(crearArrayPosiciones(t,f-1,c));}
+               if (tablero[t][f][c-1] == null){lista.add(crearArrayPosiciones(t,f,c-1));}
            }
            if ((c == 0) && (f == 1)){
                /*4. si c == 0 y f == 1:
                si f + 1 = 0 -> movi.add()
                si f - 1 = 0 -> movi.add()
                si t + 1 = 0 -> movi.add()*/
-               if (tablero[t][f+1][c] == 0){lista.add(crearArrayPosiciones(t,f+1,c));}
-               if (tablero[t][f-1][c] == 0){lista.add(crearArrayPosiciones(t,f-1,c));}
-               if (tablero[t+1][f][c] == 0){lista.add(crearArrayPosiciones(t+1,f,c));}
+               if (tablero[t][f+1][c] == null){lista.add(crearArrayPosiciones(t,f+1,c));}
+               if (tablero[t][f-1][c] == null){lista.add(crearArrayPosiciones(t,f-1,c));}
+               if (tablero[t+1][f][c] == null){lista.add(crearArrayPosiciones(t+1,f,c));}
            }
            if ((c == 0) && (f == 0)){
              /*  5. si c == 0 y f == 0:
                  si c + 1 = 0 -> movi.add()
                  si f + 1 = 0 -> movi.add()*/
-               if (tablero[t][f][c+1] == 0){lista.add(crearArrayPosiciones(t,f,c+1));}
-               if (tablero[t][f+1][c] == 0){lista.add(crearArrayPosiciones(t,f+1,c));}
+               if (tablero[t][f][c+1] == null){lista.add(crearArrayPosiciones(t,f,c+1));}
+               if (tablero[t][f+1][c] == null){lista.add(crearArrayPosiciones(t,f+1,c));}
            }
            if ((c == 1) && (f == 0)) {
 
@@ -110,25 +112,25 @@ public class Tablero {
                 si c + 1 = 0 -> movi.add()
                 si c - 1 = 0 -> movi.add()
                 si t + 1 = 0 -> movi.add()*/
-               if (tablero[t][f][c + 1] == 0) {lista.add(crearArrayPosiciones(t, f, c + 1));}
-               if (tablero[t][f][c - 1] == 0) {lista.add(crearArrayPosiciones(t, f, c-1));}
-               if (tablero[t + 1][f][c] == 0) {lista.add(crearArrayPosiciones(t + 1, f, c));}
+               if (tablero[t][f][c + 1] == null) {lista.add(crearArrayPosiciones(t, f, c + 1));}
+               if (tablero[t][f][c - 1] == null) {lista.add(crearArrayPosiciones(t, f, c-1));}
+               if (tablero[t + 1][f][c] == null) {lista.add(crearArrayPosiciones(t + 1, f, c));}
            }
            if ((c == 2) && (f == 0)){
                /*7. si c == 2 y f == 0:
                si c - 1 = 0 -> movi.add()
                si f + 1 = 0 -> movi.add()*/
-               if (tablero[t][f][c - 1] == 0) {lista.add(crearArrayPosiciones(t, f, c - 1));}
-               if (tablero[t][f + 1][c] == 0) {lista.add(crearArrayPosiciones(t, f + 1, c));}
+               if (tablero[t][f][c - 1] == null) {lista.add(crearArrayPosiciones(t, f, c - 1));}
+               if (tablero[t][f + 1][c] == null) {lista.add(crearArrayPosiciones(t, f + 1, c));}
            }
            if ((c == 2) && (f == 1)){
              /*  8. si c == 2 y f == 1:
                 si f + 1 = 0 -> movi.add()
                 si f - 1 = 0 -> movi.add()
                 si t + 1 = 0 -> movi.add()*/
-               if (tablero[t][f + 1][c] == 0) {lista.add(crearArrayPosiciones(t, f + 1, c));}
-               if (tablero[t][f - 1][c] == 0) {lista.add(crearArrayPosiciones(t, f - 1, c));}
-               if (tablero[t + 1][f][c] == 0) {lista.add(crearArrayPosiciones(t + 1, f, c));}
+               if (tablero[t][f + 1][c] == null) {lista.add(crearArrayPosiciones(t, f + 1, c));}
+               if (tablero[t][f - 1][c] == null) {lista.add(crearArrayPosiciones(t, f - 1, c));}
+               if (tablero[t + 1][f][c] == null) {lista.add(crearArrayPosiciones(t + 1, f, c));}
            }
 
         } else if (t == 1) {
@@ -136,8 +138,8 @@ public class Tablero {
                 /*1. si c == 0 y f == 2:
                 si f - 1 = 0 -> movi.add()
                 si c + 1 = 0 -> movi.add()*/
-                if (tablero[t][f - 1][c] == 0) {lista.add(crearArrayPosiciones(t, f - 1, c));}
-                if (tablero[t][f][c + 1] == 0) {lista.add(crearArrayPosiciones(t, f, c + 1));}
+                if (tablero[t][f - 1][c] == null) {lista.add(crearArrayPosiciones(t, f - 1, c));}
+                if (tablero[t][f][c + 1] == null) {lista.add(crearArrayPosiciones(t, f, c + 1));}
             }
             if ((c == 1) && (f == 2)){
                 /*  2. si c == 1 y f == 2:
@@ -145,17 +147,17 @@ public class Tablero {
                     si c + 1 = 0 -> movi.add()
                     si t - 1 = 0 -> movi.add()
                     si t + 1 = 0 -> movi.add()*/
-                if (tablero[t][f][c - 1] == 0) {lista.add(crearArrayPosiciones(t, f, c - 1));}
-                if (tablero[t][f][c + 1] == 0) {lista.add(crearArrayPosiciones(t, f, c + 1));}
-                if (tablero[t - 1][f][c] == 0) {lista.add(crearArrayPosiciones(t - 1, f, c));}
-                if (tablero[t + 1][f][c] == 0) {lista.add(crearArrayPosiciones(t + 1, f, c));}
+                if (tablero[t][f][c - 1] == null) {lista.add(crearArrayPosiciones(t, f, c - 1));}
+                if (tablero[t][f][c + 1] == null) {lista.add(crearArrayPosiciones(t, f, c + 1));}
+                if (tablero[t - 1][f][c] == null) {lista.add(crearArrayPosiciones(t - 1, f, c));}
+                if (tablero[t + 1][f][c] == null) {lista.add(crearArrayPosiciones(t + 1, f, c));}
             }
             if ((c == 2) && (f == 2)){
                 /*  3. si c == 2 y f == 2:
                   si f - 1 = 0 -> movi.add()
                   si c - 1 = 0 -> movi.add()*/
-                if (tablero[t][f - 1][c] == 0) {lista.add(crearArrayPosiciones(t, f - 1, c));}
-                if (tablero[t][f][c - 1] == 0) {lista.add(crearArrayPosiciones(t, f, c - 1));}
+                if (tablero[t][f - 1][c] == null) {lista.add(crearArrayPosiciones(t, f - 1, c));}
+                if (tablero[t][f][c - 1] == null) {lista.add(crearArrayPosiciones(t, f, c - 1));}
             }
             if ((c == 0) && (f == 1)){
             /*  4. si c == 0 y f == 1:
@@ -163,17 +165,17 @@ public class Tablero {
                 si t + 1 = 0 -> movi.add()
                 si f - 1 = 0 -> movi.add()
                 si f + 1 = 0 -> movi.add()*/
-                if (tablero[t - 1][f][c] == 0) {lista.add(crearArrayPosiciones(t - 1, f, c));}
-                if (tablero[t + 1][f][c] == 0) {lista.add(crearArrayPosiciones(t + 1, f, c));}
-                if (tablero[t][f - 1][c] == 0) {lista.add(crearArrayPosiciones(t, f - 1, c));}
-                if (tablero[t][f + 1][c] == 0) {lista.add(crearArrayPosiciones(t, f + 1, c));}
+                if (tablero[t - 1][f][c] == null) {lista.add(crearArrayPosiciones(t - 1, f, c));}
+                if (tablero[t + 1][f][c] == null) {lista.add(crearArrayPosiciones(t + 1, f, c));}
+                if (tablero[t][f - 1][c] == null) {lista.add(crearArrayPosiciones(t, f - 1, c));}
+                if (tablero[t][f + 1][c] == null) {lista.add(crearArrayPosiciones(t, f + 1, c));}
             }
             if ((c == 0) && (f == 0)){
               /*  5. si c == 0 y f == 0:
                 si f + 1 = 0 -> movi.add()
                 si c + 1 = 0 -> movi.add()*/
-                if (tablero[t][f + 1][c] == 0) {lista.add(crearArrayPosiciones(t, f + 1, c));}
-                if (tablero[t][f][c + 1] == 0) {lista.add(crearArrayPosiciones(t, f, c + 1));}
+                if (tablero[t][f + 1][c] == null) {lista.add(crearArrayPosiciones(t, f + 1, c));}
+                if (tablero[t][f][c + 1] == null) {lista.add(crearArrayPosiciones(t, f, c + 1));}
             }
             if ((c == 1) && (f == 0)){
                /*6. si c == 1 y f == 0:
@@ -181,17 +183,17 @@ public class Tablero {
                  si c + 1 = 0 -> movi.add()
                  si t + 1 = 0 -> movi.add()
                  si t - 1 = 0 -> movi.add()*/
-                if (tablero[t][f][c - 1] == 0) {lista.add(crearArrayPosiciones(t, f, c - 1));}
-                if (tablero[t][f][c + 1] == 0) {lista.add(crearArrayPosiciones(t, f, c + 1));}
-                if (tablero[t + 1][f][c] == 0) {lista.add(crearArrayPosiciones(t + 1, f, c));}
-                if (tablero[t - 1][f][c] == 0) {lista.add(crearArrayPosiciones(t - 1, f, c));}
+                if (tablero[t][f][c - 1] == null) {lista.add(crearArrayPosiciones(t, f, c - 1));}
+                if (tablero[t][f][c + 1] == null) {lista.add(crearArrayPosiciones(t, f, c + 1));}
+                if (tablero[t + 1][f][c] == null) {lista.add(crearArrayPosiciones(t + 1, f, c));}
+                if (tablero[t - 1][f][c] == null) {lista.add(crearArrayPosiciones(t - 1, f, c));}
             }
             if ((c == 2) && (f == 0)){
                 /*7. si  c == 2 y f == 0:
                   si c - 1 = 0 -> movi.add()
                   si f + 1 = 0 -> movi.add()*/
-                if (tablero[t][f][c - 1] == 0) {lista.add(crearArrayPosiciones(t, f, c - 1));}
-                if (tablero[t][f + 1][c] == 0) {lista.add(crearArrayPosiciones(t, f + 1, c));}
+                if (tablero[t][f][c - 1] == null) {lista.add(crearArrayPosiciones(t, f, c - 1));}
+                if (tablero[t][f + 1][c] == null) {lista.add(crearArrayPosiciones(t, f + 1, c));}
             }
             if ((c == 2) && (f == 1)){
              /*  8. si c == 2 y f == 1:
@@ -199,10 +201,10 @@ public class Tablero {
                  si f + 1 = 0 -> movi.add()
                  si t - 1 = 0 -> movi.add()
                  si t + 1 = 0 -> movi.add()*/
-                if (tablero[t][f - 1][c] == 0) {lista.add(crearArrayPosiciones(t, f - 1, c));}
-                if (tablero[t][f + 1][c] == 0) {lista.add(crearArrayPosiciones(t, f + 1, c));}
-                if (tablero[t - 1][f][c] == 0) {lista.add(crearArrayPosiciones(t - 1, f, c));}
-                if (tablero[t + 1][f][c] == 0) {lista.add(crearArrayPosiciones(t + 1, f, c));}
+                if (tablero[t][f - 1][c] == null) {lista.add(crearArrayPosiciones(t, f - 1, c));}
+                if (tablero[t][f + 1][c] == null) {lista.add(crearArrayPosiciones(t, f + 1, c));}
+                if (tablero[t - 1][f][c] == null) {lista.add(crearArrayPosiciones(t - 1, f, c));}
+                if (tablero[t + 1][f][c] == null) {lista.add(crearArrayPosiciones(t + 1, f, c));}
             }
 
         }else if (t == 2){
@@ -211,77 +213,78 @@ public class Tablero {
               /*  1. si c == 0 y f == 2:
                   si c + 1 = 0 -> movi.add()
                   si f - 1 = 0 -> movi.add()*/
-                if (tablero[t][f][c + 1] == 0) {lista.add(crearArrayPosiciones(t, f, c + 1));}
-                if (tablero[t][f - 1][c] == 0) {lista.add(crearArrayPosiciones(t, f - 1, c));}
+                if (tablero[t][f][c + 1] == null) {lista.add(crearArrayPosiciones(t, f, c + 1));}
+                if (tablero[t][f - 1][c] == null) {lista.add(crearArrayPosiciones(t, f - 1, c));}
             }
             if ((c == 1) && (f == 2)){
                 /*2. si c == 1 y f == 2:
                 si c + 1 = 0 -> movi.add()
                 si c - 1 = 0 -> movi.add()
                 si t - 1 = 0 -> movi.add()*/
-                if (tablero[t][f][c + 1] == 0) {lista.add(crearArrayPosiciones(t, f, c + 1));}
-                if (tablero[t][f][c - 1] == 0) {lista.add(crearArrayPosiciones(t, f, c - 1));}
-                if (tablero[t - 1][f][c] == 0) {lista.add(crearArrayPosiciones(t - 1, f, c));}
+                if (tablero[t][f][c + 1] == null) {lista.add(crearArrayPosiciones(t, f, c + 1));}
+                if (tablero[t][f][c - 1] == null) {lista.add(crearArrayPosiciones(t, f, c - 1));}
+                if (tablero[t - 1][f][c] == null) {lista.add(crearArrayPosiciones(t - 1, f, c));}
             }
             if ((c == 2) && (f == 2)){
                 /*3. si c == 2 y f == 2:
                 si f - 1 = 0 -> movi.add()
                 si c - 1 = 0 -> movi.add()*/
-                if (tablero[t][f - 1][c] == 0) {lista.add(crearArrayPosiciones(t, f - 1, c));}
-                if (tablero[t][f][c - 1] == 0) {lista.add(crearArrayPosiciones(t, f, c - 1));}
+                if (tablero[t][f - 1][c] == null) {lista.add(crearArrayPosiciones(t, f - 1, c));}
+                if (tablero[t][f][c - 1] == null) {lista.add(crearArrayPosiciones(t, f, c - 1));}
             }
             if ((c == 0) && (f == 1)){
                 /*4. si  c == 0 y f == 1:
                 si f + 1 = 0 -> movi.add()
                 si f - 1 = 0 -> movi.add()
                 si t - 1 = 0 -> movi.add()*/
-                if (tablero[t][f + 1][c] == 0) {lista.add(crearArrayPosiciones(t, f + 1, c));}
-                if (tablero[t][f - 1][c] == 0) {lista.add(crearArrayPosiciones(t, f - 1, c));}
-                if (tablero[t - 1][f][c] == 0) {lista.add(crearArrayPosiciones(t - 1, f, c));}
+                if (tablero[t][f + 1][c] == null) {lista.add(crearArrayPosiciones(t, f + 1, c));}
+                if (tablero[t][f - 1][c] == null) {lista.add(crearArrayPosiciones(t, f - 1, c));}
+                if (tablero[t - 1][f][c] == null) {lista.add(crearArrayPosiciones(t - 1, f, c));}
             }
             if ((c == 0) && (f == 0)){
                 /*5. si c == 0 y f == 0:
                 si c + 1 = 0 -> movi.add()
                 si f + 1 = 0 -> movi.add()*/
-                if (tablero[t][f][c + 1] == 0) {lista.add(crearArrayPosiciones(t, f, c + 1));}
-                if (tablero[t][f + 1][c] == 0) {lista.add(crearArrayPosiciones(t, f + 1, c));}
+                if (tablero[t][f][c + 1] == null) {lista.add(crearArrayPosiciones(t, f, c + 1));}
+                if (tablero[t][f + 1][c] == null) {lista.add(crearArrayPosiciones(t, f + 1, c));}
             }
             if ((c == 1) && (f == 0)){
                 /*6. si c == 1 y f == 0:
                 si c - 1 = 0 -> movi.add()
                 si c + 1 = 0 -> movi.add()
                 si t - 1 = 0 -> movi.add()*/
-                if (tablero[t][f][c - 1] == 0) {lista.add(crearArrayPosiciones(t, f, c - 1));}
-                if (tablero[t][f][c + 1] == 0) {lista.add(crearArrayPosiciones(t, f, c + 1));}
-                if (tablero[t - 1][f][c] == 0) {lista.add(crearArrayPosiciones(t - 1, f, c));}
+                if (tablero[t][f][c - 1] == null) {lista.add(crearArrayPosiciones(t, f, c - 1));}
+                if (tablero[t][f][c + 1] == null) {lista.add(crearArrayPosiciones(t, f, c + 1));}
+                if (tablero[t - 1][f][c] == null) {lista.add(crearArrayPosiciones(t - 1, f, c));}
             }
             if ((c == 2) && (f == 0)){
                 /*7. si c == 2 y f == 0:
                 si f + 1 = 0 -> movi.add()
                 si c - 1 = 0 -> movi.add()*/
-                if (tablero[t][f + 1][c] == 0) {lista.add(crearArrayPosiciones(t, f + 1, c));}
-                if (tablero[t][f][c - 1] == 0) {lista.add(crearArrayPosiciones(t, f, c - 1));}
+                if (tablero[t][f + 1][c] == null) {lista.add(crearArrayPosiciones(t, f + 1, c));}
+                if (tablero[t][f][c - 1] == null) {lista.add(crearArrayPosiciones(t, f, c - 1));}
             }
             if ((c == 2) && (f == 1)){
                 /*8. si c == 2 y f == 1:
                 si f - 1 = 0 -> movi.add()
                 si f + 1 = 0 -> movi.add()
                 si t - 1 = 0 -> movi.add()*/
-                if (tablero[t][f - 1][c] == 0) {lista.add(crearArrayPosiciones(t, f - 1, c));}
-                if (tablero[t][f + 1][c] == 0) {lista.add(crearArrayPosiciones(t, f + 1, c));}
-                if (tablero[t - 1][f][c] == 0) {lista.add(crearArrayPosiciones(t - 1, f, c));}
+                if (tablero[t][f - 1][c] == null) {lista.add(crearArrayPosiciones(t, f - 1, c));}
+                if (tablero[t][f + 1][c] == null) {lista.add(crearArrayPosiciones(t, f + 1, c));}
+                if (tablero[t - 1][f][c] == null) {lista.add(crearArrayPosiciones(t - 1, f, c));}
             }
         }
         return lista;
     }
 
 
-    public boolean agregarFicha(int fila, int columna, int cuadrado, Jugador jugador){
+    public boolean agregarFicha(int fila, int columna, int cuadrado, Ficha ficha, Jugador jugador){
         /*Metodo que agrega una ficha, si la posicion no esta ocupada devuelve True,
         si esta ocupada devuelve False*/
         boolean salida = false;
-        if (!(this.tablero[cuadrado][fila][columna] == 0)){
-            this.tablero[cuadrado][fila][columna] = jugador.getNumero();
+        if (!(this.tablero[cuadrado][fila][columna] == null)){
+            this.tablero[cuadrado][fila][columna] = ficha;
+            ficha.setPosicion(new int[]{cuadrado, fila, columna});
             salida = true;
         }
         return salida;
