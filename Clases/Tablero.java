@@ -409,4 +409,14 @@ public class Tablero {
         return raya;
     }
 
+    public void sacarFicha(Ficha ficha){
+        //Saco la ficha del tablero, y luego se la saco al jugador:
+        if (tablero[ficha.getPosicion()[0]][ficha.getPosicion()[1]][ficha.getPosicion()[2]] != null){
+            tablero[ficha.getPosicion()[0]][ficha.getPosicion()[1]][ficha.getPosicion()[2]] = null;
+            Jugador jugador = ficha.getJugador();
+            jugador.sacarFicha(ficha);
+        }
+
+    }
+
 }

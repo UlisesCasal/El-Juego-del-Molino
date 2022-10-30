@@ -29,6 +29,28 @@ public class Partida extends Tablero{
         return null;
     }
 
+    public boolean ponerFicha(Jugador jugador, int t, int f, int c){
+        Ficha ficha = jugador.getFichaNoPuesta();
+        boolean salida = false;
+
+        if (ficha != null){
+             if (this.tablero.agregarFicha(f,c,t,ficha,jugador)){
+                 //Si la pudo ingresar, pongo el flag en true, y verifico si se produjo una raya:
+                 salida = true;
+                 if (verificarRaya(t,f,c,jugador)){
+                     //Si me da true que hay una nueva raya:
+                     //1. debo retirar alguna ficha del oponente:
+                     //2. me debe ingresar la ficha a retirar
+                     //DEBERE NOTIFICAR DE LO SUCEDIDO:
+                 }
+
+
+            }
+        }
+        return salida;
+    }
+
+
     public int[] getPuntajes(){
         int[] salida = new int[2];
         salida[0] = jugadores.get(0).getPuntaje();
