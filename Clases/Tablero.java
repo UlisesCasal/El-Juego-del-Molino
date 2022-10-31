@@ -288,7 +288,6 @@ public class Tablero {
         boolean salida = false;
         if (this.tablero[cuadrado][fila][columna] == fichaNula){
             this.tablero[cuadrado][fila][columna] = ficha;
-            ficha.setPosicion(new int[]{cuadrado, fila, columna});
             salida = true;
         }
         return salida;

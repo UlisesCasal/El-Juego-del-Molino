@@ -7,6 +7,7 @@ public class Jugador {
     private int fichasTotales;
     private int puntaje;
     private int numero;
+    private int numeroPuestas = 0;
 
     public Jugador(String nombre, int numero){
         this.nombre = nombre;
@@ -69,7 +70,35 @@ public class Jugador {
         return ficha;
     }
 
+    public Ficha getFicha(int t, int f, int c){
+        int[] posicionFichaActual = new int[3];
+        Ficha salida = null;
+        boolean terminar = false;
+        int i = 0;
+        while((!terminar) && (i < fichasPuestas.length)){
+            posicionFichaActual = fichasPuestas[i].getPosicion();
+            if (fichasPuestas[i] == null){break;}
+            if ((posicionFichaActual[0] == t) && (posicionFichaActual[1] == f) && (posicionFichaActual[2] == c)){
+                salida = fichasPuestas[i];
+                terminar = true;
+            }
+            i++;
+        }
+        return salida;
+    }
+
     public int getNumero() {
         return this.numero;
+    }
+
+    public void setPosicionFicha(int[] posicion, Ficha ficha) {
+        //Metodo que le setea una posicion a las fichas, en la primera ejecucion crea el arreglo de fichas puestas
+
+        if (this.fichasPuestas == null){
+            this.fichasPuestas = new Ficha[20];
+        }
+        ficha.setPosicion(posicion);
+        this.fichasPuestas[numeroPuestas] = ficha;
+        this.numeroPuestas++;
     }
 }

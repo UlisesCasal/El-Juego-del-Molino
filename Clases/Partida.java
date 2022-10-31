@@ -3,7 +3,7 @@ package Clases;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Partida extends Tablero{
+public class Partida {
     private List<Jugador> jugadores = new ArrayList<Jugador>();
     private Tablero tablero;
     private boolean turno; //True -> jugador1, False -> Jugador2
@@ -38,6 +38,7 @@ public class Partida extends Tablero{
         if (ficha != null){
              if (this.tablero.agregarFicha(f,c,t,ficha,jugador)){
                  //Si la pudo ingresar, pongo el flag en true, y verifico si se produjo una raya:
+                 jugador.setPosicionFicha(new int[]{t, f, c}, ficha);
                  salida = true;
                  if (this.tablero.verificarRaya(t,f,c,jugador)){
                      //Si me da true que hay una nueva raya:
@@ -54,6 +55,15 @@ public class Partida extends Tablero{
         }
         return salida;
     }
+
+    public void sacarFicha(Ficha ficha){
+        this.tablero.sacarFicha(ficha);
+    }
+
+    public boolean moverFichas(Ficha ficha, int tmover, int fmover, int cmover, Jugador jugador){
+        return this.tablero.moverFichas(ficha,tmover,fmover,cmover,jugador);
+    }
+
 
 
     public int[] getPuntajes(){
