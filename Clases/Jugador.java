@@ -20,8 +20,10 @@ public class Jugador {
     private void inicializarFichas(){
         //REVISAR
         //Recorre ficha a ficha y la inicializa:
+        int i = 0;
         for (Ficha f: fichasNoPuestas) {
-            f = new Ficha(this);
+            fichasNoPuestas[i] = new Ficha(this);
+            i++;
         }
     }
 
@@ -59,7 +61,7 @@ public class Jugador {
             //Saco la ficha de la posicion 0 siempre:
             ficha = this.fichasNoPuestas[0];
             Ficha[] arrayFichasAux = new Ficha[this.fichasNoPuestas.length - 1];
-            for (int i = 1; i < this.fichasNoPuestas.length; i++) {
+            for (int i = 1; i < this.fichasNoPuestas.length - 1; i++) {
                 arrayFichasAux[i] = this.fichasNoPuestas[i];
             }
             this.fichasTotales --;

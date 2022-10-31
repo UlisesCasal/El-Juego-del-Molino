@@ -1,9 +1,10 @@
 package Clases;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Partida extends Tablero{
-    private List<Jugador> jugadores;
+    private List<Jugador> jugadores = new ArrayList<Jugador>();
     private Tablero tablero;
     private boolean turno; //True -> jugador1, False -> Jugador2
     private int numeroJugadores;
@@ -33,6 +34,7 @@ public class Partida extends Tablero{
         Ficha ficha = jugador.getFichaNoPuesta();
         boolean salida = false;
 
+        //Corroboro que no sea nulo:
         if (ficha != null){
              if (this.tablero.agregarFicha(f,c,t,ficha,jugador)){
                  //Si la pudo ingresar, pongo el flag en true, y verifico si se produjo una raya:
@@ -42,6 +44,7 @@ public class Partida extends Tablero{
                      //1. debo retirar alguna ficha del oponente:
                      //2. me debe ingresar la ficha a retirar
                      //DEBERE NOTIFICAR DE LO SUCEDIDO:
+                     System.out.println("Se produjo una raya!!!");
                  }
 
 

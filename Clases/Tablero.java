@@ -285,7 +285,7 @@ public class Tablero {
         /*Metodo que agrega una ficha, si la posicion no esta ocupada devuelve True,
         si esta ocupada devuelve False*/
         boolean salida = false;
-        if (!(this.tablero[cuadrado][fila][columna] == null)){
+        if (this.tablero[cuadrado][fila][columna] == null){
             this.tablero[cuadrado][fila][columna] = ficha;
             ficha.setPosicion(new int[]{cuadrado, fila, columna});
             salida = true;
@@ -298,6 +298,7 @@ public class Tablero {
         le ingresa la posicion de la ultima ficha, y cuenta las fichas adyacentes.
          */
         boolean raya = false;
+
         if (t == 0){
             if ((c == 0) && (f ==2)){
                 if ((tablero[t][f][c+1].getJugador().getNumero() == jugador.getNumero()) && (tablero[t][f][c+2].getJugador().getNumero() == jugador.getNumero())) {raya = true;}
