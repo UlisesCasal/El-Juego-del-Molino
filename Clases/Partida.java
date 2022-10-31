@@ -39,11 +39,13 @@ public class Partida extends Tablero{
              if (this.tablero.agregarFicha(f,c,t,ficha,jugador)){
                  //Si la pudo ingresar, pongo el flag en true, y verifico si se produjo una raya:
                  salida = true;
-                 if (verificarRaya(t,f,c,jugador)){
+                 if (this.tablero.verificarRaya(t,f,c,jugador)){
                      //Si me da true que hay una nueva raya:
                      //1. debo retirar alguna ficha del oponente:
                      //2. me debe ingresar la ficha a retirar
+                     //3. debo incrementar el puntaje del jugador
                      //DEBERE NOTIFICAR DE LO SUCEDIDO:
+                     jugador.incPuntaje();
                      System.out.println("Se produjo una raya!!!");
                  }
 

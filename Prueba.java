@@ -11,6 +11,7 @@ public class Prueba {
         partida.ponerFicha(jugador1, 0,0,0);
         partida.ponerFicha(jugador1, 0,1,0);
         partida.ponerFicha(jugador1, 0,2,0);
-
+        System.out.println("El puntaje del jugador2 es: " + partida.getPuntajes()[0]);
+        System.out.println("El puntaje del jugador1 es: " + partida.getPuntajes()[1]);
     }
 }
