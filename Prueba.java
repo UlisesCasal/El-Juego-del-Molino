@@ -11,5 +11,6 @@ public class Prueba {
         partida.ponerFicha(jugador1, 0,0,0);
         partida.ponerFicha(jugador1, 0,1,0);
         partida.ponerFicha(jugador1, 0,2,0);
+
     }
 }
