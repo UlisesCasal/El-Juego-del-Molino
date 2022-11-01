@@ -12,5 +12,7 @@ public class Prueba {
         partida.ponerFicha(jugador1, 0,1,0);
         partida.ponerFicha(jugador1, 0,2,0);
         partida.sacarFicha(jugador1.getFicha(0,0,0));
+        partida.moverFichas(jugador1.getFicha(0,1,0), 1,1,0, jugador1);
+        partida.terminoLaPartida();
     }
 }

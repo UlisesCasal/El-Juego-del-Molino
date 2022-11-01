@@ -32,14 +32,22 @@ public class Jugador {
         puntaje ++;
     }
 
+    public int getFichasTotales() {
+        return fichasTotales;
+    }
+
     public void sacarFicha(Ficha ficha){
         /* Metodo que permite sacar una ficha, creo un array auxiliar
         donde le cargo todas las fichas menos la que hay que sacar.
          */
         Ficha[] fichasPuestasAux = new Ficha[this.fichasPuestas.length - 1];
         int i = 0;
-        for (Ficha f: fichasPuestas) {
-            if (!(f.getPosicion() == ficha.getPosicion())){
+        Ficha f = null;
+        while(i < this.fichasPuestas.length-1) {
+            f = this.fichasPuestas[i];
+            if (f == null) {
+               fichasPuestasAux[i] = f;
+            }else if (!(f.getPosicion() == ficha.getPosicion())) {
                 fichasPuestasAux[i] = f;
             }
             i ++;
@@ -59,12 +67,13 @@ public class Jugador {
     public Ficha getFichaNoPuesta(){
         Ficha ficha = null;
         if (fichasTotales >= 1) {
-            //Saco la ficha de la posicion 0 siempre:
-            ficha = this.fichasNoPuestas[0];
+            //Saco la ficha de la ultima posicion siempre:
+            ficha = this.fichasNoPuestas[this.fichasNoPuestas.length-1];
             Ficha[] arrayFichasAux = new Ficha[this.fichasNoPuestas.length - 1];
             for (int i = 1; i < this.fichasNoPuestas.length - 1; i++) {
                 arrayFichasAux[i] = this.fichasNoPuestas[i];
             }
+            this.fichasNoPuestas = arrayFichasAux;
             this.fichasTotales --;
         }
         return ficha;

@@ -64,7 +64,13 @@ public class Partida {
         return this.tablero.moverFichas(ficha,tmover,fmover,cmover,jugador);
     }
 
-
+    public boolean terminoLaPartida(){
+        boolean salida = false;
+        if ((jugadores.get(0).getFichasTotales() < 3) || (jugadores.get(1).getFichasTotales() < 3)){
+            salida = true;
+        }
+        return salida;
+    }
 
     public int[] getPuntajes(){
         int[] salida = new int[2];

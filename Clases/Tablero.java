@@ -32,7 +32,7 @@ public class Tablero {
         int i = 0;
         int[] arregloLista = new int[3];
 
-        while ((!encontro) || (i <= listaMovimientos.size())){
+        while ((!encontro) && (i < listaMovimientos.size())){
             arregloLista = (int[]) listaMovimientos.get(i);
 
             if ((arregloLista[0] == tmover) && (arregloLista[1] == fmover) && (arregloLista[2] == cmover)){
