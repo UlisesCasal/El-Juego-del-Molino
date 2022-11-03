@@ -58,6 +58,10 @@ public class Partida {
 
     public void sacarFicha(Ficha ficha){
         this.tablero.sacarFicha(ficha);
+        //Debo llamar a termino la partida cada vez que se saca una ficha, para verificar si alguno puede seguir jugando o no.
+        if (terminoLaPartida()){
+            //INFORMO QUE LA PARTIDA SE HA TERMINADO Y MUESTRO GANADOR:
+        }
     }
 
     public boolean moverFichas(Ficha ficha, int tmover, int fmover, int cmover, Jugador jugador){

@@ -7,7 +7,7 @@ public class Jugador {
     private int fichasTotales;
     private int puntaje;
     private int numero;
-    private int numeroPuestas = 0;
+    private int numeroPuestas = 0;//Sacar
 
     public Jugador(String nombre, int numero){
         this.nombre = nombre;

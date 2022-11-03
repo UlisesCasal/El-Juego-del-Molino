@@ -415,19 +415,8 @@ public class Tablero {
         if (tablero[ficha.getPosicion()[0]][ficha.getPosicion()[1]][ficha.getPosicion()[2]] != fichaNula){
             tablero[ficha.getPosicion()[0]][ficha.getPosicion()[1]][ficha.getPosicion()[2]] = fichaNula;
             Jugador jugador = ficha.getJugador();
-            jugador.sacarFicha(ficha);
+            jugador.sacarFicha(ficha); //POSIBLEMENTE DEBA SACARLO
         }
 
     }
-
-    public void mostrarTensor(){
-            for(int i = 0; i < 3; i++){
-                for (int j = 0; j < 3; j++) {
-                    for (int k = 0; k < 3; k++){
-                        System.out.println(this.tablero[i][j][k].getJugador().getNumero());
-                    }
-                }
-            }
-    }
-
 }
