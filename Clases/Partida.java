@@ -11,6 +11,7 @@ public class Partida implements Observable {
     private Tablero tablero;
     private boolean turno; //True -> jugador1, False -> Jugador2
     private int numeroJugadores;
+    private List<Observador> observadores;
 
     public Partida(){
         tablero = new Tablero();
@@ -89,11 +90,12 @@ public class Partida implements Observable {
 
     @Override
     public void notificar(Object evento) {
-
+        for (Observador observador : this.observadores) {
+            observador.actualizar(evento, this);
+        }
     }
-
     @Override
     public void agregarObservador(Observador observador) {
-
+        this.observadores.add(observador);
     }
 }
