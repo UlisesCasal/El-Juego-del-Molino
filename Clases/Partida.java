@@ -1,9 +1,12 @@
 package Clases;
 
+import Interaccion.Observable;
+import Interaccion.Observador;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Partida {
+public class Partida implements Observable {
     private List<Jugador> jugadores = new ArrayList<Jugador>();
     private Tablero tablero;
     private boolean turno; //True -> jugador1, False -> Jugador2
@@ -84,8 +87,13 @@ public class Partida {
     }
 
 
+    @Override
+    public void notificar(Object evento) {
 
+    }
 
+    @Override
+    public void agregarObservador(Observador observador) {
 
-
+    }
 }
