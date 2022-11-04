@@ -62,7 +62,7 @@ public class Tablero {
         int f = ficha.getPosicion()[1];
         int c = ficha.getPosicion()[2];
         //metodo que al pasarle una posicion de una ficha devuelve todos sus movimientos posibles:
-        List lista = new ArrayList<int[]>();
+        List<int[]> lista = new ArrayList<>();
         int[] posicion = new int[3];
 
 
