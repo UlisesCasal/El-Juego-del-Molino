@@ -51,7 +51,7 @@ public class Partida implements Observable {
                      //3. debo incrementar el puntaje del jugador
                      //DEBERE NOTIFICAR DE LO SUCEDIDO:
                      jugador.incPuntaje();
-                     System.out.println("Se produjo una raya!!!");
+                     this.notificar(Eventos.SACARFICHA);
                  }
 
 
@@ -65,11 +65,17 @@ public class Partida implements Observable {
         //Debo llamar a termino la partida cada vez que se saca una ficha, para verificar si alguno puede seguir jugando o no.
         if (terminoLaPartida()){
             //INFORMO QUE LA PARTIDA SE HA TERMINADO Y MUESTRO GANADOR:
+            this.notificar(Eventos.FINPARTIDA);
         }
     }
 
     public boolean moverFichas(Ficha ficha, int tmover, int fmover, int cmover, Jugador jugador){
-        return this.tablero.moverFichas(ficha,tmover,fmover,cmover,jugador);
+        boolean salida = false;
+        if (this.tablero.moverFichas(ficha,tmover,fmover,cmover,jugador)){
+            this.notificar(Eventos.FICHAMOVIDA);
+            salida = true;
+        }
+        return salida;
     }
 
     public boolean terminoLaPartida(){
@@ -87,6 +93,13 @@ public class Partida implements Observable {
         return salida;
     }
 
+    public Jugador getTurnoActual(){
+        Jugador jugador;
+        if (this.turno){jugador = jugadores.get(0);}
+        else {jugador = jugadores.get(1);}
+
+        return jugador;
+    }
 
     @Override
     public void notificar(Object evento) {
@@ -94,6 +107,7 @@ public class Partida implements Observable {
             observador.actualizar(evento, this);
         }
     }
+
     @Override
     public void agregarObservador(Observador observador) {
         this.observadores.add(observador);
