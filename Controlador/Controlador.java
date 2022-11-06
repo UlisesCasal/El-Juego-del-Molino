@@ -16,11 +16,18 @@ public class Controlador implements Observador {
         this.modelo.agregarObservador(this);
     }
 
+    public boolean ponerFicha(int t, int f, int c){
+        this.modelo.ponerFicha(t,f,c);
+    }
+
     public void sacarFicha(int t, int f, int c){
         //Metodo que llama al sacar ficha:
         this.modelo.sacarFicha(this.modelo.getTurnoActual().getFicha(t,f,c));
 
     }
+
+    //public void moverFicha(int t, int f, int c);
+
 
     @Override
     public void actualizar(Object evento, Observable observable) {
