@@ -1,10 +1,13 @@
 package Controlador;
 
 import Clases.Eventos;
+import Clases.Jugador;
 import Clases.Partida;
 import Interaccion.Observable;
 import Interaccion.Observador;
 import Vistas.VistaConsola;
+
+import java.util.Objects;
 
 public class Controlador implements Observador {
     private Partida modelo;
@@ -46,5 +49,13 @@ public class Controlador implements Observador {
 
     public String getPuntajesFinales() {
         return this.modelo.getPuntajes()[0] + this.modelo.getPuntajes()[1] + "";
+    }
+
+    public String getCharJugadorFicha() {
+        String salida = "";
+        if (Objects.equals(this.modelo.getTurnoAnterior(), "1")){
+            salida = "(¤)";
+        }else salida = "(×)";
+        return salida;
     }
 }

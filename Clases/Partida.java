@@ -112,4 +112,12 @@ public class Partida implements Observable {
     public void agregarObservador(Observador observador) {
         this.observadores.add(observador);
     }
+
+    public String getTurnoAnterior() {
+        String jugador;
+        if (this.turno){
+         jugador = String.valueOf(this.jugadores.get(1).getNumero());
+        }else jugador = String.valueOf(this.jugadores.get(0).getNumero());
+        return jugador;
+    }
 }

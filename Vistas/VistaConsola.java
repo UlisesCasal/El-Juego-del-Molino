@@ -57,7 +57,7 @@ public class VistaConsola implements IVista{
          */
         mostrarTablero();
         System.out.println("Ingrese la posición de la ficha que quiere ingresar: ");
-        String ficha = sc.nextLine();
+        String ficha = sc.nextLine().toUpperCase();
         boolean salida = false;
         switch (ficha) {
             case "A1" -> {
@@ -159,8 +159,14 @@ public class VistaConsola implements IVista{
             default -> System.out.println("La posicion ingresada es inválida...");
         }
         if (!salida){
+            //Si la insercion no fue exitosa:
             System.out.println("La ficha no se pudo ingresar en la posicion deseada");
-        }else //Mostrar tablero actualizado
+        }else{
+            /*Si la insercion fue exitosa, entonces reemplazo la posicion y le agrego el char del jugador que
+            agrego dicha ficha:
+            */
+            this.tablero.replaceAll(ficha, ficha + this.controlador.getCharJugadorFicha());//Mostrar tablero actualizado
+        }
 
     }
 
