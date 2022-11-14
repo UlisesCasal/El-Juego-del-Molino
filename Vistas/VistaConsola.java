@@ -166,13 +166,26 @@ public class VistaConsola implements IVista{
             agrego dicha ficha:
             */
             this.tablero.replaceAll(ficha, ficha + this.controlador.getCharJugadorFicha());//Mostrar tablero actualizado
+            this.mostrarPonerFicha();
         }
 
     }
 
     @Override
     public void mostrarPuntajesFinales() {
-        this.controlador.getPuntajesFinales();
+        String[] puntajes = this.controlador.getPuntajesFinales();
+        String salida = """
+                   ███      ██                          ███                                                  ██       ██        ███
+                  ██ ██                                  ██                                                  ██                  ██
+                   █       ███     █████                 ██    ████             ██████    ████    ██████    █████    ███         ██    ████
+                 ████       ██     ██  ██             █████   ██  ██             ██  ██      ██    ██  ██    ██       ██      █████       ██
+                  ██        ██     ██  ██            ██  ██   ██████             ██  ██   █████    ██        ██       ██     ██  ██    █████
+                  ██        ██     ██  ██            ██  ██   ██                 █████   ██  ██    ██        ██ ██    ██     ██  ██   ██  ██
+                 ████      ████    ██  ██             ███████   █████             ██       █████   █████        ███    ████     ██████   █████
+                                                                                ████
+                                
+                """;
+
     }
 
     @Override
@@ -182,7 +195,7 @@ public class VistaConsola implements IVista{
 
     @Override
     public void mostrarPonerFicha() {
-
+        System.out.println(this.tablero);
     }
 
     @Override
@@ -198,6 +211,6 @@ public class VistaConsola implements IVista{
 
     @Override
     public void mostrarTablero() {
-
+        System.out.println(this.tablero);
     }
 }

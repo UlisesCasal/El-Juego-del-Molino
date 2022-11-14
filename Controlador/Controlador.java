@@ -47,8 +47,11 @@ public class Controlador implements Observador {
         }
         }
 
-    public String getPuntajesFinales() {
-        return this.modelo.getPuntajes()[0] + this.modelo.getPuntajes()[1] + "";
+    public String[] getPuntajesFinales() {
+        String[] salida = new String[2];
+        salida[0] = String.valueOf(this.modelo.getPuntajes()[0]);
+        salida[1] = String.valueOf(this.modelo.getPuntajes()[1]);
+        return salida;
     }
 
     public String getCharJugadorFicha() {
