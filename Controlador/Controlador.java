@@ -17,7 +17,7 @@ public class Controlador implements Observador {
     }
 
     public boolean ponerFicha(int t, int f, int c){
-        this.modelo.ponerFicha(t,f,c);
+        return this.modelo.ponerFicha(this.modelo.getTurnoActual(),t,f,c);
     }
 
     public void sacarFicha(int t, int f, int c){
@@ -43,4 +43,8 @@ public class Controlador implements Observador {
             }
         }
         }
+
+    public String getPuntajesFinales() {
+        return this.modelo.getPuntajes()[0] + this.modelo.getPuntajes()[1] + "";
+    }
 }
