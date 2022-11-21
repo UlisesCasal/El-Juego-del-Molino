@@ -410,13 +410,16 @@ public class Tablero {
         return raya;
     }
 
-    public void sacarFicha(Ficha ficha){
+    public Boolean sacarFicha(Ficha ficha){
+        Boolean salida = false;
         //Saco la ficha del tablero, y luego se la saco al jugador:
         if (tablero[ficha.getPosicion()[0]][ficha.getPosicion()[1]][ficha.getPosicion()[2]] != fichaNula){
             tablero[ficha.getPosicion()[0]][ficha.getPosicion()[1]][ficha.getPosicion()[2]] = fichaNula;
             Jugador jugador = ficha.getJugador();
             jugador.sacarFicha(ficha); //POSIBLEMENTE DEBA SACARLO
+            salida = true;
         }
+        return salida;
 
     }
 }

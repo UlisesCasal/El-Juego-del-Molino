@@ -9,6 +9,8 @@ public interface IVista {
     void mostrarPuntajesFinales();
 
     void mostrarSacarFicha();
-    void mostrarPonerFicha();
+    void ponerFicha();
+
+    int[] traductor(String posicionSimbolica);
 
 }

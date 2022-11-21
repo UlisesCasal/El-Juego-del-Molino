@@ -44,6 +44,7 @@ public class Controlador implements Observador {
             if (evento == Eventos.SACARFICHA){
                 this.vista.mostrarSacarFicha();
             }
+
         }
         }
 

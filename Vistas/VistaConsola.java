@@ -47,7 +47,7 @@ public class VistaConsola implements IVista{
         System.out.println(tablero);
 
     }
-
+    @Override
     public void ponerFicha(){
         /*1- muestro tablero.
           2- pido el dato de la posicion a ingresar

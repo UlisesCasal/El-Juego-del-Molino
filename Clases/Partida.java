@@ -61,11 +61,15 @@ public class Partida implements Observable {
     }
 
     public void sacarFicha(Ficha ficha){
-        this.tablero.sacarFicha(ficha);
+        Boolean resultadoSacar = this.tablero.sacarFicha(ficha);
+
         //Debo llamar a termino la partida cada vez que se saca una ficha, para verificar si alguno puede seguir jugando o no.
         if (terminoLaPartida()){
             //INFORMO QUE LA PARTIDA SE HA TERMINADO Y MUESTRO GANADOR:
             this.notificar(Eventos.FINPARTIDA);
+        } else if (resultadoSacar) {
+            this.notificar(Eventos.FICHASACADA);
+
         }
     }
 
