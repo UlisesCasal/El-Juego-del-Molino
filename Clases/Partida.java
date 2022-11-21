@@ -11,7 +11,7 @@ public class Partida implements Observable {
     private Tablero tablero;
     private boolean turno; //True -> jugador1, False -> Jugador2
     private int numeroJugadores;
-    private List<Observador> observadores;
+    private List<Observador>  observadores = new ArrayList<>();
 
     public Partida(){
         tablero = new Tablero();

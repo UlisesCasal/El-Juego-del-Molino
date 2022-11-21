@@ -1,9 +1,12 @@
 package Vistas.VistaConsolaSwing;
 
 import Controlador.Controlador;
+import Vistas.EstadosVista;
 import Vistas.IVista;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class VConsola extends JFrame implements IVista {
     private JPanel panel1;
@@ -11,6 +14,7 @@ public class VConsola extends JFrame implements IVista {
     private JTextField textoInput;
     private JButton botonEnter;
     private Controlador controlador;
+    private EstadosVista estadoActual = EstadosVista.INGRESARFICHA;
     private String tablero ="""
                                     
                     A1════════════A2════════════A3
@@ -30,6 +34,15 @@ public class VConsola extends JFrame implements IVista {
     public VConsola(){
         super("El Juego del Molino");
         setContentPane(this.panel1);
+        botonEnter.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                switch (estadoActual){
+                    case INGRESARFICHA -> ponerFicha();
+                    case SACARFICHA -> mostrarSacarFicha();
+                }
+            }
+        });
     }
 
 
@@ -169,6 +182,7 @@ public class VConsola extends JFrame implements IVista {
             }
             default -> println("La posicion ingresada es inválida...");
         }
+        textoInput.setText("");
         return salida;
     }
 
@@ -185,6 +199,7 @@ public class VConsola extends JFrame implements IVista {
         String ficha = textoInput.getText().toUpperCase();
         int[] posicion = traductor(ficha);
         this.controlador.sacarFicha(posicion[0], posicion[1], posicion[2]);
+        //QUEDA SACAR EL CHAR DEL JUGADOR
 
     }
 
@@ -198,7 +213,7 @@ public class VConsola extends JFrame implements IVista {
          */
         //VER SI FUNCIONA LA RECURSIVIDAD:
         mostrarTablero();
-        println("Ingrese la posición de la ficha que quiere ingresar: ");
+        println("Ingrese la posición de la ficha que quiere ingresar: "); //corregir y ponerlo en el action del boton
         String ficha = textoInput.getText().toUpperCase();
         boolean salida = false;
         int[] posicion = traductor(ficha);
@@ -211,7 +226,7 @@ public class VConsola extends JFrame implements IVista {
             /*Si la insercion fue exitosa, entonces reemplazo la posicion y le agrego el char del jugador que
             agrego dicha ficha:
             */
-            this.tablero.replaceAll(ficha, ficha + this.controlador.getCharJugadorFicha());//Mostrar tablero actualizado
+            this.tablero = this.tablero.replaceAll(ficha, ficha + this.controlador.getCharJugadorFicha());//Mostrar tablero actualizado
             this.mostrarTablero();
         }
     }

@@ -171,6 +171,14 @@ public class VistaConsola implements IVista{
 
     }
 
+    private void mostrarPonerFicha() {
+    }
+
+    @Override
+    public int[] traductor(String posicionSimbolica) {
+        return new int[0];
+    }
+
     @Override
     public void mostrarPuntajesFinales() {
         String[] puntajes = this.controlador.getPuntajesFinales();
@@ -193,10 +201,7 @@ public class VistaConsola implements IVista{
 
     }
 
-    @Override
-    public void mostrarPonerFicha() {
-        System.out.println(this.tablero);
-    }
+
 
     @Override
     public void iniciar() {

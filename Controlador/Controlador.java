@@ -5,14 +5,15 @@ import Clases.Jugador;
 import Clases.Partida;
 import Interaccion.Observable;
 import Interaccion.Observador;
+import Vistas.IVista;
 import Vistas.VistaConsola;
 
 import java.util.Objects;
 
 public class Controlador implements Observador {
     private Partida modelo;
-    private VistaConsola vista;
-    public Controlador(Partida partida, VistaConsola vista){
+    private IVista vista;
+    public Controlador(Partida partida, IVista vista){
         this.modelo = partida;
         this.vista = vista;
         this.vista.setControlador(this);
@@ -61,5 +62,10 @@ public class Controlador implements Observador {
             salida = "(¤)";
         }else salida = "(×)";
         return salida;
+    }
+
+    public void agregarJugadoresDePrueba() {
+        this.modelo.setJugador("Pepe");
+        this.modelo.setJugador("Pepe2");
     }
 }
