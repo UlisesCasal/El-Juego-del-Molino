@@ -9,6 +9,7 @@ import Vistas.IVista;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.regex.Pattern;
 
 public class VConsola extends JFrame implements IVista {
     private JPanel panel1;
@@ -243,7 +244,7 @@ public class VConsola extends JFrame implements IVista {
             this.tablero = this.tablero.replaceAll(ultFichaIngre, ultFichaIngre + this.controlador.getCharJugadorFicha());
         } else if (fichaEliminar != null) {
             String fichaPura = this.fichaEliminar.substring(this.fichaEliminar.indexOf(fichaEliminar), this.fichaEliminar.indexOf(fichaEliminar) + 2);
-            this.tablero = this.tablero.replaceAll(fichaEliminar, fichaPura); //ARREGLAR
+            this.tablero = this.tablero.replaceAll(Pattern.quote(fichaEliminar), fichaPura);; //ARREGLAR
 
         }
         mostrarTablero();
