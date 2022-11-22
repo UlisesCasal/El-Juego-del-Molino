@@ -12,6 +12,11 @@ public class VistaConsola implements IVista{
 
     }
 
+    @Override
+    public void mostrarErrores(Errores errores) {
+
+    }
+
     private Controlador controlador;
 
     private String tablero = """

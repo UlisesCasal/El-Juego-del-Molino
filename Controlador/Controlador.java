@@ -5,6 +5,7 @@ import Clases.Jugador;
 import Clases.Partida;
 import Interaccion.Observable;
 import Interaccion.Observador;
+import Vistas.Errores;
 import Vistas.EstadosVista;
 import Vistas.IVista;
 import Vistas.VistaConsola;
@@ -27,7 +28,7 @@ public class Controlador implements Observador {
 
     public void sacarFicha(int t, int f, int c){
         //Metodo que llama al sacar ficha:
-        this.modelo.sacarFicha(this.modelo.getTurnoActual().getFicha(t,f,c));
+        this.modelo.sacarFicha(this.modelo.getFicha(t,f,c));
 
     }
 
@@ -45,6 +46,8 @@ public class Controlador implements Observador {
             }
             if (evento == Eventos.SACARFICHA){
                 this.vista.cambiarEstado(EstadosVista.SACARFICHA);
+            }if (evento == Eventos.NOSACADA){
+                this.vista.mostrarErrores(Errores.NOSEPUDOSACARFICHA);
             }
 
         }

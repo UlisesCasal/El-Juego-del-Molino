@@ -1,6 +1,8 @@
 package Vistas.VistaConsolaSwing;
 
+import Clases.Ficha;
 import Controlador.Controlador;
+import Vistas.Errores;
 import Vistas.EstadosVista;
 import Vistas.IVista;
 
@@ -16,6 +18,7 @@ public class VConsola extends JFrame implements IVista {
     private Controlador controlador;
     private EstadosVista estadoActual = EstadosVista.INGRESARFICHA;
     private String ultFichaIngre;
+    private String fichaEliminar;
     private String tablero ="""
                                     
                     A1════════════A2════════════A3
@@ -45,7 +48,6 @@ public class VConsola extends JFrame implements IVista {
                         break;
                     }
                     case SACARFICHA:{
-                        println("Ingrese la posicion de la fiha a eliminar: ");
                         mostrarSacarFicha();
                         break;
                     }
@@ -69,7 +71,12 @@ public class VConsola extends JFrame implements IVista {
 
     @Override
     public void iniciar() {
-
+        /*
+        1- a la hora se iniciar se debe generar una espera de los jugadores
+        2- una vez se presione un input del boton y el estado es espera, se debe cargar el jugador
+        3- si hay menos de un jugador no inicia
+        4- sino el estado se cambia a Estado.INGRESARFICHA
+         */
     }
 
     @Override
@@ -198,6 +205,18 @@ public class VConsola extends JFrame implements IVista {
     @Override
     public void cambiarEstado(EstadosVista estado) {
         this.estadoActual = estado;
+        switch (this.estadoActual){
+            case SACARFICHA -> println("Ingrese la posicion de la ficha a eliminar: ");
+        }
+    }
+
+    @Override
+    public void mostrarErrores(Errores errores) {
+        if (errores == Errores.NOSEPUDOSACARFICHA){
+            mostrarTablero();
+            println("LA FICHA INGRESADA NO SE HA PODIDO ELIMINAR..." + "\n" +
+                    "Por favor ingrese una posicion válida");
+        }
     }
 
     @Override
@@ -208,10 +227,10 @@ public class VConsola extends JFrame implements IVista {
            4- muestro tablero actualizado.
          */
         //TENER EN CUENTA EL JUGADOR QUE EJECUTA DICHA PETICION:
-        mostrarTablero();
-        println("Ingrese la posicion de la ficha a eliminar: ");
         String ficha = textoInput.getText().toUpperCase();
         int[] posicion = traductor(ficha);
+        this.ultFichaIngre = null; //Asigno nulo asi cuando actualizo no me agrega otro char
+        this.fichaEliminar = this.tablero.substring(this.tablero.indexOf(ficha), this.tablero.indexOf(ficha) + 5);
         this.controlador.sacarFicha(posicion[0], posicion[1], posicion[2]);
         //QUEDA SACAR EL CHAR DEL JUGADOR
 
@@ -220,7 +239,13 @@ public class VConsola extends JFrame implements IVista {
     @Override
     public void actualizarTablero() {
         //Hace un reemplazo y procede a mostrar el tablero actualizado
-        this.tablero = this.tablero.replaceAll(ultFichaIngre, ultFichaIngre + this.controlador.getCharJugadorFicha());
+        if (ultFichaIngre != null){
+            this.tablero = this.tablero.replaceAll(ultFichaIngre, ultFichaIngre + this.controlador.getCharJugadorFicha());
+        } else if (fichaEliminar != null) {
+            String fichaPura = this.fichaEliminar.substring(this.fichaEliminar.indexOf(fichaEliminar), this.fichaEliminar.indexOf(fichaEliminar) + 2);
+            this.tablero = this.tablero.replaceAll(fichaEliminar, fichaPura); //ARREGLAR
+
+        }
         mostrarTablero();
     }
 

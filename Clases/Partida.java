@@ -53,6 +53,8 @@ public class Partida implements Observable {
                      //DEBERE NOTIFICAR DE LO SUCEDIDO:
                      jugador.incPuntaje();
                      this.notificar(Eventos.SACARFICHA);
+                 }else{
+                     this.turno = !this.turno; //Cambio de turno si no tiene que sacar una ficha
                  }
 
 
@@ -62,7 +64,7 @@ public class Partida implements Observable {
     }
 
     public void sacarFicha(Ficha ficha){
-        Boolean resultadoSacar = this.tablero.sacarFicha(ficha);
+        Boolean resultadoSacar = this.tablero.sacarFicha(ficha, getTurnoActual());
 
         //Debo llamar a termino la partida cada vez que se saca una ficha, para verificar si alguno puede seguir jugando o no.
         if (terminoLaPartida()){
@@ -70,6 +72,9 @@ public class Partida implements Observable {
             this.notificar(Eventos.FINPARTIDA);
         } else if (resultadoSacar) {
             this.notificar(Eventos.FICHASACADA);
+
+        } else if (!resultadoSacar) {
+            this.notificar(Eventos.NOSACADA);
 
         }
     }
@@ -124,5 +129,19 @@ public class Partida implements Observable {
          jugador = String.valueOf(this.jugadores.get(1).getNumero());
         }else jugador = String.valueOf(this.jugadores.get(0).getNumero());
         return jugador;
+    }
+
+    public Ficha getFicha(int t, int f, int c){
+        Jugador jugador1 = jugadores.get(0);
+        Jugador jugador2 = jugadores.get(1);
+        Ficha fichaJugador1 = jugador1.getFicha(t,f,c);
+        Ficha fichaJugador2 = jugador2.getFicha(t,f,c);
+        Ficha fichaSalida = null;
+        if (fichaJugador1 != null){
+            fichaSalida = fichaJugador1;
+        }else if (fichaJugador1 != null){
+            fichaSalida = fichaJugador2;
+        }
+        return fichaSalida;
     }
 }

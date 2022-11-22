@@ -15,4 +15,5 @@ public interface IVista {
 
     void actualizarTablero();
     void cambiarEstado(EstadosVista estado);
+    void mostrarErrores(Errores errores);
 }

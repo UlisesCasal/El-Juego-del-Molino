@@ -5,5 +5,6 @@ public enum Eventos {
     FICHASACADA,
     FICHAMOVIDA,
     FINPARTIDA,
-    SACARFICHA //Cambiar a se produjo raya, por lo tanto cuando se produzca un raya debera de eliminar una ficha.
+    SACARFICHA,
+    NOSACADA//Cambiar a se produjo raya, por lo tanto cuando se produzca un raya debera de eliminar una ficha.
 }
