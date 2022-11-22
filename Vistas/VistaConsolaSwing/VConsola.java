@@ -38,8 +38,16 @@ public class VConsola extends JFrame implements IVista {
             @Override
             public void actionPerformed(ActionEvent e) {
                 switch (estadoActual){
-                    case INGRESARFICHA -> ponerFicha();
-                    case SACARFICHA -> mostrarSacarFicha();
+                    case INGRESARFICHA: {
+                        println("Ingrese la posición de la ficha que quiere ingresar: ");
+                        ponerFicha();
+                        break;
+                    }
+                    case SACARFICHA:{
+                        println("Ingrese la posicion de la fiha a eliminar: ");
+                        mostrarSacarFicha();
+                        break;
+                    }
                 }
             }
         });
@@ -212,8 +220,8 @@ public class VConsola extends JFrame implements IVista {
           5- muestro tablero actualizado.
          */
         //VER SI FUNCIONA LA RECURSIVIDAD:
-        mostrarTablero();
-        println("Ingrese la posición de la ficha que quiere ingresar: "); //corregir y ponerlo en el action del boton
+        //mostrarTablero();
+         //corregir y ponerlo en el action del boton
         String ficha = textoInput.getText().toUpperCase();
         boolean salida = false;
         int[] posicion = traductor(ficha);
@@ -227,7 +235,8 @@ public class VConsola extends JFrame implements IVista {
             agrego dicha ficha:
             */
             this.tablero = this.tablero.replaceAll(ficha, ficha + this.controlador.getCharJugadorFicha());//Mostrar tablero actualizado
-            this.mostrarTablero();
+            //limpiarConsola();
+            //this.mostrarTablero();
         }
     }
 }

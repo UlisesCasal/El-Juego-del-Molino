@@ -84,7 +84,7 @@ public class Jugador {
         Ficha salida = null;
         boolean terminar = false;
         int i = 0;
-        while((!terminar) && (i < fichasPuestas.length)){
+        while((!terminar) && (i < fichasPuestas.length) && (fichasPuestas[i] != null)){
             posicionFichaActual = fichasPuestas[i].getPosicion();
             if (fichasPuestas[i] == null){break;}
             if ((posicionFichaActual[0] == t) && (posicionFichaActual[1] == f) && (posicionFichaActual[2] == c)){

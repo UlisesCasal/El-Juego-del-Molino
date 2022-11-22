@@ -44,6 +44,7 @@ public class Partida implements Observable {
                  //Si la pudo ingresar, pongo el flag en true, y verifico si se produjo una raya:
                  jugador.setPosicionFicha(new int[]{t, f, c}, ficha);
                  salida = true;
+                 this.notificar(Eventos.FICHAAGREGADA);
                  if (this.tablero.verificarRaya(t,f,c,jugador)){
                      //Si me da true que hay una nueva raya:
                      //1. debo retirar alguna ficha del oponente:
