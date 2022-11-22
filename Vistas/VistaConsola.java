@@ -6,6 +6,12 @@ import java.util.Scanner;
 
 public class VistaConsola implements IVista{
     private Scanner sc;
+
+    @Override
+    public void cambiarEstado(EstadosVista estado) {
+
+    }
+
     private Controlador controlador;
 
     private String tablero = """
@@ -177,6 +183,11 @@ public class VistaConsola implements IVista{
     @Override
     public int[] traductor(String posicionSimbolica) {
         return new int[0];
+    }
+
+    @Override
+    public void actualizarTablero() {
+
     }
 
     @Override

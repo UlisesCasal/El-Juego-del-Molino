@@ -15,6 +15,7 @@ public class VConsola extends JFrame implements IVista {
     private JButton botonEnter;
     private Controlador controlador;
     private EstadosVista estadoActual = EstadosVista.INGRESARFICHA;
+    private String ultFichaIngre;
     private String tablero ="""
                                     
                     A1════════════A2════════════A3
@@ -195,6 +196,11 @@ public class VConsola extends JFrame implements IVista {
     }
 
     @Override
+    public void cambiarEstado(EstadosVista estado) {
+        this.estadoActual = estado;
+    }
+
+    @Override
     public void mostrarSacarFicha() {
         /* 1- se muestra el tablero.
            2- se pide el dato de la ficha a eliminar.
@@ -212,6 +218,13 @@ public class VConsola extends JFrame implements IVista {
     }
 
     @Override
+    public void actualizarTablero() {
+        //Hace un reemplazo y procede a mostrar el tablero actualizado
+        this.tablero = this.tablero.replaceAll(ultFichaIngre, ultFichaIngre + this.controlador.getCharJugadorFicha());
+        mostrarTablero();
+    }
+
+    @Override
     public void ponerFicha() {
                 /*1- muestro tablero.
           2- pido el dato de la posicion a ingresar
@@ -225,18 +238,8 @@ public class VConsola extends JFrame implements IVista {
         String ficha = textoInput.getText().toUpperCase();
         boolean salida = false;
         int[] posicion = traductor(ficha);
-        salida = this.controlador.ponerFicha(posicion[0], posicion[1], posicion[2]);
-        if (!salida){
-            //Si la insercion no fue exitosa:
-            println("La ficha no se pudo ingresar en la posicion deseada");
-            ponerFicha();
-        }else{
-            /*Si la insercion fue exitosa, entonces reemplazo la posicion y le agrego el char del jugador que
-            agrego dicha ficha:
-            */
-            this.tablero = this.tablero.replaceAll(ficha, ficha + this.controlador.getCharJugadorFicha());//Mostrar tablero actualizado
-            //limpiarConsola();
-            //this.mostrarTablero();
-        }
+        ultFichaIngre = ficha; //Guardo la ultima ficha ingresada por si me da un evento de que se ingreso con exito, procedo a hacer el cambio
+        this.controlador.ponerFicha(posicion[0], posicion[1], posicion[2]);
+
     }
 }

@@ -5,6 +5,7 @@ import Clases.Jugador;
 import Clases.Partida;
 import Interaccion.Observable;
 import Interaccion.Observador;
+import Vistas.EstadosVista;
 import Vistas.IVista;
 import Vistas.VistaConsola;
 
@@ -38,12 +39,12 @@ public class Controlador implements Observador {
         //Metodo que evalua las llamadas del modelo, y en base a eso realiza o no una accion en la vista:
         if(evento instanceof Eventos) {
             if ((evento == Eventos.FICHAAGREGADA) || (evento == Eventos.FICHAMOVIDA) || (evento == Eventos.FICHASACADA)){
-                this.vista.mostrarTablero();
+                this.vista.actualizarTablero();
             }if (evento == Eventos.FINPARTIDA) {
                 this.vista.mostrarPuntajesFinales();
             }
             if (evento == Eventos.SACARFICHA){
-                this.vista.mostrarSacarFicha();
+                this.vista.cambiarEstado(EstadosVista.SACARFICHA);
             }
 
         }

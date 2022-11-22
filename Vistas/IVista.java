@@ -13,4 +13,6 @@ public interface IVista {
 
     int[] traductor(String posicionSimbolica);
 
+    void actualizarTablero();
+    void cambiarEstado(EstadosVista estado);
 }
