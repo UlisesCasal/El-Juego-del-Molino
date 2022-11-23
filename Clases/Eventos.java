@@ -6,5 +6,6 @@ public enum Eventos {
     FICHAMOVIDA,
     FINPARTIDA,
     SACARFICHA,
-    NOSACADA//Cambiar a se produjo raya, por lo tanto cuando se produzca un raya debera de eliminar una ficha.
+    NOSACADA,
+    FICHANOMOVIDA//Cambiar a se produjo raya, por lo tanto cuando se produzca un raya debera de eliminar una ficha.
 }

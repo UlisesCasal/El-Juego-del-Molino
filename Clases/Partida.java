@@ -79,13 +79,12 @@ public class Partida implements Observable {
         }
     }
 
-    public boolean moverFichas(Ficha ficha, int tmover, int fmover, int cmover, Jugador jugador){
-        boolean salida = false;
+    public void moverFichas(Ficha ficha, int tmover, int fmover, int cmover, Jugador jugador){
         if (this.tablero.moverFichas(ficha,tmover,fmover,cmover,jugador)){
             this.notificar(Eventos.FICHAMOVIDA);
-            salida = true;
+        }else{
+            this.notificar(Eventos.FICHANOMOVIDA);
         }
-        return salida;
     }
 
     public boolean terminoLaPartida(){

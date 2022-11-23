@@ -17,6 +17,11 @@ public class VistaConsola implements IVista{
 
     }
 
+    @Override
+    public void mostrarMoverFicha() {
+
+    }
+
     private Controlador controlador;
 
     private String tablero = """
@@ -27,7 +32,7 @@ public class VistaConsola implements IVista{
                     ║ ║ ║                    ║ ║ ║
                     ║ ║ ║                    ║ ║ ║
                     ║ ║ ║                    ║ ║ ║
-                   A8═B8═C8                A4═B4═C4
+                   A8═B8═C8                C4═B4═A4
                     ║ ║ ║                    ║ ║ ║
                     ║ ║ ║                    ║ ║ ║
                     ║ ║ ║                    ║ ║ ║

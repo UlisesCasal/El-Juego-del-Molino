@@ -1,4 +1,4 @@
 package Vistas;
 
-public enum Errores {NOSEPUDOSACARFICHA
+public enum Errores {NOSEPUDOSACARFICHA, NOSEPUDOMOVERFICHA
 }

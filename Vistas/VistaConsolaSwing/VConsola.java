@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.regex.Pattern;
 
+import static Vistas.EstadosVista.MOVERFICHA;
+
 public class VConsola extends JFrame implements IVista {
     private JPanel panel1;
     private JTextArea consola;
@@ -52,10 +54,16 @@ public class VConsola extends JFrame implements IVista {
                         mostrarSacarFicha();
                         break;
                     }
+                    case MOVERFICHA:{
+                        mostrarMoverFicha();
+                        break;
+                    }
                 }
             }
         });
     }
+
+
 
 
     public void println(String texto) {
@@ -206,8 +214,9 @@ public class VConsola extends JFrame implements IVista {
     @Override
     public void cambiarEstado(EstadosVista estado) {
         this.estadoActual = estado;
-        switch (this.estadoActual){
+        switch (this.estadoActual) {
             case SACARFICHA -> println("Ingrese la posicion de la ficha a eliminar: ");
+            case MOVERFICHA -> println("Ingrese la ficha a mover: ");
         }
     }
 
@@ -261,11 +270,48 @@ public class VConsola extends JFrame implements IVista {
         //VER SI FUNCIONA LA RECURSIVIDAD:
         //mostrarTablero();
          //corregir y ponerlo en el action del boton
-        String ficha = textoInput.getText().toUpperCase();
+        String ficha = textoInput.getText().toUpperCase().trim();
         boolean salida = false;
         int[] posicion = traductor(ficha);
         ultFichaIngre = ficha; //Guardo la ultima ficha ingresada por si me da un evento de que se ingreso con exito, procedo a hacer el cambio
         this.controlador.ponerFicha(posicion[0], posicion[1], posicion[2]);
 
+    }
+
+    @Override
+    public void mostrarMoverFicha(){
+        /*
+        1- tomo la ficha ingresada a mover y verifico si es del jugador.
+        2- si es del jugador le pido que me ingrese la posicion a mover.
+        3- verifico si la posicion a mover es valida y esta desocupada.
+         */
+        String fichaAMover = textoInput.getText().toUpperCase().trim();
+        int[] posicionFicha = traductor(fichaAMover);
+        boolean valido = this.controlador.verificarFicha(posicionFicha[0], posicionFicha[1], posicionFicha[2]);
+        textoInput.setText("");
+        while (!valido){
+            //Pide ficha hasta que le ingresen una ficha valida
+            println("Por favor ingrese una ficha válida...");
+            fichaAMover = textoInput.getText().toUpperCase().trim();
+            posicionFicha = traductor(fichaAMover);
+            valido = this.controlador.verificarFicha(posicionFicha[0], posicionFicha[1], posicionFicha[2]);
+            textoInput.setText("");
+        }
+        limpiarConsola();
+        mostrarTablero();
+        println("Ingrese la posicion a mover la ficha: ");
+        fichaAMover = textoInput.getText().toUpperCase().trim();
+        int[] posicionFichaMover = traductor(fichaAMover);
+        valido = this.controlador.verificarPosicionVacia(posicionFicha[0], posicionFicha[1], posicionFicha[2]);
+        textoInput.setText("");
+        while (!valido){
+            //Pido posicion hasta que esta se encuentre vacia:
+            println("Ingrese una posicion a mover la ficha valida: ");
+            fichaAMover = textoInput.getText().toUpperCase().trim();
+            posicionFichaMover = traductor(fichaAMover);
+            valido = this.controlador.verificarPosicionVacia(posicionFicha[0], posicionFicha[1], posicionFicha[2]);
+            textoInput.setText("");
+        }
+        this.controlador.moverFicha(posicionFicha[0], posicionFichaMover[1], posicionFicha[2], posicionFichaMover[0], posicionFichaMover[1], posicionFichaMover[2]);
     }
 }

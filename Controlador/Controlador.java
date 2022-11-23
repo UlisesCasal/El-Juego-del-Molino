@@ -1,6 +1,7 @@
 package Controlador;
 
 import Clases.Eventos;
+import Clases.Ficha;
 import Clases.Jugador;
 import Clases.Partida;
 import Interaccion.Observable;
@@ -32,7 +33,9 @@ public class Controlador implements Observador {
 
     }
 
-    //public void moverFicha(int t, int f, int c);
+    public void moverFicha(int t, int f, int c, int tm, int fm, int cm){
+        this.modelo.moverFichas(this.modelo.getFicha(t,f,c), tm, fm, cm, this.modelo.getTurnoActual());
+    }
 
 
     @Override
@@ -48,6 +51,8 @@ public class Controlador implements Observador {
                 this.vista.cambiarEstado(EstadosVista.SACARFICHA);
             }if (evento == Eventos.NOSACADA){
                 this.vista.mostrarErrores(Errores.NOSEPUDOSACARFICHA);
+            }if (evento == Eventos.FICHANOMOVIDA){
+                this.vista.mostrarErrores(Errores.NOSEPUDOMOVERFICHA);
             }
 
         }
@@ -71,5 +76,27 @@ public class Controlador implements Observador {
     public void agregarJugadoresDePrueba() {
         this.modelo.setJugador("Pepe");
         this.modelo.setJugador("Pepe2");
+    }
+
+    public boolean verificarFicha(int t, int f, int c) {
+        //Verificar la integridad de tener este Ficha importado en el controlador
+        //verifica si la ficha es nula y si no lo es verifica si es del oponente:
+        Ficha ficha = this.modelo.getFicha(t,f,c);
+        boolean salida = false;
+        if (ficha != null) {
+            if (ficha.getJugador() != this.modelo.getTurnoActual()) {
+                salida = true;
+            }
+        }
+        return salida;
+    }
+
+    public boolean verificarPosicionVacia(int t, int f, int c){
+        Ficha ficha = this.modelo.getFicha(t,f,c);
+        boolean salida = false;
+        if (ficha == null){
+            salida = true;
+        }
+        return  salida;
     }
 }
