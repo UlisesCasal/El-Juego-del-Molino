@@ -60,6 +60,7 @@ public class Partida implements Observable {
                      this.notificar(Eventos.SACARFICHA);
                  }else{
                      this.turno = !this.turno; //Cambio de turno si no tiene que sacar una ficha
+                     this.notificar(Eventos.CAMBIODETURNO);
                  }
             }
         }if ((jugador.getNumeroFichasRestante() == 0)) { //Si tiene 0 fichas entonces notifico
@@ -93,6 +94,7 @@ public class Partida implements Observable {
         } else if (resultadoSacar) {
             this.turno = !this.turno; //Solo si saco la ficha cambia el turno
             this.notificar(Eventos.FICHASACADA);
+            this.notificar(Eventos.CAMBIODETURNO); //VERIFICAR SI ESTA POSICION ESTA BIEN
 
         } else if (!resultadoSacar) {
             this.notificar(Eventos.NOSACADA);

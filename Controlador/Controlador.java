@@ -48,6 +48,13 @@ public class Controlador implements Observador {
             if (evento == Eventos.INICIARPARTIDA){
                 this.vista.cambiarEstado(EstadosVista.INGRESARFICHA);
             }
+            if (evento == Eventos.CAMBIODETURNO){
+                Jugador jugadorTurno = this.modelo.darTurno();
+                if (jugadorTurno.getNumero() != this.jugador.getNumero()){
+                    this.vista.cambiarEstado(EstadosVista.BLOQUEADA);
+                    
+                }
+            }
             if ((evento == Eventos.FICHAAGREGADA) || (evento == Eventos.FICHAMOVIDA) || (evento == Eventos.FICHASACADA)){
                 this.vista.actualizarTablero();
                 this.vista.cambiarEstado(EstadosVista.INGRESARFICHA);
