@@ -12,7 +12,7 @@ __Comisión:__ Luján.
 __Año:__ 2022.
 
 
-### HOLA MUNDO ;)! *Este es mi repositorio del juego:*
+### HOLA MUNDO 😉! *Este es mi repositorio del juego:*
 ![imagen juego del molino](https://www.ajedrezeureka.com/wp-content/uploads/2021/04/juego-del-molino-nueve-hombres-de-morris-libro-de-los-juegos.jpg)
 
 
