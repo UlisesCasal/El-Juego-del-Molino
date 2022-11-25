@@ -18,4 +18,6 @@ public interface IVista {
     void mostrarErrores(Errores errores);
     void mostrarMoverFicha1fase();
     void mostrarMoverFicha2fase();
+
+    void mostrarPantallaEspera();
 }

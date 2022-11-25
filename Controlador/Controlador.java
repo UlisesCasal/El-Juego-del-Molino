@@ -1,21 +1,21 @@
 package Controlador;
 
-import Clases.Eventos;
-import Clases.Ficha;
-import Clases.Jugador;
-import Clases.Partida;
+import Modelo.Eventos;
+import Modelo.Ficha;
+import Modelo.Jugador;
+import Modelo.Partida;
 import Interaccion.Observable;
 import Interaccion.Observador;
 import Vistas.Errores;
 import Vistas.EstadosVista;
 import Vistas.IVista;
-import Vistas.VistaConsola;
 
 import java.util.Objects;
 
 public class Controlador implements Observador {
     private Partida modelo;
     private IVista vista;
+    private Jugador jugador;
     public Controlador(Partida partida, IVista vista){
         this.modelo = partida;
         this.vista = vista;
@@ -42,8 +42,15 @@ public class Controlador implements Observador {
     public void actualizar(Object evento, Observable observable) {
         //Metodo que evalua las llamadas del modelo, y en base a eso realiza o no una accion en la vista:
         if(evento instanceof Eventos) {
+            if (evento == Eventos.ESPERANDOJUGADORES){
+                this.vista.mostrarPantallaEspera();
+            }
+            if (evento == Eventos.INICIARPARTIDA){
+                this.vista.cambiarEstado(EstadosVista.INGRESARFICHA);
+            }
             if ((evento == Eventos.FICHAAGREGADA) || (evento == Eventos.FICHAMOVIDA) || (evento == Eventos.FICHASACADA)){
                 this.vista.actualizarTablero();
+                this.vista.cambiarEstado(EstadosVista.INGRESARFICHA);
             }if (evento == Eventos.FINPARTIDA) {
                 this.vista.mostrarPuntajesFinales();
             }
@@ -53,6 +60,8 @@ public class Controlador implements Observador {
                 this.vista.mostrarErrores(Errores.NOSEPUDOSACARFICHA);
             }if (evento == Eventos.FICHANOMOVIDA){
                 this.vista.mostrarErrores(Errores.NOSEPUDOMOVERFICHA);
+            }if (evento == Eventos.SINFICHASPARAAGREGAR){
+                this.vista.cambiarEstado(EstadosVista.MOVERFICHA);
             }
 
         }
@@ -73,9 +82,11 @@ public class Controlador implements Observador {
         return salida;
     }
 
-    public void agregarJugadoresDePrueba() {
-        this.modelo.setJugador("Pepe");
-        this.modelo.setJugador("Pepe2");
+    public void setJugador(String nombre) {
+        this.modelo.setJugador(nombre);
+        jugador = this.modelo.getUltimoJugadorAgregado();
+        this.modelo.iniciarPartida();
+
     }
 
     public boolean verificarFicha(int t, int f, int c) {
@@ -102,5 +113,9 @@ public class Controlador implements Observador {
 
     public String getTurno() {
         return this.modelo.darTurno().getNombre();
+    }
+
+    public String getNombreJugador() {
+        return this.jugador.getNombre();
     }
 }

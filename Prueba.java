@@ -1,7 +1,5 @@
-import Clases.Jugador;
-import Clases.Partida;
+import Modelo.Partida;
 import Controlador.Controlador;
-import Vistas.VistaConsola;
 import Vistas.VistaConsolaSwing.VConsola;
 
 import javax.swing.*;
@@ -13,11 +11,14 @@ public class Prueba {
             @Override
             public void run() {
                 JFrame frame = new VConsola();
+                JFrame frame2 = new VConsola();
                 frame.setSize(500,500);
                 frame.setVisible(true);
+                frame2.setSize(500,500);
+                frame2.setVisible(true);
                 Partida modelo = new Partida();
-                Controlador controlador = new Controlador(modelo, (VConsola) frame);
-                controlador.agregarJugadoresDePrueba();
+                Controlador controlador1 = new Controlador(modelo, (VConsola) frame);
+                Controlador controlador2 = new Controlador(modelo, (VConsola) frame2);
 
             }
         });

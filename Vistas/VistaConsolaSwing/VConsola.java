@@ -1,6 +1,5 @@
 package Vistas.VistaConsolaSwing;
 
-import Clases.Ficha;
 import Controlador.Controlador;
 import Vistas.Errores;
 import Vistas.EstadosVista;
@@ -46,6 +45,12 @@ public class VConsola extends JFrame implements IVista {
             @Override
             public void actionPerformed(ActionEvent e) {
                 switch (estadoActual){
+                    case INGRESONOMBRE:{
+                        registrarJugador();
+                    }
+                    case ESPERANDOCONEXION:{
+                        mostrarPantallaEspera();
+                    }
                     case INGRESARFICHA: {
                         mostrarTurno();
                         println("Ingrese la posición de la ficha que quiere ingresar: ");
@@ -55,7 +60,7 @@ public class VConsola extends JFrame implements IVista {
                     case SACARFICHA:{
                         mostrarTurno();
                         mostrarSacarFicha();
-                        cambiarEstado(MOVERFICHA);
+                        //cambiarEstado(MOVERFICHA);
                         break;
                     }
                     case MOVERFICHA:{
@@ -70,6 +75,15 @@ public class VConsola extends JFrame implements IVista {
                 }
             }
         });
+    }
+
+    private void registrarJugador() {
+        String nombre = textoInput.getText().trim();
+        if (nombre != null){
+            this.controlador.setJugador(nombre);
+        }else{
+            println("Por favor ingrese un nombre válido...");
+        }
     }
 
 
@@ -99,7 +113,7 @@ public class VConsola extends JFrame implements IVista {
          */
         println("Bienvenido al juego del Molino!!!");
         println("Para iniciar ingrese su nombre: ");
-        cambiarEstado(ESPERANDOCONEXION);
+        cambiarEstado(INGRESONOMBRE);
     }
 
     @Override
@@ -229,6 +243,8 @@ public class VConsola extends JFrame implements IVista {
     public void cambiarEstado(EstadosVista estado) {
         this.estadoActual = estado;
         switch (this.estadoActual) {
+            case INGRESONOMBRE -> println("Por favor ingrese su nombre: ");
+            case INGRESARFICHA -> println("Ingrese la ficha que quiere agregar: ");
             case SACARFICHA -> println("Ingrese la posicion de la ficha a eliminar: ");
             case MOVERFICHA -> println("Ingrese la ficha a mover: ");
             case MOVERFICHA2DAFASE -> println("Ingrese la posicion a mover la ficha: ");
@@ -331,5 +347,12 @@ public class VConsola extends JFrame implements IVista {
         }else {
             println("Por favor ingrese una posicion a mover valida: ");
         }
+    }
+
+    @Override
+    public void mostrarPantallaEspera() {
+        limpiarConsola();
+        println("Bienvenido " + this.controlador.getNombreJugador() + "al Juego del Molino");
+        println("                                    Esperando la conexión de un nuevo jugador...");
     }
 }

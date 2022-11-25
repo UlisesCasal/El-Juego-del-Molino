@@ -1,4 +1,7 @@
-package Clases;
+package Modelo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Jugador {
     private String nombre;
@@ -8,14 +11,15 @@ public class Jugador {
     private int puntaje;
     private int numero;
     private int numeroPuestas = 0;//Sacar
+    private List<Molino> molinos = new ArrayList<Molino>();
 
     public Jugador(String nombre, int numero){
         this.nombre = nombre;
-        this.fichasNoPuestas = new Ficha[20];
+        this.fichasNoPuestas = new Ficha[9];
         inicializarFichas();
         this.puntaje = 0;
         this.numero = numero;
-        this.fichasTotales = 20;
+        this.fichasTotales = 9;
     }
 
     private void inicializarFichas(){
@@ -108,7 +112,7 @@ public class Jugador {
         //Metodo que le setea una posicion a las fichas, en la primera ejecucion crea el arreglo de fichas puestas
 
         if (this.fichasPuestas == null){
-            this.fichasPuestas = new Ficha[20];
+            this.fichasPuestas = new Ficha[9];
         }
         ficha.setPosicion(posicion);
         this.fichasPuestas[numeroPuestas] = ficha;
@@ -117,5 +121,36 @@ public class Jugador {
 
     public String getNombre() {
         return this.nombre;
+    }
+
+    public void agregarMolino(Molino molino){
+        molinos.add(molino);
+    }
+
+    public boolean perteneceAMolino(Ficha ficha){
+        int i = 0;
+        boolean salida = false;
+        while(i < molinos.size()){
+            if (molinos.get(i).pertenece(ficha)){
+                salida = true;
+            }
+            i++;
+        }
+        return salida;
+    }
+
+    public void eliminarMolino(Ficha ficha) {
+        int i = 0;
+        //VERIFICAR SI FUNCIONA CORRECTAMENTE:
+        while (i < molinos.size()){
+            if (molinos.get(i).pertenece(ficha)){
+                molinos.remove(i);
+            }
+            i++;
+        }
+    }
+
+    public int getNumeroFichasRestante() {
+        return 9 - numeroPuestas;
     }
 }

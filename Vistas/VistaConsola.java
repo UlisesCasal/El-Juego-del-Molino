@@ -27,6 +27,10 @@ public class VistaConsola implements IVista{
 
     }
 
+    @Override
+    public void mostrarPantallaEspera() {
+
+    }
 
 
     private Controlador controlador;

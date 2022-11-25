@@ -1,4 +1,4 @@
-package Clases;
+package Modelo;
 
 public class Ficha {
     private int[] posicion = null; //se setea en null hasta que se le asigne una posicion
