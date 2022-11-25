@@ -84,7 +84,7 @@ public class Controlador implements Observador {
 
     public void setJugador(String nombre) {
         this.modelo.setJugador(nombre);
-        jugador = this.modelo.getUltimoJugadorAgregado();
+        this.jugador = this.modelo.getUltimoJugadorAgregado();
         this.modelo.iniciarPartida();
 
     }

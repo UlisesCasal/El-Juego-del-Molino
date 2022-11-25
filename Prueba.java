@@ -19,6 +19,8 @@ public class Prueba {
                 Partida modelo = new Partida();
                 Controlador controlador1 = new Controlador(modelo, (VConsola) frame);
                 Controlador controlador2 = new Controlador(modelo, (VConsola) frame2);
+                ((VConsola) frame).iniciar();
+                ((VConsola) frame2).iniciar();
 
             }
         });

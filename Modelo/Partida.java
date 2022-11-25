@@ -23,8 +23,6 @@ public class Partida implements Observable {
         //Metodo que verifica si hay dos jugadores conectados, en caso de haberlo inicia la partida:
         if (jugadores.size() == 2){
             this.notificar(Eventos.INICIARPARTIDA);
-        }else {
-            this.notificar(Eventos.ESPERANDOJUGADORES);
         }
     }
     public void setJugador(String nombre){
@@ -166,6 +164,6 @@ public class Partida implements Observable {
     }
 
     public Jugador getUltimoJugadorAgregado() {
-        return jugadores.get(jugadores.size()); //verificar si no se va de rango
+        return jugadores.get(jugadores.size() - 1); //verificar si no se va de rango
     }
 }

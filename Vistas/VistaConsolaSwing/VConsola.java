@@ -47,9 +47,11 @@ public class VConsola extends JFrame implements IVista {
                 switch (estadoActual){
                     case INGRESONOMBRE:{
                         registrarJugador();
+                        break;
                     }
                     case ESPERANDOCONEXION:{
                         mostrarPantallaEspera();
+                        break;
                     }
                     case INGRESARFICHA: {
                         mostrarTurno();
@@ -81,6 +83,7 @@ public class VConsola extends JFrame implements IVista {
         String nombre = textoInput.getText().trim();
         if (nombre != null){
             this.controlador.setJugador(nombre);
+            cambiarEstado(ESPERANDOCONEXION);
         }else{
             println("Por favor ingrese un nombre válido...");
         }
@@ -243,6 +246,7 @@ public class VConsola extends JFrame implements IVista {
     public void cambiarEstado(EstadosVista estado) {
         this.estadoActual = estado;
         switch (this.estadoActual) {
+            case ESPERANDOCONEXION -> mostrarPantallaEspera();
             case INGRESONOMBRE -> println("Por favor ingrese su nombre: ");
             case INGRESARFICHA -> println("Ingrese la ficha que quiere agregar: ");
             case SACARFICHA -> println("Ingrese la posicion de la ficha a eliminar: ");
@@ -352,7 +356,7 @@ public class VConsola extends JFrame implements IVista {
     @Override
     public void mostrarPantallaEspera() {
         limpiarConsola();
-        println("Bienvenido " + this.controlador.getNombreJugador() + "al Juego del Molino");
-        println("                                    Esperando la conexión de un nuevo jugador...");
+        println("   Bienvenido " + this.controlador.getNombreJugador() + " al Juego del Molino");
+        println("   Esperando la conexión de un nuevo jugador...");
     }
 }
