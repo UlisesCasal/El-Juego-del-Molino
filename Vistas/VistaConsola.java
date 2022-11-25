@@ -18,9 +18,16 @@ public class VistaConsola implements IVista{
     }
 
     @Override
-    public void mostrarMoverFicha() {
+    public void mostrarMoverFicha1fase() {
 
     }
+
+    @Override
+    public void mostrarMoverFicha2fase() {
+
+    }
+
+
 
     private Controlador controlador;
 

@@ -52,7 +52,8 @@ public class Jugador {
             }
             i ++;
         }
-        Ficha[] fichasPuestas = new Ficha[fichasPuestasAux.length];
+        this.fichasPuestas = fichasPuestasAux;//da error
+        this.numeroPuestas ++;
         this.fichasTotales --;
     }
 
@@ -84,12 +85,15 @@ public class Jugador {
         Ficha salida = null;
         boolean terminar = false;
         int i = 0;
-        while((!terminar) && (i < fichasPuestas.length) && (fichasPuestas[i] != null)){
-            posicionFichaActual = fichasPuestas[i].getPosicion();
-            if (fichasPuestas[i] == null){break;}
-            if ((posicionFichaActual[0] == t) && (posicionFichaActual[1] == f) && (posicionFichaActual[2] == c)){
-                salida = fichasPuestas[i];
-                terminar = true;
+        int contadorFichasPuestas = 0;
+        while((!terminar) && (i < fichasPuestas.length) && (contadorFichasPuestas < this.numeroPuestas)){
+            if (fichasPuestas[i] != null) {
+                contadorFichasPuestas ++;
+                posicionFichaActual = fichasPuestas[i].getPosicion();
+                if ((posicionFichaActual[0] == t) && (posicionFichaActual[1] == f) && (posicionFichaActual[2] == c)) {
+                    salida = fichasPuestas[i];
+                    terminar = true;
+                }
             }
             i++;
         }
@@ -109,5 +113,9 @@ public class Jugador {
         ficha.setPosicion(posicion);
         this.fichasPuestas[numeroPuestas] = ficha;
         this.numeroPuestas++;
+    }
+
+    public String getNombre() {
+        return this.nombre;
     }
 }

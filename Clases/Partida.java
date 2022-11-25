@@ -25,10 +25,8 @@ public class Partida implements Observable {
 
     public Jugador darTurno(){
         if (this.turno == true) {
-            this.turno = false;
             return jugadores.get(0);
         }else if (this.turno == false){
-            this.turno = true;
             return jugadores.get(1);
         }
         return null;
@@ -64,8 +62,23 @@ public class Partida implements Observable {
     }
 
     public void sacarFicha(Ficha ficha){
-        Boolean resultadoSacar = this.tablero.sacarFicha(ficha, getTurnoActual());
-
+        boolean resultadoSacar = false;
+        if (ficha != null) {
+            Jugador duenioFicha = ficha.getJugador();
+            resultadoSacar = this.tablero.sacarFicha(ficha, darTurno());
+            if (((boolean) resultadoSacar)) {
+                switch (duenioFicha.getNumero()) {
+                    case 0 -> {
+                        jugadores.get(0).sacarFicha(ficha);
+                        break;
+                    }
+                    case 1 -> {
+                        jugadores.get(1).sacarFicha(ficha);
+                        break;
+                    }
+                }
+            }
+        }
         //Debo llamar a termino la partida cada vez que se saca una ficha, para verificar si alguno puede seguir jugando o no.
         if (terminoLaPartida()){
             //INFORMO QUE LA PARTIDA SE HA TERMINADO Y MUESTRO GANADOR:
@@ -77,6 +90,7 @@ public class Partida implements Observable {
             this.notificar(Eventos.NOSACADA);
 
         }
+        this.turno = !this.turno;
     }
 
     public void moverFichas(Ficha ficha, int tmover, int fmover, int cmover, Jugador jugador){
@@ -84,6 +98,7 @@ public class Partida implements Observable {
             this.notificar(Eventos.FICHAMOVIDA);
         }else{
             this.notificar(Eventos.FICHANOMOVIDA);
+            this.turno = !this.turno;
         }
     }
 
@@ -102,13 +117,6 @@ public class Partida implements Observable {
         return salida;
     }
 
-    public Jugador getTurnoActual(){
-        Jugador jugador;
-        if (this.turno){jugador = jugadores.get(0);}
-        else {jugador = jugadores.get(1);}
-
-        return jugador;
-    }
 
     @Override
     public void notificar(Object evento) {
@@ -138,7 +146,7 @@ public class Partida implements Observable {
         Ficha fichaSalida = null;
         if (fichaJugador1 != null){
             fichaSalida = fichaJugador1;
-        }else if (fichaJugador1 != null){
+        }else if (fichaJugador2 != null){
             fichaSalida = fichaJugador2;
         }
         return fichaSalida;

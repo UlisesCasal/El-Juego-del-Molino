@@ -417,7 +417,7 @@ public class Tablero {
             if ((tablero[ficha.getPosicion()[0]][ficha.getPosicion()[1]][ficha.getPosicion()[2]] != fichaNula) && (ficha.getJugador() != jugadorActual)) {
                 tablero[ficha.getPosicion()[0]][ficha.getPosicion()[1]][ficha.getPosicion()[2]] = fichaNula;
                 Jugador jugador = ficha.getJugador();
-                jugador.sacarFicha(ficha); //POSIBLEMENTE DEBA SACARLO
+                //jugador.sacarFicha(ficha); //POSIBLEMENTE DEBA SACARLO
                 salida = true;
             }
         }

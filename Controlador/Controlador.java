@@ -24,7 +24,7 @@ public class Controlador implements Observador {
     }
 
     public boolean ponerFicha(int t, int f, int c){
-        return this.modelo.ponerFicha(this.modelo.getTurnoActual(),t,f,c);
+        return this.modelo.ponerFicha(this.modelo.darTurno(),t,f,c);
     }
 
     public void sacarFicha(int t, int f, int c){
@@ -34,7 +34,7 @@ public class Controlador implements Observador {
     }
 
     public void moverFicha(int t, int f, int c, int tm, int fm, int cm){
-        this.modelo.moverFichas(this.modelo.getFicha(t,f,c), tm, fm, cm, this.modelo.getTurnoActual());
+        this.modelo.moverFichas(this.modelo.getFicha(t,f,c), tm, fm, cm, this.modelo.darTurno());
     }
 
 
@@ -84,7 +84,7 @@ public class Controlador implements Observador {
         Ficha ficha = this.modelo.getFicha(t,f,c);
         boolean salida = false;
         if (ficha != null) {
-            if (ficha.getJugador() != this.modelo.getTurnoActual()) {
+            if (ficha.getJugador() == this.modelo.darTurno()) {
                 salida = true;
             }
         }
@@ -98,5 +98,9 @@ public class Controlador implements Observador {
             salida = true;
         }
         return  salida;
+    }
+
+    public String getTurno() {
+        return this.modelo.darTurno().getNombre();
     }
 }
