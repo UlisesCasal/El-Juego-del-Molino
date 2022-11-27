@@ -145,4 +145,8 @@ public class Controlador implements Observador {
     public String getNombreJugador() {
         return this.jugador.getNombre();
     }
+
+    public String[] getNombreJugadores() {
+        return this.modelo.getNombreJugadores();
+    }
 }

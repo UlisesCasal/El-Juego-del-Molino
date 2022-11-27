@@ -583,4 +583,22 @@ public class Tablero {
         return salida;
 
     }
+
+    public boolean sinMovimientos(Jugador jugador) {
+        // METODO QUE ME DEVUELVE SI UN JUGADOR SE HA QUEDADO SIN MOVIMIENTO EN TODAS SUS FICHAS
+        //Probar si el metodo funciona correctamente
+        boolean salida = true;
+        int i = 0;
+        Ficha ficha;
+        Ficha[] fichas = jugador.getFichas();
+        while (i < fichas.length){
+            ficha = fichas[i];
+            if (moviPosibles(ficha).size() > 0){
+                salida = false;
+            }
+            i++;
+        }
+
+        return salida;
+    }
 }

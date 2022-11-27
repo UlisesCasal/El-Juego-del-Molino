@@ -97,7 +97,7 @@ public class Partida implements Observable {
         //Debo llamar a termino la partida cada vez que se saca una ficha, para verificar si alguno puede seguir jugando o no.
         if (terminoLaPartida()){
             //INFORMO QUE LA PARTIDA SE HA TERMINADO Y MUESTRO GANADOR:
-            this.notificar(Eventos.FINPARTIDA);
+            //this.notificar(Eventos.FINPARTIDA); //VER SI FUNCIONA ACA O SI CONVIENE PASARLO A EL METODO terminoLaPartida();
         } else if (resultadoSacar) {
             cambiarTurno(); //Solo si saco la ficha cambia el turno
             this.notificar(Eventos.FICHASACADA);
@@ -126,7 +126,10 @@ public class Partida implements Observable {
         //AGREGAR LA VERIFICACION DE MOVIMIENTOS, VIENDO SI TIENE ALGUNA FICHA QUE PUEDA MOVER:
         boolean salida = false;
         if ((jugadores.get(0).getFichasTotales() < 3) || (jugadores.get(1).getFichasTotales() < 3)){
-            salida = true;
+            if (this.tablero.sinMovimientos(jugadores.get(0)) || (this.tablero.sinMovimientos(jugadores.get(1)))) {
+                this.notificar(Eventos.FINPARTIDA);
+                salida = true;
+            }
         }
         return salida;
     }
@@ -187,5 +190,12 @@ public class Partida implements Observable {
             eventos = Eventos.FINPARTIDA;
         }
         return eventos;
+    }
+
+    public String[] getNombreJugadores() {
+        String[] salida = new String[2];
+        salida[0] = this.jugadores.get(0).getNombre();
+        salida[1] = this.jugadores.get(1).getNombre();
+        return salida;
     }
 }

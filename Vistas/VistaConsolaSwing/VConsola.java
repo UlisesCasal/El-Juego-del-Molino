@@ -131,6 +131,13 @@ public class VConsola extends JFrame implements IVista {
 
     @Override
     public void mostrarPuntajesFinales() {
+        String[] puntaje = this.controlador.getPuntajesFinales();
+        String[] nombreJugadores = this.controlador.getNombreJugadores();
+        println("===FIN DE PARTIDA===");
+        println("Los puntajes son: ");
+        println("- Jugador1 (" + nombreJugadores[0] + "): " + puntaje[0]);
+        println("- Jugador2 (" + nombreJugadores[1] + "): " + puntaje[0]);
+
 
     }
 

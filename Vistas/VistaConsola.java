@@ -255,4 +255,5 @@ public class VistaConsola implements IVista{
     public void mostrarTablero() {
         System.out.println(this.tablero);
     }
+
 }
