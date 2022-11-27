@@ -28,6 +28,11 @@ public class VistaConsola implements IVista{
     }
 
     @Override
+    public EstadosVista getEstadoVista() {
+        return null;
+    }
+
+    @Override
     public void mostrarPantallaEspera() {
 
     }

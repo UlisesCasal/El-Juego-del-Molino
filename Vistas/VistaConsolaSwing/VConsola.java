@@ -19,10 +19,10 @@ public class VConsola extends JFrame implements IVista {
     private JButton botonEnter;
     private Controlador controlador;
     private EstadosVista estadoActual = EstadosVista.INGRESARFICHA;
-    private String ultFichaIngre;
-    private String fichaEliminar;
+    private static String ultFichaIngre;
+    private static String fichaEliminar;
     private int[] ficha = new int[3]; //Verificar su integridad
-    private String tablero ="""
+    private static String tablero ="""
                                     
                     A1( )════════════A2( )════════════A3( )
                     ║ B1( )══════════B2( )══════════B3( ) ║
@@ -56,14 +56,12 @@ public class VConsola extends JFrame implements IVista {
                     }
                     case INGRESARFICHA: {
                         mostrarTurno();
-                        println("Ingrese la posición de la ficha que quiere ingresar: ");
                         ponerFicha();
                         break;
                     }
                     case SACARFICHA:{
                         mostrarTurno();
                         mostrarSacarFicha();
-                        //cambiarEstado(MOVERFICHA);
                         break;
                     }
                     case MOVERFICHA:{
@@ -82,8 +80,9 @@ public class VConsola extends JFrame implements IVista {
 
     private void registrarJugador() {
         String nombre = textoInput.getText().trim();
-        if (nombre != null){
+        if ((nombre != null) && (nombre != "")){
             this.controlador.setJugador(nombre);
+            textoInput.setText("");
             cambiarEstado(ESPERANDOCONEXION);
         }else{
             this.println("Por favor ingrese un nombre válido...");
@@ -247,8 +246,8 @@ public class VConsola extends JFrame implements IVista {
     public void cambiarEstado(EstadosVista estado) {
         this.estadoActual = estado;
         switch (this.estadoActual) {
+            case BLOQUEADA -> println("Espere su turno...");
             case ESPERANDOCONEXION -> mostrarPantallaEspera();
-            case INGRESONOMBRE -> this.println("Por favor ingrese su nombre: ");
             case INGRESARFICHA -> this.println("Ingrese la ficha que quiere agregar: ");
             case SACARFICHA -> this.println("Ingrese la posicion de la ficha a eliminar: ");
             case MOVERFICHA -> this.println("Ingrese la ficha a mover: ");
@@ -286,6 +285,7 @@ public class VConsola extends JFrame implements IVista {
     public void actualizarTablero() {
         String fichaPura;
         //Hace un reemplazo y procede a mostrar el tablero actualizado
+        limpiarConsola(); // VER SI CUANDO MUEVO NO MOLESTA
         if (ultFichaIngre != null){
             fichaPura = ultFichaIngre.substring(0,2);
             this.tablero = this.tablero.replaceAll(Pattern.quote(ultFichaIngre), fichaPura + this.controlador.getCharJugadorFicha());
@@ -359,5 +359,10 @@ public class VConsola extends JFrame implements IVista {
         limpiarConsola();
         this.println("   Bienvenido " + this.controlador.getNombreJugador() + " al Juego del Molino");
         this.println("   Esperando la conexión de un nuevo jugador...");
+    }
+
+    @Override
+    public EstadosVista getEstadoVista(){
+        return this.estadoActual;
     }
 }

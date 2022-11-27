@@ -38,31 +38,52 @@ public class Controlador implements Observador {
     }
 
 
+    public boolean vistaBloqueada() {
+        boolean salida = false;
+        if (vista.getEstadoVista() == EstadosVista.BLOQUEADA){
+            salida = true;
+        }
+        return salida;
+    }
+
+    public boolean cambiarEstadosVista(Eventos evento){
+        switch (evento){
+            case SACARFICHA -> this.vista.cambiarEstado(EstadosVista.SACARFICHA);
+            case FICHAAGREGADA -> this.vista.cambiarEstado(EstadosVista.INGRESARFICHA);
+            case SINFICHASPARAAGREGAR -> this.vista.cambiarEstado(EstadosVista.MOVERFICHA);
+        }
+        return true;
+    }
+
     @Override
     public void actualizar(Object evento, Observable observable) {
         //Metodo que evalua las llamadas del modelo, y en base a eso realiza o no una accion en la vista:
         if(evento instanceof Eventos) {
+            Jugador jugadorTurno = this.modelo.darTurno();
+
             if (evento == Eventos.ESPERANDOJUGADORES){
                 this.vista.mostrarPantallaEspera();
             }
             if (evento == Eventos.INICIARPARTIDA){
+                this.vista.mostrarTablero();
                 this.vista.cambiarEstado(EstadosVista.INGRESARFICHA);
             }
             if (evento == Eventos.CAMBIODETURNO){
-                Jugador jugadorTurno = this.modelo.darTurno();
                 if (jugadorTurno.getNumero() != this.jugador.getNumero()){
                     this.vista.cambiarEstado(EstadosVista.BLOQUEADA);
-                    
+                }else{
+                    cambiarEstadosVista(this.modelo.getEstadoJugador(this.jugador));
                 }
             }
             if ((evento == Eventos.FICHAAGREGADA) || (evento == Eventos.FICHAMOVIDA) || (evento == Eventos.FICHASACADA)){
                 this.vista.actualizarTablero();
-                this.vista.cambiarEstado(EstadosVista.INGRESARFICHA);
+
             }if (evento == Eventos.FINPARTIDA) {
                 this.vista.mostrarPuntajesFinales();
             }
             if (evento == Eventos.SACARFICHA){
-                this.vista.cambiarEstado(EstadosVista.SACARFICHA);
+                this.vista.actualizarTablero();
+
             }if (evento == Eventos.NOSACADA){
                 this.vista.mostrarErrores(Errores.NOSEPUDOSACARFICHA);
             }if (evento == Eventos.FICHANOMOVIDA){
@@ -70,9 +91,8 @@ public class Controlador implements Observador {
             }if (evento == Eventos.SINFICHASPARAAGREGAR){
                 this.vista.cambiarEstado(EstadosVista.MOVERFICHA);
             }
-
         }
-        }
+    }
 
     public String[] getPuntajesFinales() {
         String[] salida = new String[2];

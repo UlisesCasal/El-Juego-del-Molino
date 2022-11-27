@@ -9,7 +9,7 @@ import java.util.List;
 public class Partida implements Observable {
     private List<Jugador> jugadores = new ArrayList<Jugador>();
     private Tablero tablero;
-    private boolean turno; //True -> jugador1, False -> Jugador2
+    private int turno = 1; //True -> jugador1, False -> Jugador2
     private int numeroJugadores;
     private List<Observador>  observadores = new ArrayList<>();
 
@@ -30,9 +30,9 @@ public class Partida implements Observable {
     }
 
     public Jugador darTurno(){
-        if (this.turno == true) {
+        if (this.turno == 1) {
             return jugadores.get(0);
-        }else if (this.turno == false){
+        }else if (this.turno == 2){
             return jugadores.get(1);
         }
         return null;
@@ -49,7 +49,6 @@ public class Partida implements Observable {
                  jugador.setPosicionFicha(new int[]{t, f, c}, ficha);
                  ficha = jugador.getFicha(t,f,c);
                  salida = true;
-                 this.notificar(Eventos.FICHAAGREGADA);
                  if (this.tablero.verificarRaya(t,f,c,jugador, ficha)){
                      //Si me da true que hay una nueva raya:
                      //1. debo retirar alguna ficha del oponente:
@@ -59,14 +58,22 @@ public class Partida implements Observable {
                      jugador.incPuntaje();
                      this.notificar(Eventos.SACARFICHA);
                  }else{
-                     this.turno = !this.turno; //Cambio de turno si no tiene que sacar una ficha
-                     this.notificar(Eventos.CAMBIODETURNO);
+                     this.notificar(Eventos.FICHAAGREGADA);
+                     cambiarTurno();
                  }
             }
         }if ((jugador.getNumeroFichasRestante() == 0)) { //Si tiene 0 fichas entonces notifico
             this.notificar(Eventos.SINFICHASPARAAGREGAR);
         }
+
         return salida;
+    }
+
+    public void cambiarTurno(){
+        if (this.turno == 1)
+            this.turno ++;
+        else this.turno --;
+        this.notificar(Eventos.CAMBIODETURNO);
     }
 
     public void sacarFicha(Ficha ficha){
@@ -92,7 +99,7 @@ public class Partida implements Observable {
             //INFORMO QUE LA PARTIDA SE HA TERMINADO Y MUESTRO GANADOR:
             this.notificar(Eventos.FINPARTIDA);
         } else if (resultadoSacar) {
-            this.turno = !this.turno; //Solo si saco la ficha cambia el turno
+            cambiarTurno(); //Solo si saco la ficha cambia el turno
             this.notificar(Eventos.FICHASACADA);
             this.notificar(Eventos.CAMBIODETURNO); //VERIFICAR SI ESTA POSICION ESTA BIEN
 
@@ -108,9 +115,10 @@ public class Partida implements Observable {
             if (this.tablero.verificarRaya(tmover,fmover,cmover,jugador,ficha)){
                 this.notificar(Eventos.SACARFICHA);
             }
+            cambiarTurno();
         }else{
             this.notificar(Eventos.FICHANOMOVIDA);
-            this.turno = !this.turno;
+
         }
     }
 
@@ -145,7 +153,7 @@ public class Partida implements Observable {
 
     public String getTurnoAnterior() {
         String jugador;
-        if (this.turno){
+        if (this.turno == 1){
          jugador = String.valueOf(this.jugadores.get(1).getNumero());
         }else jugador = String.valueOf(this.jugadores.get(0).getNumero());
         return jugador;
@@ -167,5 +175,17 @@ public class Partida implements Observable {
 
     public Jugador getUltimoJugadorAgregado() {
         return jugadores.get(jugadores.size() - 1); //verificar si no se va de rango
+    }
+
+    public Eventos getEstadoJugador(Jugador jugador) {
+        Eventos eventos = null;
+        if (jugador.getNumeroFichasRestante() == 1){
+            eventos = Eventos.SINFICHASPARAAGREGAR;
+        } else if (jugador.getNumeroFichasRestante() > 1) {
+            eventos = Eventos.FICHAAGREGADA;
+        }else if (terminoLaPartida()){
+            eventos = Eventos.FINPARTIDA;
+        }
+        return eventos;
     }
 }

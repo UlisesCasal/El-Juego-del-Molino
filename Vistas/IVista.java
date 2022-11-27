@@ -20,4 +20,6 @@ public interface IVista {
     void mostrarMoverFicha2fase();
 
     void mostrarPantallaEspera();
+
+    EstadosVista getEstadoVista();
 }

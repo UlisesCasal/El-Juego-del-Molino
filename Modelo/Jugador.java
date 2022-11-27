@@ -15,11 +15,11 @@ public class Jugador {
 
     public Jugador(String nombre, int numero){
         this.nombre = nombre;
-        this.fichasNoPuestas = new Ficha[9];
+        this.fichasNoPuestas = new Ficha[2]; // CAMBIAR A 9 FICHAS
         inicializarFichas();
         this.puntaje = 0;
         this.numero = numero;
-        this.fichasTotales = 9;
+        this.fichasTotales = 2;
     }
 
     private void inicializarFichas(){
@@ -151,6 +151,7 @@ public class Jugador {
     }
 
     public int getNumeroFichasRestante() {
-        return 9 - numeroPuestas;
+        //Metodo que me devuelve la cantidad de fichas que le quedan por poner al jugador:
+        return 2 - numeroPuestas; //CORREGIR
     }
 }
