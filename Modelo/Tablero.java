@@ -62,7 +62,7 @@ public class Tablero {
         return posiciones;
     }
 
-    public List moviPosibles(Ficha ficha){
+    private List moviPosibles(Ficha ficha){
         int t = ficha.getPosicion()[0];
         int f = ficha.getPosicion()[1];
         int c = ficha.getPosicion()[2];
@@ -589,15 +589,23 @@ public class Tablero {
         //Probar si el metodo funciona correctamente
         boolean salida = true;
         int i = 0;
+        int contadorFichas = 0;
         Ficha ficha;
         Ficha[] fichas = jugador.getFichas();
-        while (i < fichas.length){
-            ficha = fichas[i];
-            if (moviPosibles(ficha).size() > 0){
-                salida = false;
+        if (fichas != null) { // dado que un jugador no puede tener fichas puestas.
+            while (i < fichas.length && salida) {
+                ficha = fichas[i];
+                if (ficha != null) {
+                    contadorFichas++;
+                    if (moviPosibles(ficha).size() > 0) {
+                        salida = false;
+                    }
+                }
+                i++;
             }
-            i++;
         }
+        if (contadorFichas < jugador.getNumeroFichasRestante())
+            salida = false;
 
         return salida;
     }

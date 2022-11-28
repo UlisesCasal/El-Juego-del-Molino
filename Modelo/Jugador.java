@@ -10,16 +10,16 @@ public class Jugador {
     private int fichasTotales;
     private int puntaje;
     private int numero;
-    private int numeroPuestas = 0;//Sacar
+    private int numeroPuestas = 0;
     private List<Molino> molinos = new ArrayList<Molino>();
 
     public Jugador(String nombre, int numero){
         this.nombre = nombre;
-        this.fichasNoPuestas = new Ficha[2]; // CAMBIAR A 9 FICHAS
+        this.fichasNoPuestas = new Ficha[4]; // CAMBIAR A 9 , DEBE SER SIEMPRE +1
         inicializarFichas();
         this.puntaje = 0;
         this.numero = numero;
-        this.fichasTotales = 2;
+        this.fichasTotales = 3;// cambiar
     }
 
     private void inicializarFichas(){
@@ -79,7 +79,7 @@ public class Jugador {
                 arrayFichasAux[i] = this.fichasNoPuestas[i];
             }
             this.fichasNoPuestas = arrayFichasAux;
-            this.fichasTotales --;
+            //this.fichasTotales --; VER SI ESTA BIEN SACARLO
         }
         return ficha;
     }
@@ -152,6 +152,6 @@ public class Jugador {
 
     public int getNumeroFichasRestante() {
         //Metodo que me devuelve la cantidad de fichas que le quedan por poner al jugador:
-        return 2 - numeroPuestas; //CORREGIR
+        return 3 - numeroPuestas; //CORREGIR
     }
 }

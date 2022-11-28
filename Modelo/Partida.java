@@ -6,10 +6,10 @@ import Interaccion.Observador;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Partida implements Observable {
+public class Partida implements Observable, IPartida {
     private List<Jugador> jugadores = new ArrayList<Jugador>();
     private Tablero tablero;
-    private int turno = 1; //True -> jugador1, False -> Jugador2
+    private int turno = 1;
     private int numeroJugadores;
     private List<Observador>  observadores = new ArrayList<>();
 
@@ -19,16 +19,19 @@ public class Partida implements Observable {
         boolean turno = true;
     }
 
+    @Override
     public void iniciarPartida(){
         //Metodo que verifica si hay dos jugadores conectados, en caso de haberlo inicia la partida:
         if (jugadores.size() == 2){
             this.notificar(Eventos.INICIARPARTIDA);
         }
     }
+    @Override
     public void setJugador(String nombre){
         jugadores.add(new Jugador(nombre, this.numeroJugadores++ ));
     }
 
+    @Override
     public Jugador darTurno(){
         if (this.turno == 1) {
             return jugadores.get(0);
@@ -38,14 +41,17 @@ public class Partida implements Observable {
         return null;
     }
 
+    @Override
     public boolean ponerFicha(Jugador jugador, int t, int f, int c){
+        /* METODO QUE REALIZA LA INSERCION DE FICHA, TAMBIEN REVISA SI SE PRODUJO
+         UN MOLINO*/
         Ficha ficha = jugador.getFichaNoPuesta();
         boolean salida = false;
 
         //Corroboro que no sea nulo y tenga mas de una fich:
-        if ((jugador.getNumeroFichasRestante() >= 0) && (ficha != null)){
+        if ((jugador.getNumeroFichasRestante() >= 1) && (ficha != null)){
              if (this.tablero.agregarFicha(f,c,t,ficha,jugador)){
-                 //Si la pudo ingresar, pongo el flag en true, y verifico si se produjo una raya:
+                 //Si la pudo ingresar, pongo el flag en true, y verifico si se produjo un molino:
                  jugador.setPosicionFicha(new int[]{t, f, c}, ficha);
                  ficha = jugador.getFicha(t,f,c);
                  salida = true;
@@ -60,22 +66,26 @@ public class Partida implements Observable {
                  }else{
                      this.notificar(Eventos.FICHAAGREGADA);
                      cambiarTurno();
+                     terminoLaPartida();
                  }
             }
         }if ((jugador.getNumeroFichasRestante() == 0)) { //Si tiene 0 fichas entonces notifico
-            this.notificar(Eventos.SINFICHASPARAAGREGAR);
+            //this.notificar(Eventos.SINFICHASPARAAGREGAR);
+        }if (!salida){
+            this.notificar(Eventos.FICHANOAGREGADA);
         }
 
         return salida;
     }
 
-    public void cambiarTurno(){
+    private void cambiarTurno(){
         if (this.turno == 1)
             this.turno ++;
         else this.turno --;
         this.notificar(Eventos.CAMBIODETURNO);
     }
 
+    @Override
     public void sacarFicha(Ficha ficha){
         boolean resultadoSacar = false;
         if (ficha != null) {
@@ -95,13 +105,12 @@ public class Partida implements Observable {
             }
         }
         //Debo llamar a termino la partida cada vez que se saca una ficha, para verificar si alguno puede seguir jugando o no.
-        if (terminoLaPartida()){
+        terminoLaPartida(); //ANTES TENIA UN IF (TERMINOLAPARTIDA)
             //INFORMO QUE LA PARTIDA SE HA TERMINADO Y MUESTRO GANADOR:
             //this.notificar(Eventos.FINPARTIDA); //VER SI FUNCIONA ACA O SI CONVIENE PASARLO A EL METODO terminoLaPartida();
-        } else if (resultadoSacar) {
-            cambiarTurno(); //Solo si saco la ficha cambia el turno
+        if (resultadoSacar) {
             this.notificar(Eventos.FICHASACADA);
-            this.notificar(Eventos.CAMBIODETURNO); //VERIFICAR SI ESTA POSICION ESTA BIEN
+            cambiarTurno(); //Solo si saco la ficha cambia el turno
 
         } else if (!resultadoSacar) {
             this.notificar(Eventos.NOSACADA);
@@ -109,24 +118,32 @@ public class Partida implements Observable {
         }
     }
 
+    @Override
     public void moverFichas(Ficha ficha, int tmover, int fmover, int cmover, Jugador jugador){
+        Jugador jugadorActual;
         if (this.tablero.moverFichas(ficha,tmover,fmover,cmover,jugador)){
             this.notificar(Eventos.FICHAMOVIDA);
             if (this.tablero.verificarRaya(tmover,fmover,cmover,jugador,ficha)){
                 this.notificar(Eventos.SACARFICHA);
+                jugador.incPuntaje();
+            }else{
+                cambiarTurno();
             }
-            cambiarTurno();
+            terminoLaPartida(); //VER SI ANDA
+
         }else{
             this.notificar(Eventos.FICHANOMOVIDA);
 
         }
     }
 
-    public boolean terminoLaPartida(){
-        //AGREGAR LA VERIFICACION DE MOVIMIENTOS, VIENDO SI TIENE ALGUNA FICHA QUE PUEDA MOVER:
+    private boolean terminoLaPartida(){
+        /* METODO QUE VERIFICA SI LA PARTIDA TERMINO, TENIENDO EN CUENTA SI ALGUN JUGADOR NO POSEE
+        MAS FICHAS O ALGUNO NO POSEE MAS MOVIMIENTOS EN TODAS SUS FICHAS PUESTAS EN EL TABLERO
+         */
         boolean salida = false;
-        if ((jugadores.get(0).getFichasTotales() < 3) || (jugadores.get(1).getFichasTotales() < 3)){
-            if (this.tablero.sinMovimientos(jugadores.get(0)) || (this.tablero.sinMovimientos(jugadores.get(1)))) {
+        if (jugadores.get(0).getNumeroFichasRestante() <= 0 && jugadores.get(1).getNumeroFichasRestante() <= 0) {
+            if ((jugadores.get(0).getFichasTotales() < 3) || (jugadores.get(1).getFichasTotales() < 3) || (this.tablero.sinMovimientos(jugadores.get(0)) || (this.tablero.sinMovimientos(jugadores.get(1))))) {
                 this.notificar(Eventos.FINPARTIDA);
                 salida = true;
             }
@@ -134,6 +151,7 @@ public class Partida implements Observable {
         return salida;
     }
 
+    @Override
     public int[] getPuntajes(){
         int[] salida = new int[2];
         salida[0] = jugadores.get(0).getPuntaje();
@@ -154,6 +172,7 @@ public class Partida implements Observable {
         this.observadores.add(observador);
     }
 
+    @Override
     public String getTurnoAnterior() {
         String jugador;
         if (this.turno == 1){
@@ -162,6 +181,7 @@ public class Partida implements Observable {
         return jugador;
     }
 
+    @Override
     public Ficha getFicha(int t, int f, int c){
         Jugador jugador1 = jugadores.get(0);
         Jugador jugador2 = jugadores.get(1);
@@ -176,15 +196,19 @@ public class Partida implements Observable {
         return fichaSalida;
     }
 
+    @Override
     public Jugador getUltimoJugadorAgregado() {
         return jugadores.get(jugadores.size() - 1); //verificar si no se va de rango
     }
 
+    @Override
     public Eventos getEstadoJugador(Jugador jugador) {
+        //METODO QUE DEVUELVE EL ESTADO DEL JUGADOR DEPENDE EL NUMERO DE FICHAS O SI TERMINO LA PARTIDA
+
         Eventos eventos = null;
-        if (jugador.getNumeroFichasRestante() == 1){
+        if (jugador.getNumeroFichasRestante() == 0){ //VERIFICANDO
             eventos = Eventos.SINFICHASPARAAGREGAR;
-        } else if (jugador.getNumeroFichasRestante() > 1) {
+        } else if (jugador.getNumeroFichasRestante() > 0) {// VERIFICANDO
             eventos = Eventos.FICHAAGREGADA;
         }else if (terminoLaPartida()){
             eventos = Eventos.FINPARTIDA;
@@ -192,6 +216,7 @@ public class Partida implements Observable {
         return eventos;
     }
 
+    @Override
     public String[] getNombreJugadores() {
         String[] salida = new String[2];
         salida[0] = this.jugadores.get(0).getNombre();

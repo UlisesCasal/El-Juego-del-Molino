@@ -8,6 +8,7 @@ import Vistas.IVista;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import static Vistas.EstadosVista.*;
@@ -21,7 +22,7 @@ public class VConsola extends JFrame implements IVista {
     private EstadosVista estadoActual = EstadosVista.INGRESARFICHA;
     private static String ultFichaIngre;
     private static String fichaEliminar;
-    private int[] ficha = new int[3]; //Verificar su integridad
+    private int[] ficha = new int[3];
     private static String tablero ="""
                                     
                     A1( )════════════A2( )════════════A3( )
@@ -55,22 +56,18 @@ public class VConsola extends JFrame implements IVista {
                         break;
                     }
                     case INGRESARFICHA: {
-                        mostrarTurno();
                         ponerFicha();
                         break;
                     }
                     case SACARFICHA:{
-                        mostrarTurno();
                         mostrarSacarFicha();
                         break;
                     }
                     case MOVERFICHA:{
-                        mostrarTurno();
                         mostrarMoverFicha1fase();
                         break;
                     }
                     case MOVERFICHA2DAFASE:{
-                        mostrarTurno();
                         mostrarMoverFicha2fase();
                     }
                 }
@@ -87,11 +84,6 @@ public class VConsola extends JFrame implements IVista {
         }else{
             this.println("Por favor ingrese un nombre válido...");
         }
-    }
-
-
-    public void mostrarTurno(){
-        this.println("Es el turno de: " + this.controlador.getTurno());
     }
 
     public void println(String texto) {
@@ -136,7 +128,7 @@ public class VConsola extends JFrame implements IVista {
         println("===FIN DE PARTIDA===");
         println("Los puntajes son: ");
         println("- Jugador1 (" + nombreJugadores[0] + "): " + puntaje[0]);
-        println("- Jugador2 (" + nombreJugadores[1] + "): " + puntaje[0]);
+        println("- Jugador2 (" + nombreJugadores[1] + "): " + puntaje[1]);
 
 
     }
@@ -144,7 +136,6 @@ public class VConsola extends JFrame implements IVista {
     @Override
     public int[] traductor(String posicionSimbolica) {
         //Metodo que traduce una posicion simbolica una efectiva.
-        //VER SI SE LO PUEDO PASAR AL CONTROLADOR:
         int[] salida = new int[]{-1,-1,-1};
         switch (posicionSimbolica) {
             case "A1" -> {
@@ -265,9 +256,16 @@ public class VConsola extends JFrame implements IVista {
     @Override
     public void mostrarErrores(Errores errores) {
         if (errores == Errores.NOSEPUDOSACARFICHA){
+            limpiarConsola();
             mostrarTablero();
             this.println("LA FICHA INGRESADA NO SE HA PODIDO ELIMINAR..." + "\n" +
                     "Por favor ingrese una posicion válida");
+        }if (errores == Errores.NOSEPUDOAGREGARFICHA){ // VER SI ANDA
+            println("La posicion ingresada es inválida, vuelva a intentarlo...");
+            cambiarEstado(INGRESARFICHA); // VER SI ANDA
+        }if (errores == Errores.NOSEPUDOMOVERFICHA){
+            println("No se pudo mover la ficha, vuelva a intentarlo...");
+            cambiarEstado(MOVERFICHA); // VER SI ANDA
         }
     }
 
@@ -278,14 +276,17 @@ public class VConsola extends JFrame implements IVista {
            3- informo si se elimino de manera adecuada.
            4- muestro tablero actualizado.
          */
-        //TENER EN CUENTA EL JUGADOR QUE EJECUTA DICHA PETICION:
         String ficha = textoInput.getText().toUpperCase();
         int[] posicion = traductor(ficha);
-        this.ultFichaIngre = null; //Asigno nulo asi cuando actualizo no me agrega otro char
-        this.fichaEliminar = this.tablero.substring(this.tablero.indexOf(ficha), this.tablero.indexOf(ficha) + 5);
-        this.controlador.sacarFicha(posicion[0], posicion[1], posicion[2]);
-        //QUEDA SACAR EL CHAR DEL JUGADOR
+        if (posicion[0] != -1) {
+            this.ultFichaIngre = null; //Asigno nulo asi cuando actualizo no me agrega otro char
+            this.fichaEliminar = this.tablero.substring(this.tablero.indexOf(ficha), this.tablero.indexOf(ficha) + 5);
+            this.controlador.sacarFicha(posicion[0], posicion[1], posicion[2]);
+            //QUEDA SACAR EL CHAR DEL JUGADOR
+        }else{
+            cambiarEstado(SACARFICHA);
 
+        }
     }
 
     @Override
@@ -314,15 +315,13 @@ public class VConsola extends JFrame implements IVista {
           4- informo si se pudo insertar de manera adecuado
           5- muestro tablero actualizado.
          */
-        //VER SI FUNCIONA LA RECURSIVIDAD:
-        //mostrarTablero();
-         //corregir y ponerlo en el action del boton
         String ficha = textoInput.getText().toUpperCase().trim();
         boolean salida = false;
         int[] posicion = traductor(ficha);
-        ultFichaIngre = ficha + "( )"; //Guardo la ultima ficha ingresada por si me da un evento de que se ingreso con exito, procedo a hacer el cambio
-        this.controlador.ponerFicha(posicion[0], posicion[1], posicion[2]);
-
+        if (posicion[0] != -1) {
+            ultFichaIngre = ficha + "( )"; //Guardo la ultima ficha ingresada por si me da un evento de que se ingreso con exito, procedo a hacer el cambio
+            this.controlador.ponerFicha(posicion[0], posicion[1], posicion[2]);
+        }else {cambiarEstado(INGRESARFICHA);}
 
     }
 
@@ -335,15 +334,21 @@ public class VConsola extends JFrame implements IVista {
          */
         String fichaAMover = textoInput.getText().toUpperCase().trim();
         int[] posicionFicha = traductor(fichaAMover);
-        boolean valido = this.controlador.verificarFicha(posicionFicha[0], posicionFicha[1], posicionFicha[2]);
-        textoInput.setText("");
-        if (valido) {
-            fichaEliminar = fichaAMover;
-            fichaEliminar = tablero.substring(tablero.indexOf(fichaEliminar), tablero.indexOf(fichaEliminar) + 5);//La guardo ya que la debere eliminar
-            limpiarConsola();
-            mostrarTablero();
-            ficha = posicionFicha;
-            cambiarEstado(MOVERFICHA2DAFASE);
+        if (posicionFicha[0] != -1) {
+            boolean valido = this.controlador.verificarFicha(posicionFicha[0], posicionFicha[1], posicionFicha[2]);
+            textoInput.setText("");
+            if (valido) {
+                fichaEliminar = fichaAMover;
+                fichaEliminar = tablero.substring(tablero.indexOf(fichaEliminar), tablero.indexOf(fichaEliminar) + 5);//La guardo ya que la debere eliminar
+                limpiarConsola();
+                mostrarTablero();
+                ficha = posicionFicha;
+                cambiarEstado(MOVERFICHA2DAFASE);
+            }else{
+                mostrarErrores(Errores.NOSEPUDOMOVERFICHA);
+            }
+        }else{
+            cambiarEstado(MOVERFICHA);
         }
     }
 
@@ -351,13 +356,17 @@ public class VConsola extends JFrame implements IVista {
     public void mostrarMoverFicha2fase() {
         String fichaAMover = textoInput.getText().toUpperCase().trim();
         int[] posicionFichaMover = traductor(fichaAMover);
-        boolean valido = this.controlador.verificarPosicionVacia(posicionFichaMover[0], posicionFichaMover[1], posicionFichaMover[2]);
-        textoInput.setText("");
-        if (valido){
-            ultFichaIngre = fichaAMover + "( )";
-            this.controlador.moverFicha(ficha[0], ficha[1], ficha[2], posicionFichaMover[0], posicionFichaMover[1], posicionFichaMover[2]);
+        if (posicionFichaMover[0] != -1) {
+            boolean valido = this.controlador.verificarPosicionVacia(posicionFichaMover[0], posicionFichaMover[1], posicionFichaMover[2]);
+            textoInput.setText("");
+            if (valido) {
+                ultFichaIngre = fichaAMover + "( )";
+                this.controlador.moverFicha(ficha[0], ficha[1], ficha[2], posicionFichaMover[0], posicionFichaMover[1], posicionFichaMover[2]);
+            } else {
+                this.println("Por favor ingrese una posicion a mover valida: ");
+            }
         }else {
-            this.println("Por favor ingrese una posicion a mover valida: ");
+            cambiarEstado(MOVERFICHA2DAFASE);
         }
     }
 

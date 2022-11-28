@@ -1,9 +1,6 @@
 package Controlador;
 
-import Modelo.Eventos;
-import Modelo.Ficha;
-import Modelo.Jugador;
-import Modelo.Partida;
+import Modelo.*;
 import Interaccion.Observable;
 import Interaccion.Observador;
 import Vistas.Errores;
@@ -13,7 +10,7 @@ import Vistas.IVista;
 import java.util.Objects;
 
 public class Controlador implements Observador {
-    private Partida modelo;
+    private IPartida modelo;
     private IVista vista;
     private Jugador jugador;
     public Controlador(Partida partida, IVista vista){
@@ -35,15 +32,6 @@ public class Controlador implements Observador {
 
     public void moverFicha(int t, int f, int c, int tm, int fm, int cm){
         this.modelo.moverFichas(this.modelo.getFicha(t,f,c), tm, fm, cm, this.modelo.darTurno());
-    }
-
-
-    public boolean vistaBloqueada() {
-        boolean salida = false;
-        if (vista.getEstadoVista() == EstadosVista.BLOQUEADA){
-            salida = true;
-        }
-        return salida;
     }
 
     public boolean cambiarEstadosVista(Eventos evento){
@@ -83,15 +71,31 @@ public class Controlador implements Observador {
             }
             if (evento == Eventos.SACARFICHA){
                 this.vista.actualizarTablero();
+                if (this.jugador.getNumero() == jugadorTurno.getNumero()){
+                    cambiarEstadosVista(Eventos.SACARFICHA);
+                }
 
             }if (evento == Eventos.NOSACADA){
-                this.vista.mostrarErrores(Errores.NOSEPUDOSACARFICHA);
+                if (esJugadorActual()) {
+                    this.vista.mostrarErrores(Errores.NOSEPUDOSACARFICHA);
+                }
             }if (evento == Eventos.FICHANOMOVIDA){
-                this.vista.mostrarErrores(Errores.NOSEPUDOMOVERFICHA);
+                if (esJugadorActual()) {
+                    this.vista.mostrarErrores(Errores.NOSEPUDOMOVERFICHA);
+                }
             }if (evento == Eventos.SINFICHASPARAAGREGAR){
                 this.vista.cambiarEstado(EstadosVista.MOVERFICHA);
+            }if (evento == Eventos.FICHANOAGREGADA){
+                if (esJugadorActual()) {
+                    this.vista.mostrarErrores(Errores.NOSEPUDOAGREGARFICHA);
+                }
             }
         }
+    }
+
+    public boolean esJugadorActual(){
+        Jugador jugadorTurno = this.modelo.darTurno();
+        return this.jugador.getNumero() == jugadorTurno.getNumero();
     }
 
     public String[] getPuntajesFinales() {
@@ -117,7 +121,6 @@ public class Controlador implements Observador {
     }
 
     public boolean verificarFicha(int t, int f, int c) {
-        //Verificar la integridad de tener este Ficha importado en el controlador
         //verifica si la ficha es nula y si no lo es verifica si es del oponente:
         Ficha ficha = this.modelo.getFicha(t,f,c);
         boolean salida = false;
@@ -125,6 +128,8 @@ public class Controlador implements Observador {
             if (ficha.getJugador() == this.modelo.darTurno()) {
                 salida = true;
             }
+        }else {
+            this.vista.mostrarErrores(Errores.NOSEPUDOMOVERFICHA);
         }
         return salida;
     }
