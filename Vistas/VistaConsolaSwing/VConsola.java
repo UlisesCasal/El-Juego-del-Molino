@@ -276,7 +276,7 @@ public class VConsola extends JFrame implements IVista {
            3- informo si se elimino de manera adecuada.
            4- muestro tablero actualizado.
          */
-        String ficha = textoInput.getText().toUpperCase();
+        String ficha = textoInput.getText().toUpperCase().trim();
         int[] posicion = traductor(ficha);
         if (posicion[0] != -1) {
             this.ultFichaIngre = null; //Asigno nulo asi cuando actualizo no me agrega otro char
