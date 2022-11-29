@@ -567,10 +567,10 @@ public class Tablero {
         return raya;
     }
 
-    public Boolean sacarFicha(Ficha ficha, Jugador jugadorActual){
-        Boolean salida = false;
+    public boolean sacarFicha(Ficha ficha, Jugador jugadorActual){
+        boolean salida = false;
         if (ficha != null) {
-            if (!ficha.getJugador().perteneceAMolino(ficha)) { //si no pertenece a un molino se saca
+            if (!ficha.getJugador().perteneceAMolino(ficha) && (ficha.getJugador() != jugadorActual)) { //si no pertenece a un molino se saca
                 //Saco la ficha del tablero, y luego se la saco al jugador:
                 if ((tablero[ficha.getPosicion()[0]][ficha.getPosicion()[1]][ficha.getPosicion()[2]] != fichaNula) && (ficha.getJugador() != jugadorActual)) {
                     tablero[ficha.getPosicion()[0]][ficha.getPosicion()[1]][ficha.getPosicion()[2]] = fichaNula;

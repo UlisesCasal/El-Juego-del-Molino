@@ -71,7 +71,8 @@ public class Jugador {
 
     public Ficha getFichaNoPuesta(){
         Ficha ficha = null;
-        if (fichasTotales >= 1) {
+        //VERIFICAR SI ESTO FUNCIONA EL MAYOR A CERO
+        if ((fichasTotales >= 1) && (this.fichasNoPuestas.length-1 >= 0)) {
             //Saco la ficha de la ultima posicion siempre:
             ficha = this.fichasNoPuestas[this.fichasNoPuestas.length-1];
             Ficha[] arrayFichasAux = new Ficha[this.fichasNoPuestas.length - 1];
@@ -168,7 +169,7 @@ public class Jugador {
 
     public int getNumeroFichasRestante() {
         //Metodo que me devuelve la cantidad de fichas que le quedan por poner al jugador:
-        return 9 - (numeroPuestas - 1); //CORREGIR EL MENOS 1 EN CASO QUE NO FUNCIONE, PARECE QUE NO VA NUMERO PUESTAS
+        return 9 - (numeroPuestas); //CORREGIR EL MENOS 1 EN CASO QUE NO FUNCIONE, PARECE QUE NO VA NUMERO PUESTAS
                                         // YA QUE ESTE CUENTA LA CANTIDAD DE FICHAS QUE PUSE, Y NO RESTA SI LAS SACO
     }
 }

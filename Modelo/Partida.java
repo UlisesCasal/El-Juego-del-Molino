@@ -91,7 +91,7 @@ public class Partida implements Observable, IPartida {
         if (ficha != null) {
             Jugador duenioFicha = ficha.getJugador();
             resultadoSacar = this.tablero.sacarFicha(ficha, darTurno());
-            if (((boolean) resultadoSacar)) {
+            if (resultadoSacar) {
                 switch (duenioFicha.getNumero()) {
                     case 0 -> {
                         jugadores.get(0).sacarFicha(ficha);
