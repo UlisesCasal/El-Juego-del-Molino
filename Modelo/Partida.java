@@ -137,18 +137,16 @@ public class Partida implements Observable, IPartida {
         }
     }
 
-    private boolean terminoLaPartida(){
+    private void terminoLaPartida(){
         /* METODO QUE VERIFICA SI LA PARTIDA TERMINO, TENIENDO EN CUENTA SI ALGUN JUGADOR NO POSEE
         MAS FICHAS O ALGUNO NO POSEE MAS MOVIMIENTOS EN TODAS SUS FICHAS PUESTAS EN EL TABLERO
          */
-        boolean salida = false;
         if (jugadores.get(0).getNumeroFichasRestante() <= 0 && jugadores.get(1).getNumeroFichasRestante() <= 0) {
             if ((jugadores.get(0).getFichasTotales() < 3) || (jugadores.get(1).getFichasTotales() < 3) || (this.tablero.sinMovimientos(jugadores.get(0)) || (this.tablero.sinMovimientos(jugadores.get(1))))) {
                 this.notificar(Eventos.FINPARTIDA);
-                salida = true;
             }
         }
-        return salida;
+
     }
 
     @Override
@@ -206,12 +204,13 @@ public class Partida implements Observable, IPartida {
         //METODO QUE DEVUELVE EL ESTADO DEL JUGADOR DEPENDE EL NUMERO DE FICHAS O SI TERMINO LA PARTIDA
 
         Eventos eventos = null;
-        if (jugador.getNumeroFichasRestante() == 0){ //VERIFICANDO
+        if (jugador.getNumeroFichasRestante() == 0){
             eventos = Eventos.SINFICHASPARAAGREGAR;
-        } else if (jugador.getNumeroFichasRestante() > 0) {// VERIFICANDO
+        } else if (jugador.getNumeroFichasRestante() > 0) {
             eventos = Eventos.FICHAAGREGADA;
-        }else if (terminoLaPartida()){
-            eventos = Eventos.FINPARTIDA;
+        }else{
+            System.out.println("Error de cantidad menor a 3"); //SACAR
+            terminoLaPartida();
         }
         return eventos;
     }

@@ -15,11 +15,11 @@ public class Jugador {
 
     public Jugador(String nombre, int numero){
         this.nombre = nombre;
-        this.fichasNoPuestas = new Ficha[4]; // CAMBIAR A 9 , DEBE SER SIEMPRE +1
+        this.fichasNoPuestas = new Ficha[10]; // CAMBIAR A 9 , DEBE SER SIEMPRE +1
         inicializarFichas();
         this.puntaje = 0;
         this.numero = numero;
-        this.fichasTotales = 3;// cambiar
+        this.fichasTotales = 9;// cambiar
     }
 
     private void inicializarFichas(){
@@ -57,7 +57,7 @@ public class Jugador {
             i ++;
         }
         this.fichasPuestas = fichasPuestasAux;//da error
-        this.numeroPuestas ++;
+        //this.numeroPuestas ++; DA ERROR
         this.fichasTotales --;
     }
 
@@ -112,9 +112,25 @@ public class Jugador {
         //Metodo que le setea una posicion a las fichas, en la primera ejecucion crea el arreglo de fichas puestas
 
         if (this.fichasPuestas == null){
-            this.fichasPuestas = new Ficha[9];
+            this.fichasPuestas = new Ficha[10];
         }
         ficha.setPosicion(posicion);
+        //En algunos casos cuando se elimina una ficha, y luego se ingresa una, el arreglo debe crecer:
+        if ((this.fichasPuestas.length) <= this.numeroPuestas + 1){
+            Ficha[] arregloAuxiliar = new Ficha[this.numeroPuestas + 1];
+            int i = 0;
+            while (i < this.fichasPuestas.length){
+                arregloAuxiliar[i] = this.fichasPuestas[i];
+                i ++;
+            }
+            this.fichasPuestas = arregloAuxiliar;
+        }
+        //SACAR=======================================
+        System.out.println("Jugador" + getNombre());
+        int auxiliar = this.numeroPuestas + 1;
+        System.out.println("numero puestas: " + auxiliar);
+        System.out.println("El arreglo de puestas tiene longitud: " + this.fichasPuestas.length);
+        //=========================================
         this.fichasPuestas[numeroPuestas] = ficha;
         this.numeroPuestas++;
     }
@@ -152,6 +168,7 @@ public class Jugador {
 
     public int getNumeroFichasRestante() {
         //Metodo que me devuelve la cantidad de fichas que le quedan por poner al jugador:
-        return 3 - numeroPuestas; //CORREGIR
+        return 9 - (numeroPuestas - 1); //CORREGIR EL MENOS 1 EN CASO QUE NO FUNCIONE, PARECE QUE NO VA NUMERO PUESTAS
+                                        // YA QUE ESTE CUENTA LA CANTIDAD DE FICHAS QUE PUSE, Y NO RESTA SI LAS SACO
     }
 }

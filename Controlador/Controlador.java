@@ -13,14 +13,14 @@ public class Controlador implements Observador {
     private IPartida modelo;
     private IVista vista;
     private Jugador jugador;
-    public Controlador(Partida partida, IVista vista){
+    public Controlador(IPartida partida, IVista vista){
         this.modelo = partida;
         this.vista = vista;
         this.vista.setControlador(this);
         this.modelo.agregarObservador(this);
     }
 
-    public boolean ponerFicha(int t, int f, int c){
+    public boolean ponerFicha(int t, int f, int c){ // Ver por que retorna un boolean
         return this.modelo.ponerFicha(this.modelo.darTurno(),t,f,c);
     }
 
@@ -34,7 +34,7 @@ public class Controlador implements Observador {
         this.modelo.moverFichas(this.modelo.getFicha(t,f,c), tm, fm, cm, this.modelo.darTurno());
     }
 
-    public boolean cambiarEstadosVista(Eventos evento){
+    public boolean cambiarEstadosVista(Eventos evento){ // ver si es necesario devolver un bool
         switch (evento){
             case SACARFICHA -> this.vista.cambiarEstado(EstadosVista.SACARFICHA);
             case FICHAAGREGADA -> this.vista.cambiarEstado(EstadosVista.INGRESARFICHA);
@@ -141,10 +141,6 @@ public class Controlador implements Observador {
             salida = true;
         }
         return  salida;
-    }
-
-    public String getTurno() {
-        return this.modelo.darTurno().getNombre();
     }
 
     public String getNombreJugador() {

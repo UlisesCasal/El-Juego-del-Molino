@@ -8,7 +8,6 @@ import Vistas.IVista;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 import static Vistas.EstadosVista.*;
@@ -86,15 +85,11 @@ public class VConsola extends JFrame implements IVista {
         }
     }
 
-    public void println(String texto) {
+    private void println(String texto) {
         this.consola.append(texto + "\n");
     }
 
-    public void println() {
-        println("");
-    }
-
-    public void limpiarConsola(){
+    private void limpiarConsola(){
         consola.setText("");
     }
 
@@ -246,10 +241,10 @@ public class VConsola extends JFrame implements IVista {
         switch (this.estadoActual) {
             case BLOQUEADA -> println("Espere su turno...");
             case ESPERANDOCONEXION -> mostrarPantallaEspera();
-            case INGRESARFICHA -> this.println("Ingrese la ficha que quiere agregar: ");
-            case SACARFICHA -> this.println("Ingrese la posicion de la ficha a eliminar: ");
-            case MOVERFICHA -> this.println("Ingrese la ficha a mover: ");
-            case MOVERFICHA2DAFASE -> this.println("Ingrese la posicion a mover la ficha: ");
+            case INGRESARFICHA -> this.println("Su ficha es: " + this.controlador.getCharJugadorFicha() + "\n" + "Ingrese la ficha que quiere agregar: ");
+            case SACARFICHA -> this.println("Su ficha es: " + this.controlador.getCharJugadorFicha() + "\n" + "Ingrese la posicion de la ficha a eliminar: ");
+            case MOVERFICHA -> this.println("Su ficha es: " + this.controlador.getCharJugadorFicha() + "\n" + "Ingrese la ficha a mover: ");
+            case MOVERFICHA2DAFASE -> this.println("Su ficha es: " + this.controlador.getCharJugadorFicha() + "\n" + "Ingrese la posicion a mover la ficha: ");
         }
     }
 
@@ -363,10 +358,11 @@ public class VConsola extends JFrame implements IVista {
                 ultFichaIngre = fichaAMover + "( )";
                 this.controlador.moverFicha(ficha[0], ficha[1], ficha[2], posicionFichaMover[0], posicionFichaMover[1], posicionFichaMover[2]);
             } else {
-                this.println("Por favor ingrese una posicion a mover valida: ");
+                cambiarEstado(MOVERFICHA);
+                //this.println("Por favor ingrese una posicion a mover valida: ");
             }
         }else {
-            cambiarEstado(MOVERFICHA2DAFASE);
+            cambiarEstado(MOVERFICHA);
         }
     }
 
@@ -377,8 +373,4 @@ public class VConsola extends JFrame implements IVista {
         this.println("   Esperando la conexión de un nuevo jugador...");
     }
 
-    @Override
-    public EstadosVista getEstadoVista(){
-        return this.estadoActual;
-    }
 }
