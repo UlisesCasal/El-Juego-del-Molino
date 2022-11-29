@@ -40,6 +40,10 @@ public class Jugador {
         return fichasTotales;
     }
 
+    public int getNumeroPuestas(){
+        return this.numeroPuestas;
+    }
+
     public void sacarFicha(Ficha ficha){
         /* Metodo que permite sacar una ficha, creo un array auxiliar
         donde le cargo todas las fichas menos la que hay que sacar.
@@ -57,7 +61,6 @@ public class Jugador {
             i ++;
         }
         this.fichasPuestas = fichasPuestasAux;//da error
-        //this.numeroPuestas ++; DA ERROR
         this.fichasTotales --;
     }
 
@@ -80,7 +83,7 @@ public class Jugador {
                 arrayFichasAux[i] = this.fichasNoPuestas[i];
             }
             this.fichasNoPuestas = arrayFichasAux;
-            //this.fichasTotales --; VER SI ESTA BIEN SACARLO
+
         }
         return ficha;
     }
@@ -169,7 +172,6 @@ public class Jugador {
 
     public int getNumeroFichasRestante() {
         //Metodo que me devuelve la cantidad de fichas que le quedan por poner al jugador:
-        return 9 - (numeroPuestas); //CORREGIR EL MENOS 1 EN CASO QUE NO FUNCIONE, PARECE QUE NO VA NUMERO PUESTAS
-                                        // YA QUE ESTE CUENTA LA CANTIDAD DE FICHAS QUE PUSE, Y NO RESTA SI LAS SACO
+        return 9 - (numeroPuestas); //Ver si cambiarlo por 9
     }
 }

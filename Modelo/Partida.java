@@ -105,16 +105,17 @@ public class Partida implements Observable, IPartida {
             }
         }
         //Debo llamar a termino la partida cada vez que se saca una ficha, para verificar si alguno puede seguir jugando o no.
-        terminoLaPartida(); //ANTES TENIA UN IF (TERMINOLAPARTIDA)
+        if (!terminoLaPartida()) { //ANTES TENIA UN IF (TERMINOLAPARTIDA)
             //INFORMO QUE LA PARTIDA SE HA TERMINADO Y MUESTRO GANADOR:
             //this.notificar(Eventos.FINPARTIDA); //VER SI FUNCIONA ACA O SI CONVIENE PASARLO A EL METODO terminoLaPartida();
-        if (resultadoSacar) {
-            this.notificar(Eventos.FICHASACADA);
-            cambiarTurno(); //Solo si saco la ficha cambia el turno
+            if (resultadoSacar) {
+                this.notificar(Eventos.FICHASACADA);
+                cambiarTurno(); //Solo si saco la ficha cambia el turno
 
-        } else if (!resultadoSacar) {
-            this.notificar(Eventos.NOSACADA);
+            } else if (!resultadoSacar) {
+                this.notificar(Eventos.NOSACADA);
 
+            }
         }
     }
 
@@ -137,16 +138,18 @@ public class Partida implements Observable, IPartida {
         }
     }
 
-    private void terminoLaPartida(){
+    private boolean terminoLaPartida(){
         /* METODO QUE VERIFICA SI LA PARTIDA TERMINO, TENIENDO EN CUENTA SI ALGUN JUGADOR NO POSEE
         MAS FICHAS O ALGUNO NO POSEE MAS MOVIMIENTOS EN TODAS SUS FICHAS PUESTAS EN EL TABLERO
          */
-        if (jugadores.get(0).getNumeroFichasRestante() <= 0 && jugadores.get(1).getNumeroFichasRestante() <= 0) {
+        boolean salida = false;
+        if (jugadores.get(0).getNumeroPuestas() == 9 && jugadores.get(1).getNumeroPuestas() == 9) {
             if ((jugadores.get(0).getFichasTotales() < 3) || (jugadores.get(1).getFichasTotales() < 3) || (this.tablero.sinMovimientos(jugadores.get(0)) || (this.tablero.sinMovimientos(jugadores.get(1))))) {
                 this.notificar(Eventos.FINPARTIDA);
+                salida = true;
             }
         }
-
+        return salida;
     }
 
     @Override

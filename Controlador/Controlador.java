@@ -39,6 +39,7 @@ public class Controlador implements Observador {
             case SACARFICHA -> this.vista.cambiarEstado(EstadosVista.SACARFICHA);
             case FICHAAGREGADA -> this.vista.cambiarEstado(EstadosVista.INGRESARFICHA);
             case SINFICHASPARAAGREGAR -> this.vista.cambiarEstado(EstadosVista.MOVERFICHA);
+            case FINPARTIDA -> this.vista.mostrarPuntajesFinales();
         }
         return true;
     }
@@ -67,7 +68,7 @@ public class Controlador implements Observador {
                 this.vista.actualizarTablero();
 
             }if (evento == Eventos.FINPARTIDA) {
-                this.vista.mostrarPuntajesFinales();
+                cambiarEstadosVista(Eventos.FINPARTIDA);
             }
             if (evento == Eventos.SACARFICHA){
                 this.vista.actualizarTablero();
