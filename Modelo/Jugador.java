@@ -116,12 +116,12 @@ public class Jugador {
         //Metodo que le setea una posicion a las fichas, en la primera ejecucion crea el arreglo de fichas puestas
 
         if (this.fichasPuestas == null){
-            this.fichasPuestas = new Ficha[10];
+            this.fichasPuestas = new Ficha[20]; //Lo sobredimensiono
         }
         ficha.setPosicion(posicion);
         //En algunos casos cuando se elimina una ficha, y luego se ingresa una, el arreglo debe crecer:
         if ((this.fichasPuestas.length) <= this.numeroPuestas + 1){
-            Ficha[] arregloAuxiliar = new Ficha[this.numeroPuestas + 1];
+            Ficha[] arregloAuxiliar = new Ficha[this.numeroPuestas + 3]; //POSIBLE CAUSANTE DE ERROR
             int i = 0;
             while (i < this.fichasPuestas.length){
                 arregloAuxiliar[i] = this.fichasPuestas[i];
@@ -129,12 +129,6 @@ public class Jugador {
             }
             this.fichasPuestas = arregloAuxiliar;
         }
-        //SACAR=======================================
-        System.out.println("Jugador" + getNombre());
-        int auxiliar = this.numeroPuestas + 1;
-        System.out.println("numero puestas: " + auxiliar);
-        System.out.println("El arreglo de puestas tiene longitud: " + this.fichasPuestas.length);
-        //=========================================
         this.fichasPuestas[numeroPuestas] = ficha;
         this.numeroPuestas++;
     }

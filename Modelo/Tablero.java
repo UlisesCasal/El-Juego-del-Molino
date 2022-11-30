@@ -48,7 +48,6 @@ public class Tablero {
                 //agregar molino ;)
             }
             i ++;
-
         }
         //PROBAR QUE RETORNA BIEN
         return encontro;
@@ -574,8 +573,6 @@ public class Tablero {
                 //Saco la ficha del tablero, y luego se la saco al jugador:
                 if ((tablero[ficha.getPosicion()[0]][ficha.getPosicion()[1]][ficha.getPosicion()[2]] != fichaNula) && (ficha.getJugador() != jugadorActual)) {
                     tablero[ficha.getPosicion()[0]][ficha.getPosicion()[1]][ficha.getPosicion()[2]] = fichaNula;
-                    Jugador jugador = ficha.getJugador();
-                    //jugador.sacarFicha(ficha); //POSIBLEMENTE DEBA SACARLO
                     salida = true;
                 }
             }
