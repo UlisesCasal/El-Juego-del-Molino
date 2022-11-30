@@ -25,7 +25,7 @@ Es un juego muy antiguo cuyo origen exacto no está claro. Hay evidencia arqueol
 
 
 ### __Tablero y fichas:__
-El Molino es un juego para 2 personas y consta de un tablero y 18 fichas, 9 por jugador. El tablero está compuesto por tres cuadrados superpuestos hacia dentro en menor tamaño, unidos por líneas verticales y horizontales en sus extremos y medios, formado intersecciones resaltadas, donde se ubicarán las fichas.
+El Molino es un juego para 2 personas y consta de un tablero y 18 fichas, 9 por jugador. El tablero está compuesto por tres cuadrados superpuestos hacia dentro en menor tamaño, unidos por líneas verticales y horizontales en sus extremos y medios, formando así intersecciones resaltadas, donde se ubicarán las fichas.
 
 
 ### __Objetivo del juego:__
@@ -39,9 +39,10 @@ __1.__ Cada jugador ubica sus fichas en el tablero, una en cada turno.
 
 * Si un jugador logra poner 3 de sus fichas en línea (vertical u horizontal), siguiendo las líneas marcadas en el tablero habrá creado un Molino. Entonces, puede quitar del tablero cualquier ficha del oponente, excepto las que estén en el Molino también.
 
-__2.__ Luego de colocar todas las fichas, cada jugador elige una de ellas para desplazarla o deslizarla a una intersección adyacente. 
-* Solo puede realizar el movimiento si dicha intersección está libre. Además, es obligatorio mover. La idea es que dichos desplazamientos permitan crear nuevas alineaciones de 3, los Molinos, para así ir venciendo poco a poco al oponente quitandole sus fichas.
-* El juego termina cuando uno de los jugadores no puede realizar más movimientos o queda con dos fichas.
+__2.__ Luego de colocar todas las fichas, cada jugador elige una de ellas para desplazarla o deslizarla hacia una intersección adyacente. 
+* Solo puede realizar el movimiento si dicha intersección está libre. La idea es que dichos desplazamientos permitan crear nuevas alineaciones de 3, los Molinos, para así ir venciendo poco a poco al oponente quitandole sus fichas.
+* El juego termina cuando uno de los jugadores no puede realizar más movimientos o queda con menos de tres fichas.
 
+ __ACLARACION!!! El dibujo del tablero en la interfaz de consola puede verse afectado por las dimensiones del monitor/pantalla que utilice. Dicho juego fue desarrollado en un monitor con una tamaño de 16:9.__
 
 __GRACIAS POR HABER VISITADO MI REPOSITORIO👨🏻‍💻!!!.__
