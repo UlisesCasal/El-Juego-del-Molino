@@ -43,6 +43,6 @@ __2.__ Luego de colocar todas las fichas, cada jugador elige una de ellas para d
 * Solo puede realizar el movimiento si dicha intersección está libre. La idea es que dichos desplazamientos permitan crear nuevas alineaciones de 3, los Molinos, para así ir venciendo poco a poco al oponente quitandole sus fichas.
 * El juego termina cuando uno de los jugadores no puede realizar más movimientos o queda con menos de tres fichas.
 
- __ACLARACION!!! El dibujo del tablero en la interfaz de consola puede verse afectado por las dimensiones del monitor/pantalla que utilice. Dicho juego fue desarrollado en un monitor con una tamaño de 16:9.__
+ __ACLARACION!!!⚠️⚠️⚠️. El dibujo del tablero en la interfaz de consola puede verse afectado por las dimensiones del monitor/pantalla que utilice. Dicho juego fue desarrollado en un monitor con una tamaño de 16:9.__
 
 __GRACIAS POR HABER VISITADO MI REPOSITORIO👨🏻‍💻!!!.__
