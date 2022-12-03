@@ -25,7 +25,7 @@
             <constraints/>
             <properties>
               <editable value="false"/>
-              <font name="JetBrains Mono"/>
+              <font name="Consolas"/>
               <text value=""/>
             </properties>
           </component>
@@ -39,7 +39,7 @@
           <forms defaultalign-horz="false"/>
         </constraints>
         <properties>
-          <font name="JetBrains Mono"/>
+          <font name="Consolas"/>
         </properties>
       </component>
       <component id="1f73e" class="javax.swing.JButton" binding="botonEnter">

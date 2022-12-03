@@ -168,4 +168,26 @@ public class Jugador {
         //Metodo que me devuelve la cantidad de fichas que le quedan por poner al jugador:
         return 9 - (numeroPuestas); //Ver si cambiarlo por 9
     }
+
+    public boolean verificarFichasEliminables(){
+        /*
+        Metodo que se fija si el jugador tiene fichas eliminables
+         */
+        boolean salida = false;
+        int i = 0;
+        Ficha ficha;
+
+        while (i < fichasPuestas.length){
+            ficha = fichasPuestas[i];
+
+            if (ficha != null){
+                // Si hay una ficha que no pertenezca al molino significa que hay fichas eliminables.
+                if (!perteneceAMolino(ficha)){
+                    salida = true;
+                }
+            }
+            i++;
+        }
+        return salida;
+    }
 }

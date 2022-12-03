@@ -88,26 +88,38 @@ public class Partida implements Observable, IPartida {
     @Override
     public void sacarFicha(Ficha ficha){
         boolean resultadoSacar = false;
+        //Primero me fijo si el jugador contrario tiene fichas a eliminar
+        Jugador jugadorContrario;
+        if (darTurno() == jugadores.get(0)){
+            jugadorContrario = jugadores.get(1);
+        }else{
+            jugadorContrario = jugadores.get(0);
+        }
+
         if (ficha != null) {
-            Jugador duenioFicha = ficha.getJugador();
-            resultadoSacar = this.tablero.sacarFicha(ficha, darTurno());
-            if (resultadoSacar) {
-                switch (duenioFicha.getNumero()) {
-                    case 0 -> {
-                        jugadores.get(0).sacarFicha(ficha);
-                        break;
-                    }
-                    case 1 -> {
-                        jugadores.get(1).sacarFicha(ficha);
-                        break;
+            if ((jugadorContrario.verificarFichasEliminables())) {
+                Jugador duenioFicha = ficha.getJugador();
+                resultadoSacar = this.tablero.sacarFicha(ficha, darTurno());
+                if (resultadoSacar) {
+                    switch (duenioFicha.getNumero()) {
+                        case 0 -> {
+                            jugadores.get(0).sacarFicha(ficha);
+                            break;
+                        }
+                        case 1 -> {
+                            jugadores.get(1).sacarFicha(ficha);
+                            break;
+                        }
                     }
                 }
             }
+            else{
+                cambiarTurno(); //Si el jugador contrario no tiene fichas eliminables cambio de turno y salgo
+                return;         // del metodo
+            }
         }
         //Debo llamar a termino la partida cada vez que se saca una ficha, para verificar si alguno puede seguir jugando o no.
-        if (!terminoLaPartida()) { //ANTES TENIA UN IF (TERMINOLAPARTIDA)
-            //INFORMO QUE LA PARTIDA SE HA TERMINADO Y MUESTRO GANADOR:
-            //this.notificar(Eventos.FINPARTIDA); //VER SI FUNCIONA ACA O SI CONVIENE PASARLO A EL METODO terminoLaPartida();
+        if (!terminoLaPartida()) {
             if (resultadoSacar) {
                 this.notificar(Eventos.FICHASACADA);
                 cambiarTurno(); //Solo si saco la ficha cambia el turno
