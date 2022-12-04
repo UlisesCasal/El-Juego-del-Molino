@@ -1,6 +1,8 @@
 package Modelo;
 
-public class Ficha {
+import java.io.Serializable;
+
+public class Ficha implements Serializable {
     private int[] posicion = null; //se setea en null hasta que se le asigne una posicion
     private Jugador jugador;
 

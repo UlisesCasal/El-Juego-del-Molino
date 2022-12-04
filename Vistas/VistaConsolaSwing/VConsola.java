@@ -8,6 +8,7 @@ import Vistas.IVista;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 import java.util.regex.Pattern;
 
 import static Vistas.EstadosVista.*;
@@ -47,7 +48,11 @@ public class VConsola extends JFrame implements IVista {
 
                 switch (estadoActual){
                     case INGRESONOMBRE:{
-                        registrarJugador();
+                        try {
+                            registrarJugador();
+                        } catch (RemoteException ex) {
+                            throw new RuntimeException(ex);
+                        }
                         break;
                     }
                     case ESPERANDOCONEXION:{
@@ -74,7 +79,7 @@ public class VConsola extends JFrame implements IVista {
         });
     }
 
-    private void registrarJugador() {
+    private void registrarJugador() throws RemoteException {
         String nombre = textoInput.getText().trim();
         if ((nombre != null) && (nombre != "")){
             this.controlador.setJugador(nombre);

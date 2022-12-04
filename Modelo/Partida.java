@@ -2,16 +2,19 @@ package Modelo;
 
 import Interaccion.Observable;
 import Interaccion.Observador;
+import ar.edu.unlu.rmimvc.observer.ObservableRemoto;
 
+import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Partida implements Observable, IPartida {
+public class Partida extends ObservableRemoto implements IPartida, Serializable {
     private List<Jugador> jugadores = new ArrayList<Jugador>();
     private Tablero tablero;
     private int turno = 1;
     private int numeroJugadores;
-    private List<Observador>  observadores = new ArrayList<>();
+    //private List<Observador>  observadores = new ArrayList<>();
 
     public Partida(){
         tablero = new Tablero();
@@ -20,19 +23,19 @@ public class Partida implements Observable, IPartida {
     }
 
     @Override
-    public void iniciarPartida(){
+    public void iniciarPartida() throws RemoteException {
         //Metodo que verifica si hay dos jugadores conectados, en caso de haberlo inicia la partida:
         if (jugadores.size() == 2){
-            this.notificar(Eventos.INICIARPARTIDA);
+            notificarObservadores(Eventos.INICIARPARTIDA);
         }
     }
     @Override
-    public void setJugador(String nombre){
+    public void setJugador(String nombre) throws RemoteException{
         jugadores.add(new Jugador(nombre, this.numeroJugadores++ ));
     }
 
     @Override
-    public Jugador darTurno(){
+    public Jugador darTurno() throws RemoteException{
         if (this.turno == 1) {
             return jugadores.get(0);
         }else if (this.turno == 2){
@@ -42,7 +45,7 @@ public class Partida implements Observable, IPartida {
     }
 
     @Override
-    public boolean ponerFicha(Jugador jugador, int t, int f, int c){
+    public boolean ponerFicha(Jugador jugador, int t, int f, int c) throws RemoteException {
         /* METODO QUE REALIZA LA INSERCION DE FICHA, TAMBIEN REVISA SI SE PRODUJO
          UN MOLINO*/
         Ficha ficha = jugador.getFichaNoPuesta();
@@ -62,9 +65,9 @@ public class Partida implements Observable, IPartida {
                      //3. debo incrementar el puntaje del jugador
                      //DEBERE NOTIFICAR DE LO SUCEDIDO:
                      jugador.incPuntaje();
-                     this.notificar(Eventos.SACARFICHA);
+                     notificarObservadores(Eventos.SACARFICHA);
                  }else{
-                     this.notificar(Eventos.FICHAAGREGADA);
+                     notificarObservadores(Eventos.FICHAAGREGADA);
                      cambiarTurno();
                      terminoLaPartida();
                  }
@@ -72,21 +75,21 @@ public class Partida implements Observable, IPartida {
         }if ((jugador.getNumeroFichasRestante() == 0)) { //Si tiene 0 fichas entonces notifico
             //this.notificar(Eventos.SINFICHASPARAAGREGAR);
         }if (!salida){
-            this.notificar(Eventos.FICHANOAGREGADA);
+            notificarObservadores(Eventos.FICHANOAGREGADA);
         }
 
         return salida;
     }
 
-    private void cambiarTurno(){
+    private void cambiarTurno() throws RemoteException {
         if (this.turno == 1)
             this.turno ++;
         else this.turno --;
-        this.notificar(Eventos.CAMBIODETURNO);
+        notificarObservadores(Eventos.CAMBIODETURNO);
     }
 
     @Override
-    public void sacarFicha(Ficha ficha){
+    public void sacarFicha(Ficha ficha) throws RemoteException {
         boolean resultadoSacar = false;
         //Primero me fijo si el jugador contrario tiene fichas a eliminar
         Jugador jugadorContrario;
@@ -121,23 +124,23 @@ public class Partida implements Observable, IPartida {
         //Debo llamar a termino la partida cada vez que se saca una ficha, para verificar si alguno puede seguir jugando o no.
         if (!terminoLaPartida()) {
             if (resultadoSacar) {
-                this.notificar(Eventos.FICHASACADA);
+                notificarObservadores(Eventos.FICHASACADA);
                 cambiarTurno(); //Solo si saco la ficha cambia el turno
 
             } else if (!resultadoSacar) {
-                this.notificar(Eventos.NOSACADA);
+                notificarObservadores(Eventos.NOSACADA);
 
             }
         }
     }
 
     @Override
-    public void moverFichas(Ficha ficha, int tmover, int fmover, int cmover, Jugador jugador){
+    public void moverFichas(Ficha ficha, int tmover, int fmover, int cmover, Jugador jugador) throws RemoteException {
         Jugador jugadorActual;
         if (this.tablero.moverFichas(ficha,tmover,fmover,cmover,jugador)){
-            this.notificar(Eventos.FICHAMOVIDA);
+            notificarObservadores(Eventos.FICHAMOVIDA);
             if (this.tablero.verificarRaya(tmover,fmover,cmover,jugador,ficha)){
-                this.notificar(Eventos.SACARFICHA);
+                notificarObservadores(Eventos.SACARFICHA);
                 jugador.incPuntaje();
             }else{
                 cambiarTurno();
@@ -145,19 +148,19 @@ public class Partida implements Observable, IPartida {
             terminoLaPartida(); //VER SI ANDA
 
         }else{
-            this.notificar(Eventos.FICHANOMOVIDA);
+            notificarObservadores(Eventos.FICHANOMOVIDA);
 
         }
     }
 
-    private boolean terminoLaPartida(){
+    private boolean terminoLaPartida() throws RemoteException {
         /* METODO QUE VERIFICA SI LA PARTIDA TERMINO, TENIENDO EN CUENTA SI ALGUN JUGADOR NO POSEE
         MAS FICHAS O ALGUNO NO POSEE MAS MOVIMIENTOS EN TODAS SUS FICHAS PUESTAS EN EL TABLERO
          */
         boolean salida = false;
         if (jugadores.get(0).getNumeroPuestas() == 9 && jugadores.get(1).getNumeroPuestas() == 9) {
             if ((jugadores.get(0).getFichasTotales() < 3) || (jugadores.get(1).getFichasTotales() < 3) || (this.tablero.sinMovimientos(jugadores.get(0)) || (this.tablero.sinMovimientos(jugadores.get(1))))) {
-                this.notificar(Eventos.FINPARTIDA);
+                notificarObservadores(Eventos.FINPARTIDA);
                 salida = true;
             }
         }
@@ -165,28 +168,27 @@ public class Partida implements Observable, IPartida {
     }
 
     @Override
-    public int[] getPuntajes(){
+    public int[] getPuntajes() throws RemoteException{
         int[] salida = new int[2];
         salida[0] = jugadores.get(0).getPuntaje();
         salida[1] = jugadores.get(1).getPuntaje();
         return salida;
     }
 
-
-    @Override
+    /*
     public void notificar(Object evento) {
         for (Observador observador : this.observadores) {
             observador.actualizar(evento, this);
         }
-    }
-
+    }*/
+    /*
     @Override
     public void agregarObservador(Observador observador) {
         this.observadores.add(observador);
     }
-
+    */
     @Override
-    public String getTurnoAnterior() {
+    public String getTurnoAnterior() throws RemoteException{
         String jugador;
         if (this.turno == 1){
          jugador = String.valueOf(this.jugadores.get(1).getNumero());
@@ -195,7 +197,7 @@ public class Partida implements Observable, IPartida {
     }
 
     @Override
-    public Ficha getFicha(int t, int f, int c){
+    public Ficha getFicha(int t, int f, int c) throws RemoteException{
         Jugador jugador1 = jugadores.get(0);
         Jugador jugador2 = jugadores.get(1);
         Ficha fichaJugador1 = jugador1.getFicha(t,f,c);
@@ -210,12 +212,12 @@ public class Partida implements Observable, IPartida {
     }
 
     @Override
-    public Jugador getUltimoJugadorAgregado() {
+    public Jugador getUltimoJugadorAgregado() throws RemoteException{
         return jugadores.get(jugadores.size() - 1); //verificar si no se va de rango
     }
 
     @Override
-    public Eventos getEstadoJugador(Jugador jugador) {
+    public Eventos getEstadoJugador(Jugador jugador) throws RemoteException{
         //METODO QUE DEVUELVE EL ESTADO DEL JUGADOR DEPENDE EL NUMERO DE FICHAS O SI TERMINO LA PARTIDA
 
         Eventos eventos = null;
@@ -231,7 +233,7 @@ public class Partida implements Observable, IPartida {
     }
 
     @Override
-    public String[] getNombreJugadores() {
+    public String[] getNombreJugadores() throws RemoteException {
         String[] salida = new String[2];
         salida[0] = this.jugadores.get(0).getNombre();
         salida[1] = this.jugadores.get(1).getNombre();

@@ -1,9 +1,10 @@
 package Modelo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Jugador {
+public class Jugador implements Serializable {
     private String nombre;
     private Ficha[] fichasNoPuestas;
     private Ficha[] fichasPuestas;
