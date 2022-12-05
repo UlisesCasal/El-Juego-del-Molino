@@ -32,6 +32,11 @@ public class VistaConsola implements IVista{
 
     }
 
+    @Override
+    public void puntajeHistorico() {
+
+    }
+
 
     private Controlador controlador;
 

@@ -2,6 +2,7 @@ package Modelo;
 
 import Interaccion.Observable;
 import Interaccion.Observador;
+import Services.Serializador;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ public class Partida implements Observable, IPartida {
     private int turno = 1;
     private int numeroJugadores;
     private List<Observador>  observadores = new ArrayList<>();
+    public static Serializador serializador = new Serializador("datos.dat");
 
     public Partida(){
         tablero = new Tablero();
@@ -158,10 +160,27 @@ public class Partida implements Observable, IPartida {
         if (jugadores.get(0).getNumeroPuestas() == 9 && jugadores.get(1).getNumeroPuestas() == 9) {
             if ((jugadores.get(0).getFichasTotales() < 3) || (jugadores.get(1).getFichasTotales() < 3) || (this.tablero.sinMovimientos(jugadores.get(0)) || (this.tablero.sinMovimientos(jugadores.get(1))))) {
                 this.notificar(Eventos.FINPARTIDA);
+                serializar();
                 salida = true;
             }
         }
         return salida;
+    }
+
+    private void serializar() {
+        /*
+        METODO QUE REALIZA LA SERIALIZACION
+        - VERIFICAR SI FUNCIONA CORRECTAMENTE
+         */
+        int numeroJugadores = jugadores.size();
+        int contador = 0;
+
+        if (jugadores.size() == 2){
+            serializador.writeOneObject(jugadores.get(0));
+            serializador.addOneObject(jugadores.get(1));
+        }
+        jugadores.clear();
+        this.notificar(Eventos.SERIALIZADO);
     }
 
     @Override

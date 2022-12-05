@@ -21,4 +21,5 @@ public interface IVista {
 
     void mostrarPantallaEspera();
 
+    void puntajeHistorico();
 }
