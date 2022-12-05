@@ -3,9 +3,10 @@ package Modelo;
 import Interaccion.Observador;
 import ar.edu.unlu.rmimvc.observer.IObservableRemoto;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface IPartida extends IObservableRemoto {
+public interface IPartida extends IObservableRemoto, Remote {
     void iniciarPartida() throws RemoteException;
     void setJugador(String nombre) throws RemoteException;
     Jugador darTurno() throws RemoteException;

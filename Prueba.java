@@ -7,7 +7,7 @@ import java.rmi.RemoteException;
 
 public class Prueba {
     public static void main(String[] args) {
-
+        /*
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -35,5 +35,7 @@ public class Prueba {
 
             }
         });
+    }
+    */
     }
 }

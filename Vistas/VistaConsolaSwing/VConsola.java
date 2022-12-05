@@ -6,6 +6,7 @@ import Vistas.EstadosVista;
 import Vistas.IVista;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
@@ -75,6 +76,16 @@ public class VConsola extends JFrame implements IVista {
                         mostrarMoverFicha2fase();
                     }
                 }
+            }
+        });
+    }
+
+    public void mostrarConsola(){
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                setSize(500, 500);
+                setVisible(true);
             }
         });
     }

@@ -20,5 +20,6 @@ public interface IVista {
     void mostrarMoverFicha2fase();
 
     void mostrarPantallaEspera();
+    void mostrarConsola();
 
 }

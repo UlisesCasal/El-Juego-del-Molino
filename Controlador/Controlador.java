@@ -19,6 +19,8 @@ public class Controlador implements IControladorRemoto {
     public Controlador(IVista vista){
         this.vista = vista;
         this.vista.setControlador(this);
+        this.vista.mostrarConsola();
+        this.vista.iniciar();
         //setModeloRemoto(this);
     }
 

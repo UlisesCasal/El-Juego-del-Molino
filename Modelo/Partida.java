@@ -239,4 +239,8 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
         salida[1] = this.jugadores.get(1).getNombre();
         return salida;
     }
+
+    public void saludar(){
+        System.out.println("Hola ");
+    }
 }
