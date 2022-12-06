@@ -15,8 +15,8 @@ import java.util.ArrayList;
 
 public class AppCliente {
     public static void main(String[] args) {
-        VConsola vista = new VConsola();
-        Controlador controlador = new Controlador(vista);
+        JFrame vista = new VConsola();
+        Controlador controlador = new Controlador((IVista) vista);
         Cliente cliente = new Cliente("127.0.0.1",9999,"127.0.0.1",8888);
         try {
             cliente.iniciar(controlador);

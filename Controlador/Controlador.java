@@ -58,56 +58,6 @@ public class Controlador implements IControladorRemoto {
         }
         return true;
     }
-    /*
-    @Override
-    public void actualizar(Object evento, Observable observable) {
-        //Metodo que evalua las llamadas del modelo, y en base a eso realiza o no una accion en la vista:
-        if(evento instanceof Eventos) {
-            Jugador jugadorTurno = this.modelo.darTurno();
-
-            if (evento == Eventos.ESPERANDOJUGADORES){
-                this.vista.mostrarPantallaEspera();
-            }
-            if (evento == Eventos.INICIARPARTIDA){
-                this.vista.mostrarTablero();
-                this.vista.cambiarEstado(EstadosVista.INGRESARFICHA);
-            }
-            if (evento == Eventos.CAMBIODETURNO){
-                if (jugadorTurno.getNumero() != this.jugador.getNumero()){
-                    this.vista.cambiarEstado(EstadosVista.BLOQUEADA);
-                }else{
-                    cambiarEstadosVista(this.modelo.getEstadoJugador(this.jugador));
-                }
-            }
-            if ((evento == Eventos.FICHAAGREGADA) || (evento == Eventos.FICHAMOVIDA) || (evento == Eventos.FICHASACADA)){
-                this.vista.actualizarTablero();
-
-            }if (evento == Eventos.FINPARTIDA) {
-                cambiarEstadosVista(Eventos.FINPARTIDA);
-            }
-            if (evento == Eventos.SACARFICHA){
-                this.vista.actualizarTablero();
-                if (this.jugador.getNumero() == jugadorTurno.getNumero()){
-                    cambiarEstadosVista(Eventos.SACARFICHA);
-                }
-
-            }if (evento == Eventos.NOSACADA){
-                if (esJugadorActual()) {
-                    this.vista.mostrarErrores(Errores.NOSEPUDOSACARFICHA);
-                }
-            }if (evento == Eventos.FICHANOMOVIDA){
-                if (esJugadorActual()) {
-                    this.vista.mostrarErrores(Errores.NOSEPUDOMOVERFICHA);
-                }
-            }if (evento == Eventos.SINFICHASPARAAGREGAR){
-                this.vista.cambiarEstado(EstadosVista.MOVERFICHA);
-            }if (evento == Eventos.FICHANOAGREGADA){
-                if (esJugadorActual()) {
-                    this.vista.mostrarErrores(Errores.NOSEPUDOAGREGARFICHA);
-                }
-            }
-        }
-    }*/
 
     public boolean esJugadorActual(){
         Jugador jugadorTurno = null;
@@ -137,7 +87,7 @@ public class Controlador implements IControladorRemoto {
         String salida = "";
         try {
 
-            if (Objects.equals(this.modelo.getTurnoAnterior(), "1")) {
+            if (this.modelo.darTurno().getNumero() == 1) {
                 salida = "(¤)";
             } else salida = "(×)";
         }catch (RemoteException e){
