@@ -1,7 +1,5 @@
 package Modelo;
 
-import Interaccion.Observable;
-import Interaccion.Observador;
 import ar.edu.unlu.rmimvc.observer.ObservableRemoto;
 
 import java.io.Serializable;
@@ -15,6 +13,17 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
     private int turno = 1;
     private int numeroJugadores;
     //private List<Observador>  observadores = new ArrayList<>();
+    private Ficha fichaAgregada;
+    private Ficha fichaEliminada;
+
+    @Override
+    public Ficha getFichaAgregada() throws RemoteException {
+        return fichaAgregada;
+    }
+    @Override
+    public Ficha getFichaEliminada() throws RemoteException {
+        return fichaEliminada;
+    }
 
     public Partida(){
         tablero = new Tablero();
@@ -67,6 +76,7 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
                      jugador.incPuntaje();
                      notificarObservadores(Eventos.SACARFICHA);
                  }else{
+                     this.fichaAgregada = ficha;
                      notificarObservadores(Eventos.FICHAAGREGADA);
                      cambiarTurno();
                      terminoLaPartida();
@@ -104,6 +114,7 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
                 Jugador duenioFicha = ficha.getJugador();
                 resultadoSacar = this.tablero.sacarFicha(ficha, darTurno());
                 if (resultadoSacar) {
+                    this.fichaEliminada = ficha;
                     switch (duenioFicha.getNumero()) {
                         case 0 -> {
                             jugadores.get(0).sacarFicha(ficha);
@@ -138,6 +149,8 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
     public void moverFichas(Ficha ficha, int tmover, int fmover, int cmover, Jugador jugador) throws RemoteException {
         Jugador jugadorActual;
         if (this.tablero.moverFichas(ficha,tmover,fmover,cmover,jugador)){
+            fichaEliminada = ficha; //Verificar
+            fichaAgregada = jugador.getFicha(tmover,fmover,cmover);// verificar
             notificarObservadores(Eventos.FICHAMOVIDA);
             if (this.tablero.verificarRaya(tmover,fmover,cmover,jugador,ficha)){
                 notificarObservadores(Eventos.SACARFICHA);
@@ -187,6 +200,15 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
         this.observadores.add(observador);
     }
     */
+    public List<Ficha> getFichasPuestas() throws RemoteException {
+        /*
+        METODO QUE RETORNA TODAS LAS FICHAS PUESTAS EN EL TABLERO:
+         */
+        List<Ficha> fichas = jugadores.get(0).getFichas();
+        List<Ficha> fichas2 = jugadores.get(1).getFichas();
+        fichas.addAll(fichas2);
+        return fichas;
+    }
     @Override
     public String getTurnoAnterior() throws RemoteException{
         String jugador;
@@ -240,7 +262,4 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
         return salida;
     }
 
-    public void saludar(){
-        System.out.println("Hola ");
-    }
 }

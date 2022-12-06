@@ -20,8 +20,10 @@ public class AppServidor {
         try {
             servidor.iniciar(juego);
         } catch (RemoteException e) {
+            e.printStackTrace();
             // error de conexión
         } catch (RMIMVCException e) {
+            e.printStackTrace();
             // error al crear el objeto de acceso remoto del modelo
         }
     }

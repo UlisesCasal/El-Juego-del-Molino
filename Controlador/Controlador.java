@@ -1,8 +1,6 @@
 package Controlador;
 
 import Modelo.*;
-import Interaccion.Observable;
-import Interaccion.Observador;
 import Vistas.Errores;
 import Vistas.EstadosVista;
 import Vistas.IVista;
@@ -19,7 +17,6 @@ public class Controlador implements IControladorRemoto {
     public Controlador(IVista vista){
         this.vista = vista;
         this.vista.setControlador(this);
-        this.vista.mostrarConsola();
         this.vista.iniciar();
         //setModeloRemoto(this);
     }
@@ -149,6 +146,16 @@ public class Controlador implements IControladorRemoto {
         return salida;
     }
 
+    public String getCharJugadorFicha(Ficha ficha){
+        String salida;
+        if (ficha.getJugador().getNumero() == 1){
+            salida = "(¤)";
+        }else{
+            salida = "(×)";
+        }
+        return salida;
+    }
+
     public void setJugador(String nombre) throws RemoteException {
         try {
             this.modelo.setJugador(nombre);
@@ -234,13 +241,15 @@ public class Controlador implements IControladorRemoto {
                 }
             }
             if ((evento == Eventos.FICHAAGREGADA) || (evento == Eventos.FICHAMOVIDA) || (evento == Eventos.FICHASACADA)){
-                this.vista.actualizarTablero();
+                actualizarTablero((Eventos) evento);
+                //this.vista.actualizarTablero();
 
             }if (evento == Eventos.FINPARTIDA) {
                 cambiarEstadosVista(Eventos.FINPARTIDA);
             }
             if (evento == Eventos.SACARFICHA){
-                this.vista.actualizarTablero();
+                System.out.println("Hacer algo");
+                //this.vista.actualizarTablero();
                 if (this.jugador.getNumero() == jugadorTurno.getNumero()){
                     cambiarEstadosVista(Eventos.SACARFICHA);
                 }
@@ -260,6 +269,34 @@ public class Controlador implements IControladorRemoto {
                     this.vista.mostrarErrores(Errores.NOSEPUDOAGREGARFICHA);
                 }
             }
+        }
+    }
+
+    private void actualizarTablero(Eventos evento) {
+        try {
+            Ficha fichaAgregada;
+            Ficha fichaEliminada;
+            int[] posicion;
+            String charJugador;
+            if (evento == Eventos.FICHAAGREGADA || evento == Eventos.FICHAMOVIDA) {
+                fichaAgregada = this.modelo.getFichaAgregada();
+                posicion = fichaAgregada.getPosicion();
+                charJugador = getCharJugadorFicha(fichaAgregada);
+                this.vista.actualizarTablero(posicion, charJugador, Eventos.FICHAAGREGADA);
+
+            }
+            if (evento == Eventos.FICHASACADA || evento == Eventos.FICHAMOVIDA) {
+                try {
+                    fichaEliminada = this.modelo.getFichaEliminada();
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+                posicion = fichaEliminada.getPosicion();
+                charJugador = getCharJugadorFicha(fichaEliminada);
+                this.vista.actualizarTablero(posicion, charJugador, Eventos.FICHASACADA);
+            }
+        }catch (RemoteException e){
+            e.printStackTrace();
         }
     }
 }

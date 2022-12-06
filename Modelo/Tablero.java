@@ -588,7 +588,7 @@ public class Tablero {
         int i = 0;
         int contadorFichas = 0;
         Ficha ficha;
-        Ficha[] fichas = jugador.getFichas();
+        Ficha[] fichas = jugador.getFichas().toArray(new Ficha[0]); // CAMBIADO
         if (fichas != null) { // dado que un jugador no puede tener fichas puestas.
             while (i < fichas.length && salida) {
                 ficha = fichas[i];

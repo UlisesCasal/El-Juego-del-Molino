@@ -69,8 +69,21 @@ public class Jugador implements Serializable {
         return this.puntaje;
     }
 
-    public Ficha[] getFichas(){
-        return this.fichasPuestas;
+    public List<Ficha> getFichas(){
+        /*
+        METODO QUE ROTORNA TODAS LAS FICHAS PUESTAS DEL JUGADOR:
+         */
+        List<Ficha> salida = new ArrayList<>();
+        Ficha ficha;
+        int i = 0;
+        while (i < this.fichasPuestas.length){
+            ficha = this.fichasPuestas[i];
+            if (ficha != null){
+                salida.add(ficha);
+            }
+            i++;
+        }
+        return salida;
     }
 
     public Ficha getFichaNoPuesta(){
