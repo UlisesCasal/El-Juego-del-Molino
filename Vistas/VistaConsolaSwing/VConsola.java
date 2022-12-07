@@ -319,7 +319,7 @@ public class VConsola extends JFrame implements IVista {
                 tableroDinamico = tableroDinamico.replaceAll(Pattern.quote(fichaPura), posiSimbolica + jugador);
             }
             case FICHASACADA -> {
-                String fichaAEliminar = traductorInverso(ficha) + "(" + jugador + ")";
+                String fichaAEliminar = traductorInverso(ficha) + jugador;
                 fichaPura = traductorInverso(ficha) + "( )";
                 tableroDinamico = tableroDinamico.replaceAll(Pattern.quote(fichaAEliminar), fichaPura);
             }
