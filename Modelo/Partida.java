@@ -66,6 +66,7 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
                  //Si la pudo ingresar, pongo el flag en true, y verifico si se produjo un molino:
                  jugador.setPosicionFicha(new int[]{t, f, c}, ficha);
                  ficha = jugador.getFicha(t,f,c);
+                 this.fichaAgregada = ficha;
                  salida = true;
                  if (this.tablero.verificarRaya(t,f,c,jugador, ficha)){
                      //Si me da true que hay una nueva raya:
@@ -76,7 +77,6 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
                      jugador.incPuntaje();
                      notificarObservadores(Eventos.SACARFICHA);
                  }else{
-                     this.fichaAgregada = ficha;
                      notificarObservadores(Eventos.FICHAAGREGADA);
                      cambiarTurno();
                      terminoLaPartida();

@@ -198,7 +198,7 @@ public class Controlador implements IControladorRemoto {
                 cambiarEstadosVista(Eventos.FINPARTIDA);
             }
             if (evento == Eventos.SACARFICHA){
-                System.out.println("Hacer algo");
+                actualizarTablero(Eventos.FICHAAGREGADA);
                 //this.vista.actualizarTablero();
                 if (this.jugador.getNumero() == jugadorTurno.getNumero()){
                     cambiarEstadosVista(Eventos.SACARFICHA);

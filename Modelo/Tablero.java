@@ -1,9 +1,10 @@
 package Modelo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tablero {
+public class Tablero implements Serializable {
     //Utilizare de tablero un tensor, que representara los 3 cuadrados, el 0-> mas externo, el 1-> el del medio y el 3-> interno.
     private Ficha[][][] tablero;
     protected static Ficha fichaNula = new Ficha(new Jugador("-1", -1));

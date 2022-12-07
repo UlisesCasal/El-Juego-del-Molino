@@ -108,7 +108,8 @@ public class Jugador implements Serializable {
         boolean terminar = false;
         int i = 0;
         int contadorFichasPuestas = 0;
-        while((!terminar) && (i < fichasPuestas.length) && (contadorFichasPuestas < this.numeroPuestas)){
+        while((!terminar) && (i < fichasPuestas.length - 1) && (contadorFichasPuestas < this.numeroPuestas)){
+            System.out.println("Ciclo infinito");
             if (fichasPuestas[i] != null) {
                 contadorFichasPuestas ++;
                 posicionFichaActual = fichasPuestas[i].getPosicion();

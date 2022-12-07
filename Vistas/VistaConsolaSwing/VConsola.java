@@ -133,6 +133,7 @@ public class VConsola extends JFrame implements IVista {
 
     @Override
     public void mostrarTablero() {
+        limpiarConsola(); // Ver si dejar
         println(tableroDinamico);
     }
 
@@ -323,6 +324,7 @@ public class VConsola extends JFrame implements IVista {
                 tableroDinamico = tableroDinamico.replaceAll(Pattern.quote(fichaAEliminar), fichaPura);
             }
         }
+        limpiarConsola();
         mostrarTablero();
 
     }
