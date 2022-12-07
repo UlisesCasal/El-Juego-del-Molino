@@ -7,7 +7,7 @@ import java.util.List;
 public class Jugador implements Serializable {
     private String nombre;
     private Ficha[] fichasNoPuestas;
-    private Ficha[] fichasPuestas;
+    private Ficha[] fichasPuestas = null;
     private int fichasTotales;
     private int puntaje;
     private int numero;
@@ -103,13 +103,21 @@ public class Jugador implements Serializable {
     }
 
     public Ficha getFicha(int t, int f, int c){
-        int[] posicionFichaActual = new int[3];
+        System.out.println("entro a getFicha()!!!");
+        int[] posicionFichaActual;
+        System.out.println("Hola 00");
         Ficha salida = null;
+        System.out.println("Hola 0");
         boolean terminar = false;
+        System.out.println("Hola 1");
         int i = 0;
+        System.out.println("Hola 2");
         int contadorFichasPuestas = 0;
+        System.out.println("Hola 3");
+        System.out.println("El numero de fichas puestas es: " + this.numeroPuestas);
+        System.out.println("El largo de fichasPuestas = " + this.fichasPuestas.length);
+        System.out.println("El numero de fichas puestas es: " + this.numeroPuestas);
         while((!terminar) && (i < fichasPuestas.length - 1) && (contadorFichasPuestas < this.numeroPuestas)){
-            System.out.println("Ciclo infinito");
             if (fichasPuestas[i] != null) {
                 contadorFichasPuestas ++;
                 posicionFichaActual = fichasPuestas[i].getPosicion();
@@ -135,6 +143,9 @@ public class Jugador implements Serializable {
         }
         ficha.setPosicion(posicion);
         //En algunos casos cuando se elimina una ficha, y luego se ingresa una, el arreglo debe crecer:
+        /*
+        POSIBLE ERROR:
+         */
         if ((this.fichasPuestas.length) <= this.numeroPuestas + 1){
             Ficha[] arregloAuxiliar = new Ficha[this.numeroPuestas + 3]; //POSIBLE CAUSANTE DE ERROR
             int i = 0;
@@ -146,6 +157,10 @@ public class Jugador implements Serializable {
         }
         this.fichasPuestas[numeroPuestas] = ficha;
         this.numeroPuestas++;
+        System.out.println("El jugador " + this.nombre + "tiene: ");
+        System.out.println("El numero de fichas puestas es: " + this.numeroPuestas);
+        System.out.println("El largo del array es: " + this.fichasPuestas.length);
+        System.out.println("======================================================");
     }
 
     public String getNombre() {

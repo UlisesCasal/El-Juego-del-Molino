@@ -14,7 +14,9 @@ public interface IPartida extends IObservableRemoto, Remote {
     void iniciarPartida() throws RemoteException;
     void setJugador(String nombre) throws RemoteException;
     Jugador darTurno() throws RemoteException;
-    boolean ponerFicha(Jugador jugador, int t, int f, int c) throws RemoteException;
+
+    boolean ponerFicha(int t, int f, int c) throws RemoteException;
+
     void sacarFicha(Ficha ficha) throws RemoteException;
     void moverFichas(Ficha ficha, int tmover, int fmover, int cmover, Jugador jugador) throws RemoteException;
     int[] getPuntajes() throws RemoteException;

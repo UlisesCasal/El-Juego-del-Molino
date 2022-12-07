@@ -24,7 +24,7 @@ public class Controlador implements IControladorRemoto {
     public boolean ponerFicha(int t, int f, int c) { // Ver por que retorna un boolean
         boolean salida = false;
         try {
-            salida = this.modelo.ponerFicha(this.modelo.darTurno(),t,f,c);
+            salida = this.modelo.ponerFicha(t,f,c);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
