@@ -1,11 +1,26 @@
 package Vistas.VistaGrafica;
 
 
+import Controlador.Controlador;
+import Modelo.Eventos;
+import Vistas.Errores;
+import Vistas.EstadosVista;
+import Vistas.IVista;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
-public class VGrafic extends javax.swing.JFrame{
+import static Vistas.EstadosVista.*;
+import static Vistas.VistaConsolaSwing.Traductor.traductorInverso;
+
+public class VGrafic extends javax.swing.JFrame implements IVista {
+    private EstadosVista estadoActual;
+    private Controlador controlador;
+    private String textoInput;
+    int[] ficha = new int[3];
     /**
      * Creates new form VGrafic
      */
@@ -249,23 +264,98 @@ public class VGrafic extends javax.swing.JFrame{
     }// </editor-fold>
 
     private void A1ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        manejadorBotones(A1.getName());
     }
 
+    private void A2ActionPerformed(java.awt.event.ActionEvent evt) {
+        manejadorBotones(A2.getName());
+    }
     private void A3ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        manejadorBotones(A3.getName());
     }
-
+    private void A4ActionPerformed(java.awt.event.ActionEvent evt) {
+        manejadorBotones(A4.getName());
+    }
     private void A5ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        manejadorBotones(A5.getName());
     }
-
+    private void A6ActionPerformed(java.awt.event.ActionEvent evt) {
+        manejadorBotones(A6.getName());
+    }
     private void A7ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        manejadorBotones(A7.getName());
+    }
+    private void A8ActionPerformed(java.awt.event.ActionEvent evt) {
+        manejadorBotones(A8.getName());
+    }
+    private void B1ActionPerformed(java.awt.event.ActionEvent evt) {
+        manejadorBotones(B1.getName());
+    }
+    private void B2ActionPerformed(java.awt.event.ActionEvent evt) {
+        manejadorBotones(B2.getName());
+    }
+    private void B3ActionPerformed(java.awt.event.ActionEvent evt) {
+        manejadorBotones(B3.getName());
+    }
+    private void B4ActionPerformed(java.awt.event.ActionEvent evt) {
+        manejadorBotones(B4.getName());
+    }
+    private void B5ActionPerformed(java.awt.event.ActionEvent evt) {
+        manejadorBotones(B5.getName());
+    }
+    private void B6ActionPerformed(java.awt.event.ActionEvent evt) {
+        manejadorBotones(B6.getName());
+    }
+    private void B7ActionPerformed(java.awt.event.ActionEvent evt) {
+        manejadorBotones(B7.getName());
+    }
+    private void B8ActionPerformed(java.awt.event.ActionEvent evt) {
+        manejadorBotones(B8.getName());
+    }
+    private void C1ActionPerformed(java.awt.event.ActionEvent evt) {
+        manejadorBotones(C1.getName());
+    }
+    private void C2ActionPerformed(java.awt.event.ActionEvent evt) {
+        manejadorBotones(C2.getName());
+    }
+    private void C3ActionPerformed(java.awt.event.ActionEvent evt) {
+        manejadorBotones(C3.getName());
+    }
+    private void C4ActionPerformed(java.awt.event.ActionEvent evt) {
+        manejadorBotones(C4.getName());
+    }
+    private void C5ActionPerformed(java.awt.event.ActionEvent evt) {
+        manejadorBotones(C5.getName());
+    }
+    private void C6ActionPerformed(java.awt.event.ActionEvent evt) {
+        manejadorBotones(C6.getName());
+    }
+    private void C7ActionPerformed(java.awt.event.ActionEvent evt) {
+        manejadorBotones(C7.getName());
+    }
+    private void C8ActionPerformed(java.awt.event.ActionEvent evt) {
+        manejadorBotones(C8.getName());
     }
 
-    private void B3ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+
+    private void manejadorBotones(String name) {
+        switch (this.estadoActual){
+            case INGRESARFICHA -> {
+                this.ponerFicha();
+            }
+            case MOVERFICHA -> {
+
+            }
+            case BLOQUEADA -> {
+
+            }
+            case SACARFICHA -> {
+
+            }
+            case MOVERFICHA2DAFASE -> {
+
+            }
+        }
     }
 
     /**
@@ -334,7 +424,328 @@ public class VGrafic extends javax.swing.JFrame{
     private javax.swing.JLabel TextoInformativo;
     private javax.swing.JPanel bg;
     private javax.swing.JPanel jPanel1;
+
+    @Override
+    public void iniciar() {
+
+    }
+
+    @Override
+    public void setControlador(Controlador controlador) {
+        this.controlador = controlador;
+    }
+
+    @Override
+    public void mostrarTablero() {
+        this.mostrarConsola();
+    }
+
+    @Override
+    public void mostrarPuntajesFinales() {
+
+    }
+
+    @Override
+    public void mostrarSacarFicha() {
+        String ficha = textoInput;
+        int[] posicion = traductor(ficha);
+        if (posicion[0] != -1) {
+            this.controlador.sacarFicha(posicion[0], posicion[1], posicion[2]);
+        }else{
+            cambiarEstado(SACARFICHA);
+
+        }
+    }
+
+    @Override
+    public void actualizarTablero(int[] ficha, String jugador, Eventos eventoMostrar) {
+        JButton boton;
+        switch (eventoMostrar){
+            case FICHAAGREGADA -> {
+                boton = getBoton(ficha);
+                //Recibo lo pasado y lo transformo a un boton y lo bloqueo.
+                boton.setEnabled(false);
+                boton.setText(jugador);
+            }
+            case FICHASACADA -> {
+                boton = getBoton(ficha);
+                boton.setEnabled(true);
+                boton.setText("Vacío");
+            }
+        }
+    }
+
+    @Override
+    public void ponerFicha() {
+        String ficha = textoInput;
+        int[] posicion = traductor(ficha);
+        if (posicion[0] != -1) {
+            this.controlador.ponerFicha(posicion[0], posicion[1], posicion[2]);
+        }else {cambiarEstado(INGRESARFICHA);}
+
+    }
+
+
+
+    @Override
+    public int[] traductor(String posicionSimbolica) {
+        int[] salida = new int[]{-1,-1,-1};
+        switch (posicionSimbolica) {
+            case "A1" -> {
+                salida = new int[]{0, 0, 0};
+                break;
+            }
+            case "A2" -> {
+                salida = new int[]{0,0,1};
+                break;
+            }
+            case "A3" -> {
+                salida = new int[]{0,0,2};
+                break;
+            }
+            case "A4" -> {
+                salida = new int[]{0,1,2};
+                break;
+            }
+            case "A5" -> {
+                salida = new int[]{0,2,2};
+                break;
+            }
+            case "A6" -> {
+                salida = new int[]{0,2,1};
+                break;
+            }
+            case "A7" -> {
+                salida = new int[]{0,2,0};
+                break;
+            }
+            case "A8" -> {
+                salida = new int[]{0,1,0};
+                break;
+            }
+            case "B1" -> {
+                salida = new int[]{1,0,0};
+                break;
+            }
+            case "B2" -> {
+                salida = new int[]{1,0,1};
+                break;
+            }
+            case "B3" -> {
+                salida = new int[]{1,0,2};
+                break;
+            }
+            case "B4" -> {
+                salida = new int[]{1,1,2};
+                break;
+            }
+            case "B5" -> {
+                salida = new int[]{1,2,2};
+                break;
+            }
+            case "B6" -> {
+                salida = new int[]{1,2,1};
+                break;
+            }
+            case "B7" -> {
+                salida = new int[]{1,2,0};
+                break;
+            }
+            case "B8" -> {
+                salida = new int[]{1,1,0};
+                break;
+            }
+            case "C1" -> {
+                salida = new int[]{2,0,0};
+                break;
+            }
+            case "C2" -> {
+                salida = new int[]{2,0,1};
+                break;
+            }
+            case "C3" -> {
+                salida = new int[]{2,0,2};
+                break;
+            }
+            case "C4" -> {
+                salida = new int[]{2,1,2};
+                break;
+            }
+            case "C5" -> {
+                salida = new int[]{2,2,2};
+                break;
+            }
+            case "C6" -> {
+                salida = new int[]{2,2,1};
+                break;
+            }
+            case "C7" -> {
+                salida = new int[]{2,2,0};
+                break;
+            }
+            case "C8" -> {
+                salida = new int[]{2,1,0};
+                break;
+            }
+            default -> println("La posicion ingresada es inválida...");
+        }
+        println("");
+        return salida;
+    }
+
+    @Override
+    public void cambiarEstado(EstadosVista estado) {
+        this.estadoActual = estado;
+        switch (this.estadoActual) {
+            case BLOQUEADA -> println("Espere su turno...");
+            case ESPERANDOCONEXION -> mostrarPantallaEspera();
+            case INGRESARFICHA -> this.println("Su ficha es: " + this.controlador.getCharJugadorFicha() + ". " + "Ingrese la ficha que quiere agregar: ");
+            case SACARFICHA -> this.println("Su ficha es: " + this.controlador.getCharJugadorFicha() + ". " + "Ingrese la posicion de la ficha a eliminar: ");
+            case MOVERFICHA ->this.println("Su ficha es: " + this.controlador.getCharJugadorFicha() + ". " + "Ingrese la ficha a mover: ");
+            case MOVERFICHA2DAFASE -> this.println("Su ficha es: " + this.controlador.getCharJugadorFicha() + ". " + "Ingrese la posicion a mover la ficha: ");
+        }
+    }
+
+    @Override
+    public void mostrarErrores(Errores errores) {
+        if (errores == Errores.NOSEPUDOSACARFICHA){
+            limpiarConsola();
+            mostrarTablero();
+            this.println("Por favor ingrese una posicion válida");
+        }if (errores == Errores.NOSEPUDOAGREGARFICHA){ // VER SI ANDA
+            println("La posicion ingresada es inválida, vuelva a intentarlo...");
+            cambiarEstado(INGRESARFICHA); // VER SI ANDA
+        }if (errores == Errores.NOSEPUDOMOVERFICHA){
+            println("No se pudo mover la ficha, vuelva a intentarlo...");
+            cambiarEstado(MOVERFICHA); // VER SI ANDA
+        }
+    }
+
+    private void limpiarConsola() {
+        println("");
+    }
+
+    @Override
+    public void mostrarMoverFicha1fase() {
+        String fichaAMover = textoInput;
+        int[] posicionFicha = traductor(fichaAMover);
+        if (posicionFicha[0] != -1) {
+            boolean valido = this.controlador.verificarFicha(posicionFicha[0], posicionFicha[1], posicionFicha[2]);
+            if (valido) {
+                limpiarConsola();
+                mostrarTablero(); // ver si lo dejo
+                ficha = posicionFicha;
+                cambiarEstado(MOVERFICHA2DAFASE);
+                //Pongo el boton como apretado, ya que fue elegido
+                JButton botonElegido = getBoton(posicionFicha);
+                botonElegido.setEnabled(false);
+            }else{
+                mostrarErrores(Errores.NOSEPUDOMOVERFICHA);
+            }
+        }else{
+            cambiarEstado(MOVERFICHA);
+        }
+    }
+
+    @Override
+    public void mostrarMoverFicha2fase() {
+        String fichaAMover = textoInput;
+        int[] posicionFichaMover = traductor(fichaAMover);
+        if (posicionFichaMover[0] != -1) {
+            boolean valido = this.controlador.verificarPosicionVacia(posicionFichaMover[0], posicionFichaMover[1], posicionFichaMover[2]);
+            if (valido) {
+                this.controlador.moverFicha(ficha[0], ficha[1], ficha[2], posicionFichaMover[0], posicionFichaMover[1], posicionFichaMover[2]);
+            } else {
+                cambiarEstado(MOVERFICHA);
+            }
+        }else {
+            cambiarEstado(MOVERFICHA);
+        }
+    }
+
+
+    @Override
+    public void mostrarPantallaEspera() {
+
+    }
+
+    @Override
+    public void mostrarConsola() {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void puntajeHistorico() {
+
+    }
     // End of variables declaration
+    public void println(String texto){
+        this.TextoInformativo.setText(texto);
+    }
+
+    public JButton getBoton(int[] ficha) {
+        JButton salida = null;
+
+        if (Arrays.equals(ficha, new int[]{0, 0, 0})) {
+            salida = A1;
+        } else if (Arrays.equals(ficha, new int[]{0, 0, 1})) {
+            salida = A2;
+        } else if (Arrays.equals(ficha, new int[]{0, 0, 2})) {
+            salida = A3;
+        } else if (Arrays.equals(ficha, new int[]{0, 1, 2})) {
+            salida = A4;
+        } else if (Arrays.equals(ficha, new int[]{0, 2, 2})) {
+            salida = A5;
+        } else if (Arrays.equals(ficha, new int[]{0, 2, 1})) {
+            salida = A6;
+        } else if (Arrays.equals(ficha, new int[]{0, 2, 0})) {
+            salida = A7;
+        } else if (Arrays.equals(ficha, new int[]{0, 1, 0})) {
+            salida = A8;
+        } else if (Arrays.equals(ficha, new int[]{1, 0, 0})) {
+            salida = B1;
+        } else if (Arrays.equals(ficha, new int[]{1, 0, 1})) {
+            salida = B2;
+        } else if (Arrays.equals(ficha, new int[]{1, 0, 2})) {
+            salida = B3;
+        } else if (Arrays.equals(ficha, new int[]{1, 1, 2})) {
+            salida = B4;
+        } else if (Arrays.equals(ficha, new int[]{1, 2, 2})) {
+            salida = B5;
+        } else if (Arrays.equals(ficha, new int[]{1, 2, 1})) {
+            salida = B6;
+        } else if (Arrays.equals(ficha, new int[]{1, 2, 0})) {
+            salida = B7;
+        } else if (Arrays.equals(ficha, new int[]{1, 1, 0})) {
+            salida = B8;
+        } else if (Arrays.equals(ficha, new int[]{2, 0, 0})) {
+            salida = C1;
+        } else if (Arrays.equals(ficha, new int[]{2, 0, 1})) {
+            salida = C2;
+        } else if (Arrays.equals(ficha, new int[]{2, 0, 2})) {
+            salida = C3;
+        } else if (Arrays.equals(ficha, new int[]{2, 1, 2})) {
+            salida = C4;
+        } else if (Arrays.equals(ficha, new int[]{2, 2, 2})) {
+            salida = C5;
+        } else if (Arrays.equals(ficha, new int[]{2, 2, 1})) {
+            salida = C6;
+        } else if (Arrays.equals(ficha, new int[]{2, 2, 0})) {
+            salida = C7;
+        } else if (Arrays.equals(ficha, new int[]{2, 1, 0})) {
+            salida = C8;
+        }
+
+        return salida;
+    }
 }
 
 
