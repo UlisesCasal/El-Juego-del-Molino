@@ -1,6 +1,8 @@
 package Modelo;
 
-public enum Eventos {
+import java.io.Serializable;
+
+public enum Eventos implements Serializable {
     FICHAAGREGADA,
     FICHASACADA,
     FICHAMOVIDA,

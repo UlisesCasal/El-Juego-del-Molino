@@ -1,8 +1,9 @@
 package Modelo;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Molino {
+public class Molino implements Serializable {
     Ficha ficha1;
     Ficha ficha2;
     Ficha ficha3;
