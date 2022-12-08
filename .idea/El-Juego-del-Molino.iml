@@ -12,5 +12,9 @@
     <orderEntry type="library" name="jgoodies-forms-1.8.0" level="project" />
     <orderEntry type="library" name="LibreriaRMIMVC" level="project" />
     <orderEntry type="library" name="LibreriaRMIMVC" level="project" />
+    <orderEntry type="library" name="AbsoluteLayout-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="AbsoluteLayout-SNAPSHOT (2)" level="project" />
+    <orderEntry type="library" name="Grouplayout-1.35" level="project" />
+    <orderEntry type="library" name="Grouplayout" level="project" />
   </component>
 </module>
