@@ -26,7 +26,7 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
     public Ficha getFichaEliminada() throws RemoteException {
         return fichaEliminada;
     }
-    private List<Observador>  observadores = new ArrayList<>();
+
     public static Serializador serializador = new Serializador("datos.dat");
 
     public Partida(){
@@ -185,7 +185,7 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
         return salida;
     }
 
-    private void serializar() {
+    private void serializar() throws RemoteException {
         /*
         METODO QUE REALIZA LA SERIALIZACION
         - VERIFICAR SI FUNCIONA CORRECTAMENTE
@@ -198,7 +198,7 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
             serializador.addOneObject(jugadores.get(1));
         }
         jugadores.clear();
-        this.notificar(Eventos.SERIALIZADO);
+        notificarObservadores(Eventos.SERIALIZADO);
     }
 
     @Override

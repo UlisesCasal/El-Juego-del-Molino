@@ -240,6 +240,21 @@ public class Controlador implements IControladorRemoto {
                 posicion = fichaAgregada.getPosicion();
                 charJugador = getCharJugadorFicha(fichaAgregada);
                 this.vista.actualizarTablero(posicion, charJugador, Eventos.FICHAAGREGADA);
+            }
+            if (evento == Eventos.FICHASACADA || evento == Eventos.FICHAMOVIDA) {
+                try {
+                    fichaEliminada = this.modelo.getFichaEliminada();
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+                posicion = fichaEliminada.getPosicion();
+                charJugador = getCharJugadorFicha(fichaEliminada);
+                this.vista.actualizarTablero(posicion, charJugador, Eventos.FICHASACADA);
+            }
+        }catch (RemoteException e){
+            e.printStackTrace();
+        }
+    }
 
     public String[] desSerializar() {
         /*
@@ -260,25 +275,4 @@ public class Controlador implements IControladorRemoto {
         return puntajesJugadores;
     }
 
-    public boolean esJugadorActual(){
-        Jugador jugadorTurno = this.modelo.darTurno();
-        return this.jugador.getNumero() == jugadorTurno.getNumero();
-    }
-
-
-            }
-            if (evento == Eventos.FICHASACADA || evento == Eventos.FICHAMOVIDA) {
-                try {
-                    fichaEliminada = this.modelo.getFichaEliminada();
-                } catch (RemoteException e) {
-                    throw new RuntimeException(e);
-                }
-                posicion = fichaEliminada.getPosicion();
-                charJugador = getCharJugadorFicha(fichaEliminada);
-                this.vista.actualizarTablero(posicion, charJugador, Eventos.FICHASACADA);
-            }
-        }catch (RemoteException e){
-            e.printStackTrace();
-        }
-    }
 }
