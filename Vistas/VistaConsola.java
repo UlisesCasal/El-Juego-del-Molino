@@ -1,7 +1,6 @@
 package Vistas;
 
 import Controlador.Controlador;
-import Modelo.Eventos;
 
 import java.util.Scanner;
 
@@ -34,7 +33,9 @@ public class VistaConsola implements IVista{
     }
 
     @Override
-    public void mostrarConsola() {
+    public void puntajeHistorico() {
+
+    }
 
 
     private Controlador controlador;
@@ -210,6 +211,10 @@ public class VistaConsola implements IVista{
         return new int[0];
     }
 
+    @Override
+    public void actualizarTablero() {
+
+    }
 
     @Override
     public void mostrarPuntajesFinales() {
@@ -233,10 +238,6 @@ public class VistaConsola implements IVista{
 
     }
 
-    @Override
-    public void actualizarTablero(int[] ficha, String jugador, Eventos eventoMostrar) {
-
-    }
 
 
     @Override
