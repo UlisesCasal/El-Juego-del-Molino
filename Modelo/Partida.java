@@ -1,6 +1,8 @@
 package Modelo;
 
 import ar.edu.unlu.rmimvc.observer.ObservableRemoto;
+import Services.Serializador;
+
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
@@ -24,6 +26,8 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
     public Ficha getFichaEliminada() throws RemoteException {
         return fichaEliminada;
     }
+    private List<Observador>  observadores = new ArrayList<>();
+    public static Serializador serializador = new Serializador("datos.dat");
 
     public Partida(){
         tablero = new Tablero();
@@ -174,10 +178,27 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
         if (jugadores.get(0).getNumeroPuestas() == 9 && jugadores.get(1).getNumeroPuestas() == 9) {
             if ((jugadores.get(0).getFichasTotales() < 3) || (jugadores.get(1).getFichasTotales() < 3) || (this.tablero.sinMovimientos(jugadores.get(0)) || (this.tablero.sinMovimientos(jugadores.get(1))))) {
                 notificarObservadores(Eventos.FINPARTIDA);
+                serializar();
                 salida = true;
             }
         }
         return salida;
+    }
+
+    private void serializar() {
+        /*
+        METODO QUE REALIZA LA SERIALIZACION
+        - VERIFICAR SI FUNCIONA CORRECTAMENTE
+         */
+        int numeroJugadores = jugadores.size();
+        int contador = 0;
+
+        if (jugadores.size() == 2){
+            serializador.writeOneObject(jugadores.get(0));
+            serializador.addOneObject(jugadores.get(1));
+        }
+        jugadores.clear();
+        this.notificar(Eventos.SERIALIZADO);
     }
 
     @Override

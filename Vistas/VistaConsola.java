@@ -36,8 +36,6 @@ public class VistaConsola implements IVista{
     @Override
     public void mostrarConsola() {
 
-    }
-
 
     private Controlador controlador;
 

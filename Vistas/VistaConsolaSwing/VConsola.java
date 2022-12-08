@@ -399,4 +399,17 @@ public class VConsola extends JFrame implements IVista {
         this.println("   Esperando la conexión de un nuevo jugador...");
     }
 
+    @Override
+    public void puntajeHistorico() {
+        /*
+        METODO QUE MUESTRA LOS PUNTAJES HISTORICOS.
+        - VERIFICAR SI FUNCIONA.
+         */
+        println("===PUNTAJES HISTORICOS===");
+        String[] puntajes = this.controlador.desSerializar();
+        for (int i = 0; i < puntajes.length; i++) {
+            println(puntajes[i]);
+        }
+    }
+
 }

@@ -9,8 +9,11 @@ import ar.edu.unlu.rmimvc.observer.IObservableRemoto;
 
 import java.rmi.RemoteException;
 import java.util.Objects;
-
+import java.util.ArrayList;
+import java.util.Objects;
+import static Modelo.Partida.serializador;
 public class Controlador implements IControladorRemoto {
+
     private IPartida modelo;
     private IVista vista;
     private Jugador jugador;
@@ -55,6 +58,7 @@ public class Controlador implements IControladorRemoto {
             case FICHAAGREGADA -> this.vista.cambiarEstado(EstadosVista.INGRESARFICHA);
             case SINFICHASPARAAGREGAR -> this.vista.cambiarEstado(EstadosVista.MOVERFICHA);
             case FINPARTIDA -> this.vista.mostrarPuntajesFinales();
+            case SERIALIZADO -> this.vista.puntajeHistorico();
         }
         return true;
     }
@@ -218,9 +222,12 @@ public class Controlador implements IControladorRemoto {
                 if (esJugadorActual()) {
                     this.vista.mostrarErrores(Errores.NOSEPUDOAGREGARFICHA);
                 }
+            }if (evento == Eventos.SERIALIZADO){
+                cambiarEstadosVista(Eventos.SERIALIZADO);
             }
         }
     }
+
 
     private void actualizarTablero(Eventos evento) {
         try {
@@ -233,6 +240,31 @@ public class Controlador implements IControladorRemoto {
                 posicion = fichaAgregada.getPosicion();
                 charJugador = getCharJugadorFicha(fichaAgregada);
                 this.vista.actualizarTablero(posicion, charJugador, Eventos.FICHAAGREGADA);
+
+    public String[] desSerializar() {
+        /*
+        METODO QUE AGARRA TODOS LOS JUGADORES Y LOS RETORNA.
+        - VERIFICAR SI FUNCIONA
+         */
+        ArrayList <Jugador> jugadores = null;
+        Object[] recuperado = serializador.readObjects();
+        for (int i = 0; i < recuperado.length; i++){
+            jugadores.add((Jugador) recuperado[i]);
+        }
+        String[] puntajesJugadores = new String[jugadores.size()];
+
+        for (int i = 0; i < jugadores.size(); i++) {
+            puntajesJugadores[i] = jugadores.get(i).getNombre() + ": " + jugadores.get(i).getPuntaje();
+
+        }
+        return puntajesJugadores;
+    }
+
+    public boolean esJugadorActual(){
+        Jugador jugadorTurno = this.modelo.darTurno();
+        return this.jugador.getNumero() == jugadorTurno.getNumero();
+    }
+
 
             }
             if (evento == Eventos.FICHASACADA || evento == Eventos.FICHAMOVIDA) {
