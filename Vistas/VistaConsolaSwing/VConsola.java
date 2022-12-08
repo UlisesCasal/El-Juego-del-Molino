@@ -1,7 +1,6 @@
 package Vistas.VistaConsolaSwing;
 
 import Controlador.Controlador;
-import Modelo.Eventos;
 import Vistas.Errores;
 import Vistas.EstadosVista;
 import Vistas.IVista;
@@ -9,11 +8,9 @@ import Vistas.IVista;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.rmi.RemoteException;
 import java.util.regex.Pattern;
 
 import static Vistas.EstadosVista.*;
-import static Vistas.VistaConsolaSwing.Traductor.traductorInverso;
 
 public class VConsola extends JFrame implements IVista {
     private JPanel panel1;
@@ -22,8 +19,10 @@ public class VConsola extends JFrame implements IVista {
     private JButton botonEnter;
     private Controlador controlador;
     private EstadosVista estadoActual = EstadosVista.INGRESARFICHA;
-    int[] ficha = new int[3];
-    private final String tableroVacio ="""
+    private static String ultFichaIngre;
+    private static String fichaEliminar;
+    private int[] ficha = new int[3];
+    private static String tablero ="""
                                     
                     A1( )════════════A2( )════════════A3( )
                     ║ B1( )══════════B2( )══════════B3( ) ║
@@ -38,7 +37,6 @@ public class VConsola extends JFrame implements IVista {
                     ║ ║ C7( )════════C6( )════════C5( ) ║ ║
                     ║ B7( )══════════B6( )══════════B5( ) ║
                     A7( )════════════A6( )════════════A5( )""";
-    private String tableroDinamico = tableroVacio;
 
     public VConsola(){
         super("El Juego del Molino");
@@ -49,11 +47,7 @@ public class VConsola extends JFrame implements IVista {
 
                 switch (estadoActual){
                     case INGRESONOMBRE:{
-                        try {
-                            registrarJugador();
-                        } catch (RemoteException ex) {
-                            throw new RuntimeException(ex);
-                        }
+                        registrarJugador();
                         break;
                     }
                     case ESPERANDOCONEXION:{
@@ -80,20 +74,7 @@ public class VConsola extends JFrame implements IVista {
         });
     }
 
-    public void mostrarConsola(){
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    setSize(500,500);
-                    setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    private void registrarJugador() throws RemoteException {
+    private void registrarJugador() {
         String nombre = textoInput.getText().trim();
         if ((nombre != null) && (nombre != "")){
             this.controlador.setJugador(nombre);
@@ -123,7 +104,6 @@ public class VConsola extends JFrame implements IVista {
         this.println("Bienvenido al juego del Molino!!!");
         this.println("Para iniciar ingrese su nombre: ");
         cambiarEstado(INGRESONOMBRE);
-        this.mostrarConsola();
     }
 
     @Override
@@ -133,8 +113,7 @@ public class VConsola extends JFrame implements IVista {
 
     @Override
     public void mostrarTablero() {
-        limpiarConsola(); // Ver si dejar
-        println(tableroDinamico);
+        println(this.tablero);
     }
 
     @Override
@@ -256,9 +235,6 @@ public class VConsola extends JFrame implements IVista {
         return salida;
     }
 
-    // SACAR:
-
-
     @Override
     public void cambiarEstado(EstadosVista estado) {
         this.estadoActual = estado;
@@ -298,8 +274,8 @@ public class VConsola extends JFrame implements IVista {
         String ficha = textoInput.getText().toUpperCase().trim();
         int[] posicion = traductor(ficha);
         if (posicion[0] != -1) {
-            //ultFichaIngre = null; //Asigno nulo asi cuando actualizo no me agrega otro char
-            //fichaEliminar = tablero.substring(tablero.indexOf(ficha), tablero.indexOf(ficha) + 5);
+            this.ultFichaIngre = null; //Asigno nulo asi cuando actualizo no me agrega otro char
+            this.fichaEliminar = this.tablero.substring(this.tablero.indexOf(ficha), this.tablero.indexOf(ficha) + 5);
             this.controlador.sacarFicha(posicion[0], posicion[1], posicion[2]);
             //QUEDA SACAR EL CHAR DEL JUGADOR
         }else{
@@ -308,25 +284,22 @@ public class VConsola extends JFrame implements IVista {
         }
     }
 
-
     @Override
-    public void actualizarTablero(int[] ficha, String jugador, Eventos eventoMostrar) {
+    public void actualizarTablero() {
         String fichaPura;
-        switch (eventoMostrar){
-            case FICHAAGREGADA -> {
-                String posiSimbolica = traductorInverso(ficha);
-                fichaPura = posiSimbolica + "( )";
-                tableroDinamico = tableroDinamico.replaceAll(Pattern.quote(fichaPura), posiSimbolica + jugador);
-            }
-            case FICHASACADA -> {
-                String fichaAEliminar = traductorInverso(ficha) + jugador;
-                fichaPura = traductorInverso(ficha) + "( )";
-                tableroDinamico = tableroDinamico.replaceAll(Pattern.quote(fichaAEliminar), fichaPura);
-            }
+        //Hace un reemplazo y procede a mostrar el tablero actualizado
+        limpiarConsola(); // VER SI CUANDO MUEVO NO MOLESTA
+        if (ultFichaIngre != null){
+            fichaPura = ultFichaIngre.substring(0,2);
+            this.tablero = this.tablero.replaceAll(Pattern.quote(ultFichaIngre), fichaPura + this.controlador.getCharJugadorFicha());
+            ultFichaIngre = null;
+        }if (fichaEliminar != null) {
+            fichaPura = this.fichaEliminar.substring(this.fichaEliminar.indexOf(fichaEliminar), this.fichaEliminar.indexOf(fichaEliminar) + 2);
+            fichaPura = fichaPura + "( )";
+            this.tablero = this.tablero.replaceAll(Pattern.quote(fichaEliminar), fichaPura); //ARREGLAR
+            fichaEliminar = null;
         }
-        limpiarConsola();
         mostrarTablero();
-
     }
 
     @Override
@@ -338,9 +311,10 @@ public class VConsola extends JFrame implements IVista {
           5- muestro tablero actualizado.
          */
         String ficha = textoInput.getText().toUpperCase().trim();
+        boolean salida = false;
         int[] posicion = traductor(ficha);
         if (posicion[0] != -1) {
-            //ultFichaIngre = ficha + "( )"; //Guardo la ultima ficha ingresada por si me da un evento de que se ingreso con exito, procedo a hacer el cambio
+            ultFichaIngre = ficha + "( )"; //Guardo la ultima ficha ingresada por si me da un evento de que se ingreso con exito, procedo a hacer el cambio
             this.controlador.ponerFicha(posicion[0], posicion[1], posicion[2]);
         }else {cambiarEstado(INGRESARFICHA);}
 
@@ -359,8 +333,8 @@ public class VConsola extends JFrame implements IVista {
             boolean valido = this.controlador.verificarFicha(posicionFicha[0], posicionFicha[1], posicionFicha[2]);
             textoInput.setText("");
             if (valido) {
-                //fichaEliminar = fichaAMover;
-                //fichaEliminar = tablero.substring(tablero.indexOf(fichaEliminar), tablero.indexOf(fichaEliminar) + 5);//La guardo ya que la debere eliminar
+                fichaEliminar = fichaAMover;
+                fichaEliminar = tablero.substring(tablero.indexOf(fichaEliminar), tablero.indexOf(fichaEliminar) + 5);//La guardo ya que la debere eliminar
                 limpiarConsola();
                 mostrarTablero();
                 ficha = posicionFicha;
@@ -381,7 +355,7 @@ public class VConsola extends JFrame implements IVista {
             boolean valido = this.controlador.verificarPosicionVacia(posicionFichaMover[0], posicionFichaMover[1], posicionFichaMover[2]);
             textoInput.setText("");
             if (valido) {
-                //ultFichaIngre = fichaAMover + "( )";
+                ultFichaIngre = fichaAMover + "( )";
                 this.controlador.moverFicha(ficha[0], ficha[1], ficha[2], posicionFichaMover[0], posicionFichaMover[1], posicionFichaMover[2]);
             } else {
                 cambiarEstado(MOVERFICHA);
