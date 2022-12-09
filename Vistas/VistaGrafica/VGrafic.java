@@ -9,6 +9,7 @@ import Vistas.IVista;
 
 import javax.swing.*;
 import java.awt.*;
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -89,6 +90,11 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
         A2.setText("Vacío");
         A2.setBorder(null);
         A2.setBorderPainted(false);
+        A2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                A2ActionPerformed(evt);
+            }
+        });
         FondoTablero.add(A2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 20, 40, 20));
 
         A3.setText("Vacío");
@@ -104,6 +110,11 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
         A4.setText("Vacío");
         A4.setBorder(null);
         A4.setBorderPainted(false);
+        A4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                A4ActionPerformed(evt);
+            }
+        });
         FondoTablero.add(A4, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 160, 40, 20));
 
         A5.setText("Vacío");
@@ -119,6 +130,11 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
         A6.setText("Vacío");
         A6.setBorder(null);
         A6.setBorderPainted(false);
+        A6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                A6ActionPerformed(evt);
+            }
+        });
         FondoTablero.add(A6, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 310, 40, 20));
 
         A7.setText("Vacío");
@@ -134,16 +150,31 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
         A8.setText("Vacío");
         A8.setBorder(null);
         A8.setBorderPainted(false);
+        A8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                A8ActionPerformed(evt);
+            }
+        });
         FondoTablero.add(A8, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 160, 40, 20));
 
         B1.setText("Vacío");
         B1.setBorder(null);
         B1.setBorderPainted(false);
+        B1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B1ActionPerformed(evt);
+            }
+        });
         FondoTablero.add(B1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 50, 40, 20));
 
         B2.setText("Vacío");
         B2.setBorder(null);
         B2.setBorderPainted(false);
+        B2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B2ActionPerformed(evt);
+            }
+        });
         FondoTablero.add(B2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 50, 40, 20));
 
         B3.setText("Vacío");
@@ -159,66 +190,131 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
         B4.setText("Vacío");
         B4.setBorder(null);
         B4.setBorderPainted(false);
+        B4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B4ActionPerformed(evt);
+            }
+        });
         FondoTablero.add(B4, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 160, 40, 20));
 
         B5.setText("Vacío");
         B5.setBorder(null);
         B5.setBorderPainted(false);
+        B5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B5ActionPerformed(evt);
+            }
+        });
         FondoTablero.add(B5, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 270, 40, 20));
 
         B6.setText("Vacío");
         B6.setBorder(null);
         B6.setBorderPainted(false);
+        B6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B6ActionPerformed(evt);
+            }
+        });
         FondoTablero.add(B6, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 270, 40, 20));
 
         B7.setText("Vacío");
         B7.setBorder(null);
         B7.setBorderPainted(false);
+        B7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B7ActionPerformed(evt);
+            }
+        });
         FondoTablero.add(B7, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 270, 40, 20));
 
         B8.setText("Vacío");
         B8.setBorder(null);
         B8.setBorderPainted(false);
+        B8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B8ActionPerformed(evt);
+            }
+        });
         FondoTablero.add(B8, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 160, 40, 20));
 
         C1.setText("Vacío");
         C1.setBorder(null);
         C1.setBorderPainted(false);
+        C1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                C1ActionPerformed(evt);
+            }
+        });
         FondoTablero.add(C1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 90, 40, 20));
 
         C2.setText("Vacío");
         C2.setBorder(null);
         C2.setBorderPainted(false);
+        C2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                C2ActionPerformed(evt);
+            }
+        });
         FondoTablero.add(C2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 90, 40, 20));
 
         C3.setText("Vacío");
         C3.setBorder(null);
         C3.setBorderPainted(false);
+        C3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                C3ActionPerformed(evt);
+            }
+        });
         FondoTablero.add(C3, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 90, 40, 20));
 
         C4.setText("Vacío");
         C4.setBorder(null);
         C4.setBorderPainted(false);
+        C4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                C4ActionPerformed(evt);
+            }
+        });
         FondoTablero.add(C4, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 160, 40, 20));
 
         C5.setText("Vacío");
         C5.setBorder(null);
         C5.setBorderPainted(false);
+        C5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                C5ActionPerformed(evt);
+            }
+        });
         FondoTablero.add(C5, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 230, 40, 20));
 
         C6.setText("Vacío");
         C6.setBorder(null);
         C6.setBorderPainted(false);
+        C6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                C6ActionPerformed(evt);
+            }
+        });
         FondoTablero.add(C6, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 240, 40, 20));
 
         C7.setText("Vacío");
         C7.setBorder(null);
         C7.setBorderPainted(false);
+        C7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                C7ActionPerformed(evt);
+            }
+        });
         FondoTablero.add(C7, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 230, 40, 20));
 
         C8.setText("Vacío");
         C8.setBorder(null);
         C8.setBorderPainted(false);
+        C8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                C8ActionPerformed(evt);
+            }
+        });
         FondoTablero.add(C8, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 160, 40, 20));
 
         //Mio
@@ -264,96 +360,98 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
     }// </editor-fold>
 
     private void A1ActionPerformed(java.awt.event.ActionEvent evt) {
-        manejadorBotones(A1.getName());
+        manejadorBotones("A1");
     }
 
     private void A2ActionPerformed(java.awt.event.ActionEvent evt) {
-        manejadorBotones(A2.getName());
+        manejadorBotones("A2");
     }
     private void A3ActionPerformed(java.awt.event.ActionEvent evt) {
-        manejadorBotones(A3.getName());
+        manejadorBotones("A3");
     }
     private void A4ActionPerformed(java.awt.event.ActionEvent evt) {
-        manejadorBotones(A4.getName());
+        manejadorBotones("A4");
     }
     private void A5ActionPerformed(java.awt.event.ActionEvent evt) {
-        manejadorBotones(A5.getName());
+        manejadorBotones("A5");
     }
     private void A6ActionPerformed(java.awt.event.ActionEvent evt) {
-        manejadorBotones(A6.getName());
+        manejadorBotones("A6");
     }
     private void A7ActionPerformed(java.awt.event.ActionEvent evt) {
-        manejadorBotones(A7.getName());
+        manejadorBotones("A7");
     }
     private void A8ActionPerformed(java.awt.event.ActionEvent evt) {
-        manejadorBotones(A8.getName());
+        manejadorBotones("A8");
     }
     private void B1ActionPerformed(java.awt.event.ActionEvent evt) {
-        manejadorBotones(B1.getName());
+        manejadorBotones("B1");
     }
     private void B2ActionPerformed(java.awt.event.ActionEvent evt) {
-        manejadorBotones(B2.getName());
+        manejadorBotones("B2");
     }
     private void B3ActionPerformed(java.awt.event.ActionEvent evt) {
-        manejadorBotones(B3.getName());
+        manejadorBotones("B3");
     }
     private void B4ActionPerformed(java.awt.event.ActionEvent evt) {
-        manejadorBotones(B4.getName());
+        manejadorBotones("B4");
     }
     private void B5ActionPerformed(java.awt.event.ActionEvent evt) {
-        manejadorBotones(B5.getName());
+        manejadorBotones("B5");
     }
     private void B6ActionPerformed(java.awt.event.ActionEvent evt) {
-        manejadorBotones(B6.getName());
+        manejadorBotones("B6");
     }
     private void B7ActionPerformed(java.awt.event.ActionEvent evt) {
-        manejadorBotones(B7.getName());
+        manejadorBotones("B7");
     }
     private void B8ActionPerformed(java.awt.event.ActionEvent evt) {
-        manejadorBotones(B8.getName());
+        manejadorBotones("B8");
     }
     private void C1ActionPerformed(java.awt.event.ActionEvent evt) {
-        manejadorBotones(C1.getName());
+        manejadorBotones("C1");
     }
     private void C2ActionPerformed(java.awt.event.ActionEvent evt) {
-        manejadorBotones(C2.getName());
+        manejadorBotones("C2");
     }
     private void C3ActionPerformed(java.awt.event.ActionEvent evt) {
-        manejadorBotones(C3.getName());
+        manejadorBotones("C3");
     }
     private void C4ActionPerformed(java.awt.event.ActionEvent evt) {
-        manejadorBotones(C4.getName());
+        manejadorBotones("C4");
     }
     private void C5ActionPerformed(java.awt.event.ActionEvent evt) {
-        manejadorBotones(C5.getName());
+        manejadorBotones("C5");
     }
     private void C6ActionPerformed(java.awt.event.ActionEvent evt) {
-        manejadorBotones(C6.getName());
+        manejadorBotones("C6");
     }
     private void C7ActionPerformed(java.awt.event.ActionEvent evt) {
-        manejadorBotones(C7.getName());
+        manejadorBotones("C7");
     }
     private void C8ActionPerformed(java.awt.event.ActionEvent evt) {
-        manejadorBotones(C8.getName());
+        manejadorBotones("C8");
     }
 
 
     private void manejadorBotones(String name) {
+        this.textoInput = name;
         switch (this.estadoActual){
             case INGRESARFICHA -> {
                 this.ponerFicha();
             }
             case MOVERFICHA -> {
-
+                mostrarMoverFicha1fase();
             }
             case BLOQUEADA -> {
 
             }
             case SACARFICHA -> {
+                this.mostrarSacarFicha();
 
             }
             case MOVERFICHA2DAFASE -> {
-
+                mostrarMoverFicha2fase();
             }
         }
     }
@@ -427,7 +525,8 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
 
     @Override
     public void iniciar() {
-
+        this.TextoInformativo.setText("Seleccione la posicion donde ingresar la ficha");
+        this.mostrarConsola();
     }
 
     @Override
@@ -442,7 +541,7 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
 
     @Override
     public void mostrarPuntajesFinales() {
-
+        //VER QUE HACER CON ESTE METODO
     }
 
     @Override
@@ -468,6 +567,7 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
                 boton.setText(jugador);
             }
             case FICHASACADA -> {
+                habiDeshabiBotones(false);
                 boton = getBoton(ficha);
                 boton.setEnabled(true);
                 boton.setText("Vacío");
@@ -600,7 +700,8 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
             case BLOQUEADA -> println("Espere su turno...");
             case ESPERANDOCONEXION -> mostrarPantallaEspera();
             case INGRESARFICHA -> this.println("Su ficha es: " + this.controlador.getCharJugadorFicha() + ". " + "Ingrese la ficha que quiere agregar: ");
-            case SACARFICHA -> this.println("Su ficha es: " + this.controlador.getCharJugadorFicha() + ". " + "Ingrese la posicion de la ficha a eliminar: ");
+            case SACARFICHA -> {this.println("Su ficha es: " + this.controlador.getCharJugadorFicha() + ". " + "Ingrese la posicion de la ficha a eliminar: ");
+            habiDeshabiBotones(true);}
             case MOVERFICHA ->this.println("Su ficha es: " + this.controlador.getCharJugadorFicha() + ". " + "Ingrese la ficha a mover: ");
             case MOVERFICHA2DAFASE -> this.println("Su ficha es: " + this.controlador.getCharJugadorFicha() + ". " + "Ingrese la posicion a mover la ficha: ");
         }
@@ -666,7 +767,7 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
 
     @Override
     public void mostrarPantallaEspera() {
-
+        //No posee
     }
 
     @Override
@@ -684,8 +785,15 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
 
     @Override
     public void puntajeHistorico() {
-
+        String parametro = "===PUNTAJES HISTORICOS===";
+        String[] puntajes = this.controlador.desSerializar();
+        for (int i = 0; i < puntajes.length; i++) {
+            parametro += puntajes[i] + "\n";
+        }
+        //Llamo a la ventana con los resultados.
+        new Resultados(parametro);
     }
+
     // End of variables declaration
     public void println(String texto){
         this.TextoInformativo.setText(texto);
@@ -745,6 +853,26 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
         }
 
         return salida;
+    }
+
+    public void habiDeshabiBotones(boolean habilitar){
+        Component[] componentes = FondoTablero.getComponents();
+        if (habilitar) {
+            for (int i = 0; i < componentes.length; i++) {
+                if (componentes[i] instanceof JButton) {
+                    componentes[i].setEnabled(true);
+                }
+            }
+        }else{
+            for (int i = 0; i < componentes.length; i++) {
+                if (componentes[i] instanceof JButton) {
+                    if (((JButton) componentes[i]).getText() != "Vacío") {
+                        componentes[i].setEnabled(false);
+                    }
+                }
+            }
+        }
+
     }
 }
 

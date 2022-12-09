@@ -4,6 +4,7 @@ import Modelo.*;
 import Vistas.Errores;
 import Vistas.EstadosVista;
 import Vistas.IVista;
+import Vistas.VistaGrafica.VGrafic;
 import ar.edu.unlu.rmimvc.cliente.IControladorRemoto;
 import ar.edu.unlu.rmimvc.observer.IObservableRemoto;
 
@@ -183,6 +184,9 @@ public class Controlador implements IControladorRemoto {
             if (evento == Eventos.ESPERANDOJUGADORES){
                 this.vista.mostrarPantallaEspera();
             }
+            if (evento == Eventos.MENU){
+                this.vista.cambiarEstado(EstadosVista.MENU);
+            }
             if (evento == Eventos.INICIARPARTIDA){
                 this.vista.mostrarTablero();
                 this.vista.cambiarEstado(EstadosVista.INGRESARFICHA);
@@ -275,4 +279,10 @@ public class Controlador implements IControladorRemoto {
         return puntajesJugadores;
     }
 
+    public void cambiarAVistaGrafica() {
+        this.vista = new VGrafic();
+        this.vista.setControlador(this);
+        this.vista.iniciar();
+        this.vista.cambiarEstado(EstadosVista.INGRESARFICHA);
+    }
 }

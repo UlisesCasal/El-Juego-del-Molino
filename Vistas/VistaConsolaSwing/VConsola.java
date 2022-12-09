@@ -75,9 +75,25 @@ public class VConsola extends JFrame implements IVista {
                     case MOVERFICHA2DAFASE:{
                         mostrarMoverFicha2fase();
                     }
+                    case MENU:{
+                        mostrarMenuEleccion();
+                    }
                 }
             }
         });
+    }
+
+    private void mostrarMenuEleccion() {
+        String texto = this.textoInput.getText().trim().toUpperCase();
+        if (texto.equals("S")){
+            this.dispose();
+            this.controlador.cambiarAVistaGrafica();
+        }else {
+            textoInput.setText("");
+            limpiarConsola();
+            mostrarTablero();
+            cambiarEstado(INGRESARFICHA);
+        }
     }
 
     public void mostrarConsola(){
@@ -263,6 +279,7 @@ public class VConsola extends JFrame implements IVista {
     public void cambiarEstado(EstadosVista estado) {
         this.estadoActual = estado;
         switch (this.estadoActual) {
+            case MENU -> println("Ingrese (S/N) si desea cambiar a la vista grafica: ");
             case BLOQUEADA -> println("Espere su turno...");
             case ESPERANDOCONEXION -> mostrarPantallaEspera();
             case INGRESARFICHA -> this.println("Su ficha es: " + this.controlador.getCharJugadorFicha() + "\n" + "Ingrese la ficha que quiere agregar: ");

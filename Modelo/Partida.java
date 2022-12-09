@@ -39,7 +39,7 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
     public void iniciarPartida() throws RemoteException {
         //Metodo que verifica si hay dos jugadores conectados, en caso de haberlo inicia la partida:
         if (jugadores.size() == 2){
-            notificarObservadores(Eventos.INICIARPARTIDA);
+            notificarObservadores(Eventos.MENU);
         }
     }
     @Override

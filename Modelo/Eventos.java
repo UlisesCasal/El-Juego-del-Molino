@@ -15,6 +15,7 @@ public enum Eventos implements Serializable {
     ESPERANDOJUGADORES,
     CAMBIODETURNO,
     FICHANOAGREGADA,
-    SERIALIZADO
+    SERIALIZADO,
+    MENU
 
 }
