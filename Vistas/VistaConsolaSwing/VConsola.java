@@ -92,7 +92,7 @@ public class VConsola extends JFrame implements IVista {
             textoInput.setText("");
             limpiarConsola();
             mostrarTablero();
-            cambiarEstado(INGRESARFICHA);
+            cambiarEstado(this.controlador.getEstadoInicial());
         }
     }
 

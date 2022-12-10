@@ -173,7 +173,7 @@ public class Controlador implements IControladorRemoto {
     public void actualizar(IObservableRemoto modelo, Object evento) throws RemoteException {
         //Metodo que evalua las llamadas del modelo, y en base a eso realiza o no una accion en la vista:
         if(evento instanceof Eventos) {
-            Jugador jugadorTurno = this.modelo.darTurno();
+            String jugadorTurno = this.modelo.darTurno().getNombre();
 
             if (evento == Eventos.ESPERANDOJUGADORES){
                 this.vista.mostrarPantallaEspera();
@@ -186,7 +186,7 @@ public class Controlador implements IControladorRemoto {
                 this.vista.cambiarEstado(EstadosVista.INGRESARFICHA);
             }
             if (evento == Eventos.CAMBIODETURNO){
-                if (!Objects.equals(jugadorTurno.getNombre(), this.jugador)){
+                if (!Objects.equals(jugadorTurno, this.jugador)){
                     this.vista.cambiarEstado(EstadosVista.BLOQUEADA);
                 }else{
                     Eventos evnt = this.modelo.getEstadoJugador();
@@ -203,7 +203,7 @@ public class Controlador implements IControladorRemoto {
             if (evento == Eventos.SACARFICHA){
                 actualizarTablero(Eventos.FICHAAGREGADA);
                 //this.vista.actualizarTablero();
-                if (Objects.equals(this.jugador, jugadorTurno.getNombre())){
+                if (Objects.equals(this.jugador, jugadorTurno)){
                     cambiarEstadosVista(Eventos.SACARFICHA);
                 }
 
@@ -274,6 +274,29 @@ public class Controlador implements IControladorRemoto {
         this.vista = new VGrafic();
         this.vista.setControlador(this);
         this.vista.iniciar();
-        this.vista.cambiarEstado(EstadosVista.BLOQUEADA);
+        try {
+            if (Objects.equals(this.modelo.darTurno().getNombre(), this.jugador)) {
+                this.vista.cambiarEstado(EstadosVista.INGRESARFICHA);
+            } else {
+                this.vista.cambiarEstado(EstadosVista.BLOQUEADA);
+            }
+        }catch (RemoteException e){
+            e.printStackTrace();
+        }
+
+    }
+
+    public EstadosVista getEstadoInicial() {
+        EstadosVista salida = null;
+        try {
+            if (Objects.equals(this.modelo.darTurno().getNombre(), this.jugador)) {
+                salida = EstadosVista.INGRESARFICHA;
+            } else {
+                salida = EstadosVista.BLOQUEADA;
+            }
+        }catch (RemoteException e){
+            e.printStackTrace();
+        }
+        return salida;
     }
 }
