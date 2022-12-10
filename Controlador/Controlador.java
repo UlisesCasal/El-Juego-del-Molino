@@ -17,7 +17,7 @@ public class Controlador implements IControladorRemoto {
 
     private IPartida modelo;
     private IVista vista;
-    private Jugador jugador;
+    private String jugador;
     public Controlador(IVista vista){
         this.vista = vista;
         this.vista.setControlador(this);
@@ -72,7 +72,8 @@ public class Controlador implements IControladorRemoto {
         }catch (RemoteException e){
             e.printStackTrace();
         }
-        return this.jugador.getNumero() == jugadorTurno.getNumero();
+        assert jugadorTurno != null;
+        return Objects.equals(this.jugador, jugadorTurno.getNombre());
     }
 
     public String[] getPuntajesFinales() {
@@ -119,7 +120,7 @@ public class Controlador implements IControladorRemoto {
     public void setJugador(String nombre) throws RemoteException {
         try {
             this.modelo.setJugador(nombre);
-            this.jugador = this.modelo.getUltimoJugadorAgregado();
+            this.jugador = this.modelo.getUltimoJugadorAgregado().getNombre();
             this.modelo.iniciarPartida();
         }catch (RemoteException e){
             e.printStackTrace();
@@ -149,7 +150,7 @@ public class Controlador implements IControladorRemoto {
     }
 
     public String getNombreJugador() {
-        return this.jugador.getNombre();
+        return this.jugador;
     }
 
     public String[] getNombreJugadores() {
@@ -185,10 +186,11 @@ public class Controlador implements IControladorRemoto {
                 this.vista.cambiarEstado(EstadosVista.INGRESARFICHA);
             }
             if (evento == Eventos.CAMBIODETURNO){
-                if (jugadorTurno.getNumero() != this.jugador.getNumero()){
+                if (!Objects.equals(jugadorTurno.getNombre(), this.jugador)){
                     this.vista.cambiarEstado(EstadosVista.BLOQUEADA);
                 }else{
-                    cambiarEstadosVista(this.modelo.getEstadoJugador());
+                    Eventos evnt = this.modelo.getEstadoJugador();
+                    cambiarEstadosVista(evnt);
                 }
             }
             if ((evento == Eventos.FICHAAGREGADA) || (evento == Eventos.FICHAMOVIDA) || (evento == Eventos.FICHASACADA)){
@@ -201,7 +203,7 @@ public class Controlador implements IControladorRemoto {
             if (evento == Eventos.SACARFICHA){
                 actualizarTablero(Eventos.FICHAAGREGADA);
                 //this.vista.actualizarTablero();
-                if (this.jugador.getNumero() == jugadorTurno.getNumero()){
+                if (Objects.equals(this.jugador, jugadorTurno.getNombre())){
                     cambiarEstadosVista(Eventos.SACARFICHA);
                 }
 

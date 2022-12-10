@@ -51,12 +51,13 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
 
     @Override
     public Jugador darTurno() throws RemoteException{
+        Jugador salida = null;
         if (this.turno == 1) {
-            return jugadores.get(0);
+            salida =  jugadores.get(0);
         }else if (this.turno == 2){
-            return jugadores.get(1);
+            salida = jugadores.get(1);
         }
-        return null;
+        return salida;
     }
 
     @Override
@@ -101,6 +102,7 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
         if (this.turno == 1)
             this.turno ++;
         else this.turno --;
+        System.out.println("El turno es de: " + darTurno().getNombre());
         notificarObservadores(Eventos.CAMBIODETURNO);
     }
 
