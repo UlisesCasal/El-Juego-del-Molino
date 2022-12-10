@@ -1,5 +1,7 @@
 package Modelo;
 
+import Controlador.TipoFicha;
+import Vistas.Errores;
 import ar.edu.unlu.rmimvc.observer.ObservableRemoto;
 import Services.Serializador;
 
@@ -87,7 +89,7 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
                  }
             }
         }if ((darTurno().getNumeroFichasRestante() == 0)) { //Si tiene 0 fichas entonces notifico
-            //this.notificar(Eventos.SINFICHASPARAAGREGAR);
+            //notificarObservadores(Eventos.SINFICHASPARAAGREGAR);
         }if (!salida){
             notificarObservadores(Eventos.FICHANOAGREGADA);
         }
@@ -150,15 +152,22 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
     }
 
     @Override
-    public void moverFichas(Ficha ficha, int tmover, int fmover, int cmover, Jugador jugador) throws RemoteException {
-        Jugador jugadorActual;
-        if (this.tablero.moverFichas(ficha,tmover,fmover,cmover,jugador)){
-            fichaEliminada = ficha; //Verificar
-            fichaAgregada = jugador.getFicha(tmover,fmover,cmover);// verificar
+    public void moverFichas(int t, int f, int c, int tmover, int fmover, int cmover) throws RemoteException {
+        //Set posicion y set jugador a ficha
+
+        Jugador jugadorActual = darTurno();
+        Ficha ficha = jugadorActual.getFicha(t,f,c);
+
+        //Creo una nueva ficha con la posicion de la eliminada por que sino se pierde.
+        this.fichaEliminada = new Ficha(darTurno());
+        this.fichaEliminada.setPosicion(new int[]{t,f,c});
+        if (this.tablero.moverFichas(ficha,tmover,fmover,cmover,jugadorActual)){
+            //fichaEliminada = ficha; //Verificar
+            fichaAgregada = jugadorActual.getFicha(tmover,fmover,cmover);// verificar
             notificarObservadores(Eventos.FICHAMOVIDA);
-            if (this.tablero.verificarRaya(tmover,fmover,cmover,jugador,ficha)){
+            if (this.tablero.verificarRaya(tmover,fmover,cmover,jugadorActual,ficha)){
                 notificarObservadores(Eventos.SACARFICHA);
-                jugador.incPuntaje();
+                jugadorActual.incPuntaje();
             }else{
                 cambiarTurno();
             }
@@ -232,6 +241,7 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
     }
     @Override
     public String getTurnoAnterior() throws RemoteException{
+        //SACAR
         String jugador;
         if (this.turno == 1){
          jugador = String.valueOf(this.jugadores.get(1).getNumero());
@@ -256,15 +266,61 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
     }
 
     @Override
+    public int[] getPosicionFicha(TipoFicha tipoFicha) throws RemoteException {
+        int[] salida = null;
+        switch (tipoFicha){
+            case AGREGADA -> salida = this.fichaAgregada.getPosicion();
+            case ELIMINADA -> salida = this.fichaEliminada.getPosicion();
+        }
+        return salida;
+    }
+
+    @Override
+    public boolean verificarFichaMover(int t, int f, int c) throws RemoteException {
+        boolean salida = false;
+
+            Ficha ficha = getFicha(t, f, c);
+            if (ficha != null) {
+                if (ficha.getJugador() == darTurno()) {
+                    salida = true;
+                }
+            }
+        return salida;
+    }
+
+    @Override
+    public boolean verificarPosicionVacia(int t, int f, int c) throws RemoteException {
+        boolean salida = false;
+        Ficha ficha = getFicha(t, f, c);
+        if (ficha == null) {
+            System.out.println("ficha nula");
+            salida = true;
+        }
+        return  salida;
+    }
+
+    @Override
     public Jugador getUltimoJugadorAgregado() throws RemoteException{
         return jugadores.get(jugadores.size() - 1); //verificar si no se va de rango
     }
 
     @Override
-    public Eventos getEstadoJugador(Jugador jugador) throws RemoteException{
+    public int getNumeroJugador(TipoFicha tipoFicha) throws RemoteException {
+        int salida = 0;
+        switch (tipoFicha){
+           case AGREGADA -> salida = this.fichaAgregada.getJugador().getNumero();
+            case ELIMINADA -> salida = this.fichaEliminada.getJugador().getNumero();
+
+        }
+        return salida;
+    }
+
+    @Override
+    public Eventos getEstadoJugador() throws RemoteException{
         //METODO QUE DEVUELVE EL ESTADO DEL JUGADOR DEPENDE EL NUMERO DE FICHAS O SI TERMINO LA PARTIDA
 
         Eventos eventos = null;
+        Jugador jugador = darTurno();
         if (jugador.getNumeroFichasRestante() == 0){
             eventos = Eventos.SINFICHASPARAAGREGAR;
         } else if (jugador.getNumeroFichasRestante() > 0) {

@@ -409,6 +409,8 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
         manejadorBotones("B8");
     }
     private void C1ActionPerformed(java.awt.event.ActionEvent evt) {
+        System.out.println("=========");
+        System.out.println("C1 apretado!!!");
         manejadorBotones("C1");
     }
     private void C2ActionPerformed(java.awt.event.ActionEvent evt) {
@@ -435,12 +437,16 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
 
 
     private void manejadorBotones(String name) {
+        System.out.println("===========================");
+        System.out.println("Ingreso a manejador botones!!!");
+        System.out.println("El estado es: " + this.estadoActual);
         this.textoInput = name;
         switch (this.estadoActual){
             case INGRESARFICHA -> {
                 this.ponerFicha();
             }
             case MOVERFICHA -> {
+                System.out.println("Entro al case mover ficha!!!");
                 mostrarMoverFicha1fase();
             }
             case BLOQUEADA -> {
@@ -525,7 +531,7 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
 
     @Override
     public void iniciar() {
-        this.TextoInformativo.setText("Seleccione la posicion donde ingresar la ficha");
+        //this.TextoInformativo.setText("Seleccione la posicion donde ingresar la ficha");
         this.mostrarConsola();
     }
 
@@ -558,9 +564,12 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
 
     @Override
     public void actualizarTablero(int[] ficha, String jugador, Eventos eventoMostrar) {
+        System.out.println("===============================================");
+        System.out.println("Entro a actualizar tablero por mover ficha en Vista GRAFICA!!!");
         JButton boton;
         switch (eventoMostrar){
             case FICHAAGREGADA -> {
+                habiDeshabiBotones(false);
                 boton = getBoton(ficha);
                 //Recibo lo pasado y lo transformo a un boton y lo bloqueo.
                 boton.setEnabled(false);
@@ -702,7 +711,10 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
             case INGRESARFICHA -> this.println("Su ficha es: " + this.controlador.getCharJugadorFicha() + ". " + "Ingrese la ficha que quiere agregar: ");
             case SACARFICHA -> {this.println("Su ficha es: " + this.controlador.getCharJugadorFicha() + ". " + "Ingrese la posicion de la ficha a eliminar: ");
             habiDeshabiBotones(true);}
-            case MOVERFICHA ->this.println("Su ficha es: " + this.controlador.getCharJugadorFicha() + ". " + "Ingrese la ficha a mover: ");
+            case MOVERFICHA ->{
+                habiDeshabiBotones(true);
+                this.println("Su ficha es: " + this.controlador.getCharJugadorFicha() + ". " + "Seleccione la ficha a mover: ");
+            }
             case MOVERFICHA2DAFASE -> this.println("Su ficha es: " + this.controlador.getCharJugadorFicha() + ". " + "Ingrese la posicion a mover la ficha: ");
         }
     }
@@ -728,19 +740,23 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
 
     @Override
     public void mostrarMoverFicha1fase() {
+        System.out.println("Entro al mostrarMoverFicha1Fase!!!");
         String fichaAMover = textoInput;
         int[] posicionFicha = traductor(fichaAMover);
         if (posicionFicha[0] != -1) {
+            System.out.println("Posicion correcta");
             boolean valido = this.controlador.verificarFicha(posicionFicha[0], posicionFicha[1], posicionFicha[2]);
             if (valido) {
+                System.out.println("Posicion vacia!!!!");
                 limpiarConsola();
                 mostrarTablero(); // ver si lo dejo
                 ficha = posicionFicha;
-                cambiarEstado(MOVERFICHA2DAFASE);
                 //Pongo el boton como apretado, ya que fue elegido
                 JButton botonElegido = getBoton(posicionFicha);
                 botonElegido.setEnabled(false);
+                cambiarEstado(MOVERFICHA2DAFASE);
             }else{
+                System.out.println("No se pudo mover la ficha");
                 mostrarErrores(Errores.NOSEPUDOMOVERFICHA);
             }
         }else{
@@ -750,6 +766,7 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
 
     @Override
     public void mostrarMoverFicha2fase() {
+        System.out.println("Entro a mover ficha 2da Fase!!!");
         String fichaAMover = textoInput;
         int[] posicionFichaMover = traductor(fichaAMover);
         if (posicionFichaMover[0] != -1) {

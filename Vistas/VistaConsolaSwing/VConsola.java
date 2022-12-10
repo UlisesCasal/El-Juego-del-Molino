@@ -114,7 +114,7 @@ public class VConsola extends JFrame implements IVista {
         if ((nombre != null) && (nombre != "")){
             this.controlador.setJugador(nombre);
             textoInput.setText("");
-            cambiarEstado(ESPERANDOCONEXION);
+            //cambiarEstado(MENU);
         }else{
             this.println("Por favor ingrese un nombre válido...");
         }

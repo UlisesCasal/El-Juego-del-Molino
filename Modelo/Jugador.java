@@ -103,20 +103,11 @@ public class Jugador implements Serializable {
     }
 
     public Ficha getFicha(int t, int f, int c){
-        System.out.println("entro a getFicha()!!!");
         int[] posicionFichaActual;
-        System.out.println("Hola 00");
         Ficha salida = null;
-        System.out.println("Hola 0");
         boolean terminar = false;
-        System.out.println("Hola 1");
         int i = 0;
-        System.out.println("Hola 2");
         int contadorFichasPuestas = 0;
-        System.out.println("Hola 3");
-        System.out.println("El numero de fichas puestas es: " + this.numeroPuestas);
-        System.out.println("El largo de fichasPuestas = " + this.fichasPuestas.length);
-        System.out.println("El numero de fichas puestas es: " + this.numeroPuestas);
         while((!terminar) && (i < fichasPuestas.length - 1) && (contadorFichasPuestas < this.numeroPuestas)){
             if (fichasPuestas[i] != null) {
                 contadorFichasPuestas ++;

@@ -47,7 +47,7 @@ public class Controlador implements IControladorRemoto {
 
     public void moverFicha(int t, int f, int c, int tm, int fm, int cm){
         try {
-            this.modelo.moverFichas(this.modelo.getFicha(t,f,c), tm, fm, cm, this.modelo.darTurno());
+            this.modelo.moverFichas(t,f,c, tm, fm, cm);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -101,12 +101,17 @@ public class Controlador implements IControladorRemoto {
         return salida;
     }
 
-    public String getCharJugadorFicha(Ficha ficha){
-        String salida;
-        if (ficha.getJugador().getNumero() == 1){
-            salida = "(¤)";
-        }else{
-            salida = "(×)";
+    public String getCharJugadorFicha(TipoFicha ficha){
+        String salida = null;
+        try {
+            int numero = this.modelo.getNumeroJugador(ficha);
+            if (numero == 1) {
+                salida = "(¤)";
+            } else {
+                salida = "(×)";
+            }
+        }catch (RemoteException e){
+            e.printStackTrace();
         }
         return salida;
     }
@@ -126,15 +131,7 @@ public class Controlador implements IControladorRemoto {
         //verifica si la ficha es nula y si no lo es verifica si es del oponente:
         boolean salida = false;
         try {
-
-            Ficha ficha = this.modelo.getFicha(t, f, c);
-            if (ficha != null) {
-                if (ficha.getJugador() == this.modelo.darTurno()) {
-                    salida = true;
-                }
-            } else {
-                this.vista.mostrarErrores(Errores.NOSEPUDOMOVERFICHA);
-            }
+             salida = this.modelo.verificarFichaMover(t,f,c);
         }catch (RemoteException e){
             e.printStackTrace();
         }
@@ -144,15 +141,11 @@ public class Controlador implements IControladorRemoto {
     public boolean verificarPosicionVacia(int t, int f, int c){
         boolean salida = false;
         try {
-
-            Ficha ficha = this.modelo.getFicha(t, f, c);
-            if (ficha == null) {
-                salida = true;
-            }
+            salida = this.modelo.verificarPosicionVacia(t,f,c);
         }catch (RemoteException e){
             e.printStackTrace();
         }
-        return  salida;
+        return salida;
     }
 
     public String getNombreJugador() {
@@ -195,7 +188,7 @@ public class Controlador implements IControladorRemoto {
                 if (jugadorTurno.getNumero() != this.jugador.getNumero()){
                     this.vista.cambiarEstado(EstadosVista.BLOQUEADA);
                 }else{
-                    cambiarEstadosVista(this.modelo.getEstadoJugador(this.jugador));
+                    cambiarEstadosVista(this.modelo.getEstadoJugador());
                 }
             }
             if ((evento == Eventos.FICHAAGREGADA) || (evento == Eventos.FICHAMOVIDA) || (evento == Eventos.FICHASACADA)){
@@ -235,24 +228,20 @@ public class Controlador implements IControladorRemoto {
 
     private void actualizarTablero(Eventos evento) {
         try {
-            Ficha fichaAgregada;
-            Ficha fichaEliminada;
             int[] posicion;
             String charJugador;
             if (evento == Eventos.FICHAAGREGADA || evento == Eventos.FICHAMOVIDA) {
-                fichaAgregada = this.modelo.getFichaAgregada();
-                posicion = fichaAgregada.getPosicion();
-                charJugador = getCharJugadorFicha(fichaAgregada);
+                System.out.println("==============================");
+                System.out.println("Entro a actualizar tablero por mover ficha!!!");
+                //fichaAgregada = this.modelo.getFichaAgregada();
+                posicion = this.modelo.getPosicionFicha(TipoFicha.AGREGADA);
+                charJugador = getCharJugadorFicha(TipoFicha.AGREGADA); // CAMBIAR METODO
                 this.vista.actualizarTablero(posicion, charJugador, Eventos.FICHAAGREGADA);
             }
             if (evento == Eventos.FICHASACADA || evento == Eventos.FICHAMOVIDA) {
-                try {
-                    fichaEliminada = this.modelo.getFichaEliminada();
-                } catch (RemoteException e) {
-                    throw new RuntimeException(e);
-                }
-                posicion = fichaEliminada.getPosicion();
-                charJugador = getCharJugadorFicha(fichaEliminada);
+                //fichaEliminada = this.modelo.getFichaEliminada();
+                posicion = this.modelo.getPosicionFicha(TipoFicha.ELIMINADA);
+                charJugador = getCharJugadorFicha(TipoFicha.ELIMINADA); // CAMBIAR METODO
                 this.vista.actualizarTablero(posicion, charJugador, Eventos.FICHASACADA);
             }
         }catch (RemoteException e){
@@ -283,6 +272,6 @@ public class Controlador implements IControladorRemoto {
         this.vista = new VGrafic();
         this.vista.setControlador(this);
         this.vista.iniciar();
-        this.vista.cambiarEstado(EstadosVista.INGRESARFICHA);
+        this.vista.cambiarEstado(EstadosVista.BLOQUEADA);
     }
 }
