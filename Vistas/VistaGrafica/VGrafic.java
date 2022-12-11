@@ -747,7 +747,6 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
             System.out.println("Posicion correcta");
             boolean valido = this.controlador.verificarFicha(posicionFicha[0], posicionFicha[1], posicionFicha[2]);
             if (valido) {
-                System.out.println("Posicion vacia!!!!");
                 limpiarConsola();
                 mostrarTablero(); // ver si lo dejo
                 ficha = posicionFicha;
@@ -756,7 +755,6 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
                 botonElegido.setEnabled(false);
                 cambiarEstado(MOVERFICHA2DAFASE);
             }else{
-                System.out.println("No se pudo mover la ficha");
                 mostrarErrores(Errores.NOSEPUDOMOVERFICHA);
             }
         }else{
@@ -766,7 +764,6 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
 
     @Override
     public void mostrarMoverFicha2fase() {
-        System.out.println("Entro a mover ficha 2da Fase!!!");
         String fichaAMover = textoInput;
         int[] posicionFichaMover = traductor(fichaAMover);
         if (posicionFichaMover[0] != -1) {
@@ -808,7 +805,8 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
             parametro += puntajes[i] + "\n";
         }
         //Llamo a la ventana con los resultados.
-        new Resultados(parametro);
+        Resultados r = new Resultados(parametro);
+        Resultados.main(null);
     }
 
     // End of variables declaration

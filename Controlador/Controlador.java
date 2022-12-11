@@ -38,7 +38,7 @@ public class Controlador implements IControladorRemoto {
     public void sacarFicha(int t, int f, int c){
         //Metodo que llama al sacar ficha:
         try {
-            this.modelo.sacarFicha(this.modelo.getFicha(t,f,c));
+            this.modelo.sacarFicha(t,f,c);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -173,56 +173,64 @@ public class Controlador implements IControladorRemoto {
     public void actualizar(IObservableRemoto modelo, Object evento) throws RemoteException {
         //Metodo que evalua las llamadas del modelo, y en base a eso realiza o no una accion en la vista:
         if(evento instanceof Eventos) {
-            String jugadorTurno = this.modelo.darTurno().getNombre();
-
-            if (evento == Eventos.ESPERANDOJUGADORES){
-                this.vista.mostrarPantallaEspera();
-            }
-            if (evento == Eventos.MENU){
-                this.vista.cambiarEstado(EstadosVista.MENU);
-            }
-            if (evento == Eventos.INICIARPARTIDA){
-                this.vista.mostrarTablero();
-                this.vista.cambiarEstado(EstadosVista.INGRESARFICHA);
-            }
-            if (evento == Eventos.CAMBIODETURNO){
-                if (!Objects.equals(jugadorTurno, this.jugador)){
-                    this.vista.cambiarEstado(EstadosVista.BLOQUEADA);
-                }else{
-                    Eventos evnt = this.modelo.getEstadoJugador();
-                    cambiarEstadosVista(evnt);
-                }
-            }
-            if ((evento == Eventos.FICHAAGREGADA) || (evento == Eventos.FICHAMOVIDA) || (evento == Eventos.FICHASACADA)){
-                actualizarTablero((Eventos) evento);
-                //this.vista.actualizarTablero();
-
-            }if (evento == Eventos.FINPARTIDA) {
-                cambiarEstadosVista(Eventos.FINPARTIDA);
-            }
-            if (evento == Eventos.SACARFICHA){
-                actualizarTablero(Eventos.FICHAAGREGADA);
-                //this.vista.actualizarTablero();
-                if (Objects.equals(this.jugador, jugadorTurno)){
-                    cambiarEstadosVista(Eventos.SACARFICHA);
-                }
-
-            }if (evento == Eventos.NOSACADA){
-                if (esJugadorActual()) {
-                    this.vista.mostrarErrores(Errores.NOSEPUDOSACARFICHA);
-                }
-            }if (evento == Eventos.FICHANOMOVIDA){
-                if (esJugadorActual()) {
-                    this.vista.mostrarErrores(Errores.NOSEPUDOMOVERFICHA);
-                }
-            }if (evento == Eventos.SINFICHASPARAAGREGAR){
-                this.vista.cambiarEstado(EstadosVista.MOVERFICHA);
-            }if (evento == Eventos.FICHANOAGREGADA){
-                if (esJugadorActual()) {
-                    this.vista.mostrarErrores(Errores.NOSEPUDOAGREGARFICHA);
-                }
-            }if (evento == Eventos.SERIALIZADO){
+            if (evento == Eventos.SERIALIZADO){
                 cambiarEstadosVista(Eventos.SERIALIZADO);
+            }else {
+                String jugadorTurno = this.modelo.darTurno().getNombre();
+
+
+                if (evento == Eventos.ESPERANDOJUGADORES) {
+                    this.vista.mostrarPantallaEspera();
+                }
+                if (evento == Eventos.MENU) {
+                    this.vista.cambiarEstado(EstadosVista.MENU);
+                }
+                if (evento == Eventos.INICIARPARTIDA) {
+                    this.vista.mostrarTablero();
+                    this.vista.cambiarEstado(EstadosVista.INGRESARFICHA);
+                }
+                if (evento == Eventos.CAMBIODETURNO) {
+                    if (!Objects.equals(jugadorTurno, this.jugador)) {
+                        this.vista.cambiarEstado(EstadosVista.BLOQUEADA);
+                    } else {
+                        Eventos evnt = this.modelo.getEstadoJugador();
+                        cambiarEstadosVista(evnt);
+                    }
+                }
+                if ((evento == Eventos.FICHAAGREGADA) || (evento == Eventos.FICHAMOVIDA) || (evento == Eventos.FICHASACADA)) {
+                    actualizarTablero((Eventos) evento);
+                    //this.vista.actualizarTablero();
+
+                }
+                if (evento == Eventos.FINPARTIDA) {
+                    cambiarEstadosVista(Eventos.FINPARTIDA);
+                }
+                if (evento == Eventos.SACARFICHA) {
+                    actualizarTablero(Eventos.FICHAAGREGADA);
+                    //this.vista.actualizarTablero();
+                    if (Objects.equals(this.jugador, jugadorTurno)) {
+                        cambiarEstadosVista(Eventos.SACARFICHA);
+                    }
+
+                }
+                if (evento == Eventos.NOSACADA) {
+                    if (esJugadorActual()) {
+                        this.vista.mostrarErrores(Errores.NOSEPUDOSACARFICHA);
+                    }
+                }
+                if (evento == Eventos.FICHANOMOVIDA) {
+                    if (esJugadorActual()) {
+                        this.vista.mostrarErrores(Errores.NOSEPUDOMOVERFICHA);
+                    }
+                }
+                if (evento == Eventos.SINFICHASPARAAGREGAR) {
+                    this.vista.cambiarEstado(EstadosVista.MOVERFICHA);
+                }
+                if (evento == Eventos.FICHANOAGREGADA) {
+                    if (esJugadorActual()) {
+                        this.vista.mostrarErrores(Errores.NOSEPUDOAGREGARFICHA);
+                    }
+                }
             }
         }
     }
@@ -256,7 +264,7 @@ public class Controlador implements IControladorRemoto {
         METODO QUE AGARRA TODOS LOS JUGADORES Y LOS RETORNA.
         - VERIFICAR SI FUNCIONA
          */
-        ArrayList <Jugador> jugadores = null;
+        ArrayList <Jugador> jugadores = new ArrayList<>();
         Object[] recuperado = serializador.readObjects();
         for (int i = 0; i < recuperado.length; i++){
             jugadores.add((Jugador) recuperado[i]);

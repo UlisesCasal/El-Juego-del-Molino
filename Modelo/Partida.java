@@ -9,6 +9,7 @@ import Services.Serializador;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Partida extends ObservableRemoto implements IPartida, Serializable {
@@ -106,7 +107,8 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
     }
 
     @Override
-    public void sacarFicha(Ficha ficha) throws RemoteException {
+    public void sacarFicha(int t, int f, int c) throws RemoteException {
+        Ficha ficha = getFicha(t,f,c);
         boolean resultadoSacar = false;
         //Primero me fijo si el jugador contrario tiene fichas a eliminar
         Jugador jugadorContrario;
@@ -175,7 +177,6 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
             terminoLaPartida(); //VER SI ANDA
 
         }else{
-            System.out.println("Movimiento no encontrado!!!");
             notificarObservadores(Eventos.FICHANOMOVIDA);
 
         }
@@ -283,6 +284,9 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
                 if (ficha.getJugador() == darTurno()) {
                     salida = true;
                 }
+                System.out.println("La ficha es de: " + ficha.getJugador().getNombre());
+                System.out.println("En la posicion: " + Arrays.toString(ficha.getPosicion()));
+
             }
         return salida;
     }
@@ -294,6 +298,9 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
         if (ficha == null) {
             System.out.println("ficha nula");
             salida = true;
+        }else{
+            System.out.println("El dueño de la ficha es: " + ficha.getJugador().getNombre());
+            System.out.println("En la posicion " + Arrays.toString(ficha.getPosicion()));
         }
         return  salida;
     }
@@ -325,7 +332,6 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
         } else if (jugador.getNumeroFichasRestante() > 0) {
             eventos = Eventos.FICHAAGREGADA;
         }else{
-            System.out.println("Error de cantidad menor a 3"); //SACAR
             terminoLaPartida();
         }
         return eventos;

@@ -8,8 +8,10 @@ public class Resultados extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JLabel TextoInformativo;
+    private static String resultado;
 
-    public Resultados(String resultado) {
+    public Resultados(String resultadoEntrada) {
+        resultado = resultadoEntrada;
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -28,13 +30,12 @@ public class Resultados extends JDialog {
         // add your code here
         dispose();
     }
-    /*
     public static void main(String[] args) {
-        Resultados dialog = new Resultados();
+        Resultados dialog = new Resultados(resultado);
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
     }
 
-     */
+
 }

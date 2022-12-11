@@ -18,7 +18,7 @@ public interface IPartida extends IObservableRemoto, Remote {
 
     boolean ponerFicha(int t, int f, int c) throws RemoteException;
 
-    void sacarFicha(Ficha ficha) throws RemoteException;
+    void sacarFicha(int t, int f, int c) throws RemoteException;
     void moverFichas(int t, int f, int c, int tmover, int fmover, int cmover) throws RemoteException;
     int[] getPuntajes() throws RemoteException;
     String getTurnoAnterior() throws RemoteException;
