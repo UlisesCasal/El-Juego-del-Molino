@@ -148,10 +148,6 @@ public class Jugador implements Serializable {
         }
         this.fichasPuestas[numeroPuestas] = ficha;
         this.numeroPuestas++;
-        System.out.println("El jugador " + this.nombre + "tiene: ");
-        System.out.println("El numero de fichas puestas es: " + this.numeroPuestas);
-        System.out.println("El largo del array es: " + this.fichasPuestas.length);
-        System.out.println("======================================================");
     }
 
     public String getNombre() {

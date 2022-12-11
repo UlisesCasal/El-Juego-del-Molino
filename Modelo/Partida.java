@@ -102,7 +102,6 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
         if (this.turno == 1)
             this.turno ++;
         else this.turno --;
-        System.out.println("El turno es de: " + darTurno().getNombre());
         notificarObservadores(Eventos.CAMBIODETURNO);
     }
 
@@ -176,6 +175,7 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
             terminoLaPartida(); //VER SI ANDA
 
         }else{
+            System.out.println("Movimiento no encontrado!!!");
             notificarObservadores(Eventos.FICHANOMOVIDA);
 
         }
@@ -253,11 +253,8 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
 
     @Override
     public Ficha getFicha(int t, int f, int c) throws RemoteException{
-        System.out.println("entro!!!");
         Ficha fichaJugador1 = jugadores.get(0).getFicha(t,f,c);
-        System.out.println("salio j1");
         Ficha fichaJugador2 = jugadores.get(1).getFicha(t,f,c);
-        System.out.println("salio j2");
         Ficha fichaSalida = null;
         if (fichaJugador1 != null){
             fichaSalida = fichaJugador1;
