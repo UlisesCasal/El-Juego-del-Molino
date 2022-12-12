@@ -11,6 +11,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class Partida extends ObservableRemoto implements IPartida, Serializable {
     private List<Jugador> jugadores = new ArrayList<Jugador>();
@@ -47,7 +48,11 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
     }
     @Override
     public void setJugador(String nombre) throws RemoteException{
-        jugadores.add(new Jugador(nombre, this.numeroJugadores++ ));
+        if (jugadores.size() < 2) {
+            jugadores.add(new Jugador(nombre, this.numeroJugadores++));
+        }else{
+            notificarObservadores(Eventos.ESPERANDOJUGADORES);
+        }
     }
 
     @Override
@@ -242,6 +247,17 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
         fichas.addAll(fichas2);
         return fichas;
     }
+
+    @Override
+    public void desconexion(String jugador) throws RemoteException {
+        for (Jugador j: jugadores) {
+            if (Objects.equals(j.getNombre(), jugador)){
+                j.incPuntaje();
+            }
+        }
+        notificarObservadores(Eventos.DESCONEXION);
+    }
+
     @Override
     public String getTurnoAnterior() throws RemoteException{
         //SACAR

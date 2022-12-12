@@ -9,6 +9,7 @@ import ar.edu.unlu.rmimvc.cliente.IControladorRemoto;
 import ar.edu.unlu.rmimvc.observer.IObservableRemoto;
 
 import java.rmi.RemoteException;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -178,58 +179,67 @@ public class Controlador implements IControladorRemoto {
             }else {
                 String jugadorTurno = this.modelo.darTurno().getNombre();
 
+                if (estaEnPartida()) {
 
-                if (evento == Eventos.ESPERANDOJUGADORES) {
-                    this.vista.mostrarPantallaEspera();
-                }
-                if (evento == Eventos.MENU) {
-                    this.vista.cambiarEstado(EstadosVista.MENU);
-                }
-                if (evento == Eventos.INICIARPARTIDA) {
-                    this.vista.mostrarTablero();
-                    this.vista.cambiarEstado(EstadosVista.INGRESARFICHA);
-                }
-                if (evento == Eventos.CAMBIODETURNO) {
-                    if (!Objects.equals(jugadorTurno, this.jugador)) {
-                        this.vista.cambiarEstado(EstadosVista.BLOQUEADA);
-                    } else {
-                        Eventos evnt = this.modelo.getEstadoJugador();
-                        cambiarEstadosVista(evnt);
+                    if (evento == Eventos.MENU) {
+                        this.vista.cambiarEstado(EstadosVista.MENU);
                     }
-                }
-                if ((evento == Eventos.FICHAAGREGADA) || (evento == Eventos.FICHAMOVIDA) || (evento == Eventos.FICHASACADA)) {
-                    actualizarTablero((Eventos) evento);
-                    //this.vista.actualizarTablero();
+                    if (evento == Eventos.INICIARPARTIDA) {
+                        this.vista.mostrarTablero();
+                        this.vista.cambiarEstado(EstadosVista.INGRESARFICHA);
+                    }
+                    if (evento == Eventos.CAMBIODETURNO) {
+                        if (!Objects.equals(jugadorTurno, this.jugador)) {
+                            this.vista.cambiarEstado(EstadosVista.BLOQUEADA);
+                        } else {
+                            Eventos evnt = this.modelo.getEstadoJugador();
+                            cambiarEstadosVista(evnt);
+                        }
+                    }
+                    if ((evento == Eventos.FICHAAGREGADA) || (evento == Eventos.FICHAMOVIDA) || (evento == Eventos.FICHASACADA)) {
+                        actualizarTablero((Eventos) evento);
+                        //this.vista.actualizarTablero();
 
-                }
-                if (evento == Eventos.FINPARTIDA) {
-                    cambiarEstadosVista(Eventos.FINPARTIDA);
-                }
-                if (evento == Eventos.SACARFICHA) {
-                    actualizarTablero(Eventos.FICHAAGREGADA);
-                    //this.vista.actualizarTablero();
-                    if (Objects.equals(this.jugador, jugadorTurno)) {
-                        cambiarEstadosVista(Eventos.SACARFICHA);
                     }
+                    if (evento == Eventos.FINPARTIDA) {
+                        cambiarEstadosVista(Eventos.FINPARTIDA);
+                    }
+                    if (evento == Eventos.SACARFICHA) {
+                        actualizarTablero(Eventos.FICHAAGREGADA);
+                        //this.vista.actualizarTablero();
+                        if (Objects.equals(this.jugador, jugadorTurno)) {
+                            cambiarEstadosVista(Eventos.SACARFICHA);
+                        }
 
-                }
-                if (evento == Eventos.NOSACADA) {
-                    if (esJugadorActual()) {
-                        this.vista.mostrarErrores(Errores.NOSEPUDOSACARFICHA);
                     }
-                }
-                if (evento == Eventos.FICHANOMOVIDA) {
-                    if (esJugadorActual()) {
-                        this.vista.mostrarErrores(Errores.NOSEPUDOMOVERFICHA);
+                    if (evento == Eventos.NOSACADA) {
+                        if (esJugadorActual()) {
+                            this.vista.mostrarErrores(Errores.NOSEPUDOSACARFICHA);
+                        }
                     }
-                }
-                if (evento == Eventos.SINFICHASPARAAGREGAR) {
-                    this.vista.cambiarEstado(EstadosVista.MOVERFICHA);
-                }
-                if (evento == Eventos.FICHANOAGREGADA) {
-                    if (esJugadorActual()) {
-                        this.vista.mostrarErrores(Errores.NOSEPUDOAGREGARFICHA);
+                    if (evento == Eventos.FICHANOMOVIDA) {
+                        if (esJugadorActual()) {
+                            this.vista.mostrarErrores(Errores.NOSEPUDOMOVERFICHA);
+                        }
                     }
+                    if (evento == Eventos.SINFICHASPARAAGREGAR) {
+                        this.vista.cambiarEstado(EstadosVista.MOVERFICHA);
+                    }
+                    if (evento == Eventos.FICHANOAGREGADA) {
+                        if (esJugadorActual()) {
+                            this.vista.mostrarErrores(Errores.NOSEPUDOAGREGARFICHA);
+                        }
+                    }
+                    if (evento == Eventos.DESCONEXION) {
+                        if (this.vista != null) {
+                            cambiarEstadosVista(Eventos.FINPARTIDA);
+                        }
+                    }
+                    if (evento == Eventos.ESPERANDOJUGADORES) {
+                        this.vista.mostrarPantallaEspera();
+                    }
+                }else{
+                    this.vista.cambiarEstado(EstadosVista.ESPERANDOCONEXION);
                 }
             }
         }
@@ -301,6 +311,32 @@ public class Controlador implements IControladorRemoto {
                 salida = EstadosVista.INGRESARFICHA;
             } else {
                 salida = EstadosVista.BLOQUEADA;
+            }
+        }catch (RemoteException e){
+            e.printStackTrace();
+        }
+        return salida;
+    }
+
+    public void desconectado() {
+        try {
+            this.vista = null;
+            this.modelo.desconexion(this.jugador);
+        }catch (RemoteException e){
+            e.printStackTrace();
+        }
+    }
+
+    public boolean estaEnPartida(){
+        boolean salida = false;
+        try {
+            String[] jugadores = this.modelo.getNombreJugadores();
+            int i = 0;
+            while (i < jugadores.length) {
+                if (Objects.equals(jugadores[i], this.jugador)) {
+                    salida = true;
+                }
+                i++;
             }
         }catch (RemoteException e){
             e.printStackTrace();

@@ -7,8 +7,11 @@ import Vistas.Errores;
 import Vistas.EstadosVista;
 import Vistas.IVista;
 
+import javax.sound.midi.SysexMessage;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Objects;
@@ -26,6 +29,14 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
      * Creates new form VGrafic
      */
     public VGrafic() {
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                controlador.desconectado();
+                super.windowClosing(e);
+                System.exit(0);
+            }
+        });
         initComponents();
     }
 
@@ -69,7 +80,7 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
         TextoInformativo = new javax.swing.JLabel();
         Fondo = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        //setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         bg.setBackground(new java.awt.Color(255, 255, 255));
         bg.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -531,13 +542,14 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
 
     @Override
     public void iniciar() {
-        //this.TextoInformativo.setText("Seleccione la posicion donde ingresar la ficha");
         this.mostrarConsola();
+        this.TextoInformativo.setText("Seleccione la posicion donde ingresar la ficha");
     }
 
     @Override
     public void setControlador(Controlador controlador) {
         this.controlador = controlador;
+        setTitle("El Juego del Molino, jugador: " + this.controlador.getNombreJugador());
     }
 
     @Override
@@ -547,7 +559,8 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
 
     @Override
     public void mostrarPuntajesFinales() {
-        //VER QUE HACER CON ESTE METODO
+        TextoInformativo.setText("Ganaste!!!, el rival se ha desconectado.");
+        cambiarEstado(BLOQUEADA);
     }
 
     @Override
@@ -564,8 +577,6 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
 
     @Override
     public void actualizarTablero(int[] ficha, String jugador, Eventos eventoMostrar) {
-        System.out.println("===============================================");
-        System.out.println("Entro a actualizar tablero por mover ficha en Vista GRAFICA!!!");
         JButton boton;
         switch (eventoMostrar){
             case FICHAAGREGADA -> {

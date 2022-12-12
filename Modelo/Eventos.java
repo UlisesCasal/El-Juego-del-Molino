@@ -16,6 +16,7 @@ public enum Eventos implements Serializable {
     CAMBIODETURNO,
     FICHANOAGREGADA,
     SERIALIZADO,
-    MENU
+    MENU,
+    DESCONEXION
 
 }
