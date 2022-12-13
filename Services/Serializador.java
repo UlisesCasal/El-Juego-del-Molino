@@ -9,6 +9,7 @@ public class Serializador {
     public Serializador(String fileName){
         super();
         this.fileName = fileName;
+
     }
 
     public boolean writeOneObject(Object obj){
@@ -91,4 +92,5 @@ public class Serializador {
         }
         return respuesta;
     }
+
 }

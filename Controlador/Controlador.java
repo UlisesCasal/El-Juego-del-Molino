@@ -1,6 +1,7 @@
 package Controlador;
 
 import Modelo.*;
+import Services.Serializacion;
 import Vistas.Errores;
 import Vistas.EstadosVista;
 import Vistas.IVista;
@@ -251,8 +252,6 @@ public class Controlador implements IControladorRemoto {
             int[] posicion;
             String charJugador;
             if (evento == Eventos.FICHAAGREGADA || evento == Eventos.FICHAMOVIDA) {
-                System.out.println("==============================");
-                System.out.println("Entro a actualizar tablero por mover ficha!!!");
                 //fichaAgregada = this.modelo.getFichaAgregada();
                 posicion = this.modelo.getPosicionFicha(TipoFicha.AGREGADA);
                 charJugador = getCharJugadorFicha(TipoFicha.AGREGADA); // CAMBIAR METODO
@@ -269,23 +268,8 @@ public class Controlador implements IControladorRemoto {
         }
     }
 
-    public String[] desSerializar() {
-        /*
-        METODO QUE AGARRA TODOS LOS JUGADORES Y LOS RETORNA.
-        - VERIFICAR SI FUNCIONA
-         */
-        ArrayList <Jugador> jugadores = new ArrayList<>();
-        Object[] recuperado = serializador.readObjects();
-        for (int i = 0; i < recuperado.length; i++){
-            jugadores.add((Jugador) recuperado[i]);
-        }
-        String[] puntajesJugadores = new String[jugadores.size()];
-
-        for (int i = 0; i < jugadores.size(); i++) {
-            puntajesJugadores[i] = jugadores.get(i).getNombre() + ": " + jugadores.get(i).getPuntaje();
-
-        }
-        return puntajesJugadores;
+    public String desSerializar() {
+        return Serializacion.desSerializar();
     }
 
     public void cambiarAVistaGrafica() {

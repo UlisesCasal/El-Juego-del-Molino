@@ -438,10 +438,7 @@ public class VConsola extends JFrame implements IVista {
         - VERIFICAR SI FUNCIONA.
          */
         println("===PUNTAJES HISTORICOS===");
-        String[] puntajes = this.controlador.desSerializar();
-        for (int i = 0; i < puntajes.length; i++) {
-            println(puntajes[i]);
-        }
+        println(this.controlador.desSerializar());
     }
 
 

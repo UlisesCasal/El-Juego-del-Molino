@@ -559,6 +559,8 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
 
     @Override
     public void mostrarPuntajesFinales() {
+
+        // VERIFICAR:
         TextoInformativo.setText("Ganaste!!!, el rival se ha desconectado.");
         cambiarEstado(BLOQUEADA);
     }
@@ -810,11 +812,12 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
 
     @Override
     public void puntajeHistorico() {
-        String parametro = "===PUNTAJES HISTORICOS===";
-        String[] puntajes = this.controlador.desSerializar();
-        for (int i = 0; i < puntajes.length; i++) {
-            parametro += puntajes[i] + "\n";
-        }
+
+        String[] puntaje = this.controlador.getPuntajesFinales();
+        String[] nombreJugadores = this.controlador.getNombreJugadores();
+        String parametro = "Los puntajes de esta partida son: " + "\n\r";
+        parametro += "===PUNTAJES HISTORICOS===" + "\n\r";
+        parametro += this.controlador.desSerializar();
         //Llamo a la ventana con los resultados.
         Resultados r = new Resultados(parametro);
         Resultados.main(null);

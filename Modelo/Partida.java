@@ -1,6 +1,7 @@
 package Modelo;
 
 import Controlador.TipoFicha;
+import Services.Serializacion;
 import Vistas.Errores;
 import ar.edu.unlu.rmimvc.observer.ObservableRemoto;
 import Services.Serializador;
@@ -196,6 +197,7 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
             if ((jugadores.get(0).getFichasTotales() < 3) || (jugadores.get(1).getFichasTotales() < 3) || (this.tablero.sinMovimientos(jugadores.get(0)) || (this.tablero.sinMovimientos(jugadores.get(1))))) {
                 notificarObservadores(Eventos.FINPARTIDA);
                 serializar();
+                notificarObservadores(Eventos.SERIALIZADO);
                 salida = true;
             }
         }
@@ -210,12 +212,7 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
         int numeroJugadores = jugadores.size();
         int contador = 0;
 
-        if (jugadores.size() == 2){
-            serializador.writeOneObject(jugadores.get(0));
-            serializador.addOneObject(jugadores.get(1));
-        }
-        jugadores.clear();
-        notificarObservadores(Eventos.SERIALIZADO);
+        Serializacion.serializar(this.jugadores);
     }
 
     @Override

@@ -1,25 +1,36 @@
 package Services;
 
 import Modelo.Jugador;
-import Modelo.Partida;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.Arrays;
+import java.util.List;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Serializacion {
     private static Serializador serializador = new Serializador("datos.dat");
     private static ArrayList<Jugador> jugadores;
-    public void serializar(Jugador[] jugadores){
-        if (jugadores.length >= 1){
-            serializador.writeOneObject(jugadores[0]);
-            for (int i = 1; i < jugadores.length; i++){
-                serializador.addOneObject(jugadores[i]);
+    public static void serializar(List<Jugador> jugadores){
+        if (jugadores.size() >= 1){
+            boolean noExiste = Files.notExists(Path.of("datos.dat"));
+            Path path = Path.of("datos.dat");
+            File archivo = path.toFile();
+            if (noExiste || archivo.length() == 0) {
+                serializador.writeOneObject(jugadores.get(0));
+            }
+            for (int i = 1; i < jugadores.size(); i++){
+                serializador.addOneObject(jugadores.get(i));
             }
         }
     }
 
-    public String desSerializar(){
+    public static String desSerializar(){
+        if (jugadores == null){
+            jugadores = new ArrayList<>();
+        }
         String salida;
         Object[] recuperado = serializador.readObjects();
 
@@ -33,16 +44,20 @@ public class Serializacion {
     }
 
     public static void sortJugadores() {
+        Jugador[] jugadoresArray = jugadores.toArray(new Jugador[0]);
         Jugador auxiliar = null;
         for (int i = 0; i < jugadores.size(); i++) {
             for (int j = 0; j < jugadores.size() - 1; j++) {
-                if (jugadores.get(j).getPuntaje() > jugadores.get(j + 1).getPuntaje()){
-                    auxiliar = jugadores.get(j);
-                    jugadores.add(j, jugadores.get(j+1));
-                    jugadores.add(j+1, auxiliar);
+                if (jugadoresArray[j].getPuntaje() > jugadoresArray[j + 1].getPuntaje()){
+                    auxiliar = jugadoresArray[j];
+                    jugadoresArray[j] = jugadoresArray[j+1];
+                    jugadoresArray[j+1] =  auxiliar;
                 }
             }
         }
+
+        jugadores.clear();
+        jugadores.addAll(Arrays.asList(jugadoresArray));
     }
 
     public static String armarString(){
