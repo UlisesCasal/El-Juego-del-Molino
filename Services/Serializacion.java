@@ -19,6 +19,7 @@ public class Serializacion {
             Path path = Path.of("datos.dat");
             File archivo = path.toFile();
             if (noExiste || archivo.length() == 0) {
+                System.out.println("Escribe cabecera!!!");
                 serializador.writeOneObject(jugadores.get(0));
             }
             for (int i = 1; i < jugadores.size(); i++){
@@ -29,10 +30,12 @@ public class Serializacion {
 
     public static String desSerializar(){
         if (jugadores == null){
+            System.out.println("Crea arreglo de jugadores!!!");
             jugadores = new ArrayList<>();
         }
         String salida;
         Object[] recuperado = serializador.readObjects();
+        System.out.println("la cantidad de jugadores recuperados es: " + recuperado.length);
 
         //PRIMERO RECUPERO LOS OBJETOS DE JUGADOR:
         for (int i = 0; i < recuperado.length; i ++){

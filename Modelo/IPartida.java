@@ -33,4 +33,6 @@ public interface IPartida extends IObservableRemoto, Remote {
     List<Ficha> getFichasPuestas() throws RemoteException;
 
     void desconexion(String jugador) throws RemoteException;
+
+    void reiniciar() throws RemoteException;
 }

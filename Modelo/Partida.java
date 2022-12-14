@@ -35,9 +35,12 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
     public static Serializador serializador = new Serializador("datos.dat");
 
     public Partida(){
+        this.tablero = null;
+        this.fichaEliminada = null;
+        this.jugadores = new ArrayList<>();
+        this.fichaAgregada = null;
         tablero = new Tablero();
         this.numeroJugadores = 0;
-        boolean turno = true;
     }
 
     @Override
@@ -253,6 +256,16 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
             }
         }
         notificarObservadores(Eventos.DESCONEXION);
+    }
+
+    @Override
+    public void reiniciar() throws RemoteException{
+        this.tablero = null;
+        this.fichaEliminada = null;
+        this.jugadores = new ArrayList<>();
+        this.fichaAgregada = null;
+        tablero = new Tablero();
+        this.numeroJugadores = 0;
     }
 
     @Override

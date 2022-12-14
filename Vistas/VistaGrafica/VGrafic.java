@@ -6,6 +6,7 @@ import Modelo.Eventos;
 import Vistas.Errores;
 import Vistas.EstadosVista;
 import Vistas.IVista;
+import Vistas.VistaGrafica.ResultadosFinales.Resultados;
 
 import javax.sound.midi.SysexMessage;
 import javax.swing.*;
@@ -729,6 +730,10 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
                 this.println("Su ficha es: " + this.controlador.getCharJugadorFicha() + ". " + "Seleccione la ficha a mover: ");
             }
             case MOVERFICHA2DAFASE -> this.println("Su ficha es: " + this.controlador.getCharJugadorFicha() + ". " + "Ingrese la posicion a mover la ficha: ");
+            case REINICIARJUEGO -> {
+                dispose();
+                this.controlador.reiniciar();
+            }
         }
     }
 
@@ -819,8 +824,8 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
         parametro += "===PUNTAJES HISTORICOS===" + "\n\r";
         parametro += this.controlador.desSerializar();
         //Llamo a la ventana con los resultados.
-        Resultados r = new Resultados(parametro);
-        Resultados.main(null);
+        Resultados r = new Resultados(parametro, this);
+        //this.dispose();
     }
 
     // End of variables declaration

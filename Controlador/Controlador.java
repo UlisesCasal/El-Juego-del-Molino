@@ -5,6 +5,7 @@ import Services.Serializacion;
 import Vistas.Errores;
 import Vistas.EstadosVista;
 import Vistas.IVista;
+import Vistas.VistaConsolaSwing.VConsola;
 import Vistas.VistaGrafica.VGrafic;
 import ar.edu.unlu.rmimvc.cliente.IControladorRemoto;
 import ar.edu.unlu.rmimvc.observer.IObservableRemoto;
@@ -24,7 +25,6 @@ public class Controlador implements IControladorRemoto {
         this.vista = vista;
         this.vista.setControlador(this);
         this.vista.iniciar();
-        //setModeloRemoto(this);
     }
 
     public boolean ponerFicha(int t, int f, int c) { // Ver por que retorna un boolean
@@ -326,5 +326,18 @@ public class Controlador implements IControladorRemoto {
             e.printStackTrace();
         }
         return salida;
+    }
+
+    public void reiniciar() {
+        this.vista = null;
+        this.jugador = null;
+        this.vista = new VConsola();
+        this.vista.setControlador(this);
+        this.vista.iniciar();
+        try {
+            this.modelo.reiniciar();
+        }catch (RemoteException e){
+            e.printStackTrace();
+        }
     }
 }
