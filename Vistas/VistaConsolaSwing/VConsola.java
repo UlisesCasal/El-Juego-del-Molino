@@ -51,7 +51,7 @@ public class VConsola extends JFrame implements IVista {
             public void windowClosing(WindowEvent e) {
                 controlador.desconectado();
                 super.windowClosing(e);
-                System.exit(0);
+                dispose();
             }
         });
 
@@ -127,7 +127,7 @@ public class VConsola extends JFrame implements IVista {
 
     private void registrarJugador() throws RemoteException {
         String nombre = textoInput.getText().trim();
-        if ((nombre != null) && (nombre != "")){
+        if ((!nombre.equals("")) && this.controlador.nombreUnivoco(nombre)){
             this.controlador.setJugador(nombre);
             textoInput.setText("");
             //cambiarEstado(MENU);
@@ -302,6 +302,10 @@ public class VConsola extends JFrame implements IVista {
             case SACARFICHA ->this.println("Su ficha es: " + this.controlador.getCharJugadorFicha() + "\n" + "Ingrese la posicion de la ficha a eliminar: ");
             case MOVERFICHA -> this.println("Su ficha es: " + this.controlador.getCharJugadorFicha() + "\n" + "Ingrese la ficha a mover: ");
             case MOVERFICHA2DAFASE -> this.println("Su ficha es: " + this.controlador.getCharJugadorFicha() + "\n" + "Ingrese la posicion a mover la ficha: ");
+            case REINICIARJUEGO -> {
+                dispose();
+                this.controlador.reiniciar();
+            }
         }
     }
 
@@ -449,6 +453,11 @@ public class VConsola extends JFrame implements IVista {
         parametro += this.controlador.desSerializar();
         //Llamo a la ventana con los resultados.
         Resultados r = new Resultados(parametro, this);
+    }
+
+    @Override
+    public void eliminar() {
+        this.dispose();
     }
 
 

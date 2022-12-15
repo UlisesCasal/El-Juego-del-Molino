@@ -27,7 +27,7 @@ public class Resultados extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                System.exit(0);
+                vistaQueLlamo.eliminar();
             }
         });
         iniciarButton.addActionListener(new ActionListener() {

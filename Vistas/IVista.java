@@ -27,5 +27,6 @@ public interface IVista {
     void mostrarConsola();
 
     void puntajeHistorico();
+    void eliminar();
 
 }

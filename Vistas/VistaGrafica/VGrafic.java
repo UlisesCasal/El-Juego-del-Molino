@@ -421,8 +421,6 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
         manejadorBotones("B8");
     }
     private void C1ActionPerformed(java.awt.event.ActionEvent evt) {
-        System.out.println("=========");
-        System.out.println("C1 apretado!!!");
         manejadorBotones("C1");
     }
     private void C2ActionPerformed(java.awt.event.ActionEvent evt) {
@@ -825,6 +823,11 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
         //Llamo a la ventana con los resultados.
         Resultados r = new Resultados(parametro, this);
         //this.dispose();
+    }
+
+    @Override
+    public void eliminar() {
+        this.dispose();
     }
 
     // End of variables declaration

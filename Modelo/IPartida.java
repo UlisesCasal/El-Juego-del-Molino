@@ -35,4 +35,6 @@ public interface IPartida extends IObservableRemoto, Remote {
     void desconexion(String jugador) throws RemoteException;
 
     void reiniciar() throws RemoteException;
+
+    boolean verificarNombreUnivoco(String nombre) throws RemoteException;
 }

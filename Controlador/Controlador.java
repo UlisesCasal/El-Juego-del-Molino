@@ -233,7 +233,7 @@ public class Controlador implements IControladorRemoto {
                     }
                     if (evento == Eventos.DESCONEXION) {
                         if (this.vista != null) {
-                            cambiarEstadosVista(Eventos.FINPARTIDA);
+                            cambiarEstadosVista(Eventos.SERIALIZADO);
                         }
                     }
                     if (evento == Eventos.ESPERANDOJUGADORES) {
@@ -339,5 +339,15 @@ public class Controlador implements IControladorRemoto {
         }catch (RemoteException e){
             e.printStackTrace();
         }
+    }
+
+    public boolean nombreUnivoco(String nombre) {
+        boolean salida = false;
+        try {
+            salida = this.modelo.verificarNombreUnivoco(nombre);
+        }catch (RemoteException e){
+            e.printStackTrace();
+        }
+        return salida;
     }
 }

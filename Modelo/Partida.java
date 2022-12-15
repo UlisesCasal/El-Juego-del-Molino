@@ -261,8 +261,10 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
         for (Jugador j: jugadores) {
             if (Objects.equals(j.getNombre(), jugador)){
                 j.incPuntaje();
+
             }
         }
+        serializar();
         notificarObservadores(Eventos.DESCONEXION);
     }
 
@@ -274,6 +276,17 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
         this.fichaAgregada = null;
         tablero = new Tablero();
         this.numeroJugadores = 0;
+    }
+
+    @Override
+    public boolean verificarNombreUnivoco(String nombre) throws RemoteException{
+        boolean salida = true;
+        for (int i = 0; i < jugadores.size(); i++) {
+            if (Objects.equals(jugadores.get(i).getNombre(), nombre)){
+                salida = false;
+            }
+        }
+        return salida;
     }
 
     @Override
