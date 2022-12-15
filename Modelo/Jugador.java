@@ -1,10 +1,13 @@
 package Modelo;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Jugador implements Serializable {
+    @Serial
+    private static final long serialVersionUID = -8822020833953557298L;
     private String nombre;
     private Ficha[] fichasNoPuestas;
     private Ficha[] fichasPuestas = null;
@@ -206,5 +209,10 @@ public class Jugador implements Serializable {
             i++;
         }
         return salida;
+    }
+
+    public void resetFichas(){
+        this.fichasPuestas = null;
+        this.fichasNoPuestas = null;
     }
 }

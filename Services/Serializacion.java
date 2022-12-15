@@ -19,8 +19,10 @@ public class Serializacion {
             Path path = Path.of("datos.dat");
             File archivo = path.toFile();
             if (noExiste || archivo.length() == 0) {
-                System.out.println("Escribe cabecera!!!");
+
                 serializador.writeOneObject(jugadores.get(0));
+            }else{
+                serializador.addOneObject(jugadores.get(0));
             }
             for (int i = 1; i < jugadores.size(); i++){
                 serializador.addOneObject(jugadores.get(i));
@@ -65,8 +67,14 @@ public class Serializacion {
 
     public static String armarString(){
         StringBuilder salida = new StringBuilder();
+        String armado = "";
+        String s;
         for (int i = 0; i < jugadores.size(); i++) {
-            salida.append(jugadores.get(i).getNombre()).append(": ").append(jugadores.get(i).getPuntaje()).append("\r\n");
+            armado = jugadores.get(i).getNombre() + ": " + (jugadores.get(i).getPuntaje()) + ("\r\n");
+            s = String.valueOf(salida);
+            if (!s.contains(armado)) {
+                salida.append(armado);
+            }
         }
         return String.valueOf(salida);
     }

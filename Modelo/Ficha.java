@@ -1,8 +1,11 @@
 package Modelo;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class Ficha implements Serializable {
+    @Serial
+    private static final long serialVersionUID = -9155766981317247486L;
     private int[] posicion = null; //se setea en null hasta que se le asigne una posicion
     private Jugador jugador;
 

@@ -7,6 +7,7 @@ import ar.edu.unlu.rmimvc.observer.ObservableRemoto;
 import Services.Serializador;
 
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class Partida extends ObservableRemoto implements IPartida, Serializable {
+    @Serial
+    private static final long serialVersionUID = -3650013750644466352L;
     private List<Jugador> jugadores = new ArrayList<Jugador>();
     private Tablero tablero;
     private int turno = 1;
@@ -22,6 +25,7 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
     //private List<Observador>  observadores = new ArrayList<>();
     private Ficha fichaAgregada;
     private Ficha fichaEliminada;
+    private boolean serializado;
 
     @Override
     public Ficha getFichaAgregada() throws RemoteException {
@@ -177,9 +181,10 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
             //fichaEliminada = ficha; //Verificar
             fichaAgregada = jugadorActual.getFicha(tmover,fmover,cmover);// verificar
             notificarObservadores(Eventos.FICHAMOVIDA);
+            System.out.println("termino de notificar mover ficha!!!");  // sacar
             if (this.tablero.verificarRaya(tmover,fmover,cmover,jugadorActual,ficha)){
-                notificarObservadores(Eventos.SACARFICHA);
                 jugadorActual.incPuntaje();
+                notificarObservadores(Eventos.SACARFICHA);
             }else{
                 cambiarTurno();
             }
@@ -214,8 +219,11 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
          */
         int numeroJugadores = jugadores.size();
         int contador = 0;
-
-        Serializacion.serializar(this.jugadores);
+        if (!serializado) {
+            this.jugadores.get(0).resetFichas();
+            this.jugadores.get(1).resetFichas();
+            Serializacion.serializar(this.jugadores);
+        }
     }
 
     @Override
@@ -370,5 +378,7 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
         salida[1] = this.jugadores.get(1).getNombre();
         return salida;
     }
+    
+    
 
 }

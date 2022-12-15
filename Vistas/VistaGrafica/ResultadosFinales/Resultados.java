@@ -16,11 +16,12 @@ public class Resultados extends JFrame{
     private IVista vistaQueLlamo;
 
     public Resultados(String mostrar, IVista vista){
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.vistaQueLlamo = vista;
         System.out.println("Entro a Resultados");
-        iniciar();
-        setContentPane(this.panel1);
-        textoMostrar.setText(mostrar);
+        this.iniciar();
+        this.setContentPane(this.panel1);
+        this.textoMostrar.setText(mostrar);
 
         cerrarButton.addActionListener(new ActionListener() {
             @Override

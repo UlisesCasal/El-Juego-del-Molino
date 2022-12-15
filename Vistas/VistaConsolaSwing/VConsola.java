@@ -5,6 +5,7 @@ import Modelo.Eventos;
 import Vistas.Errores;
 import Vistas.EstadosVista;
 import Vistas.IVista;
+import Vistas.VistaGrafica.ResultadosFinales.Resultados;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -86,9 +87,11 @@ public class VConsola extends JFrame implements IVista {
                     }
                     case MOVERFICHA2DAFASE:{
                         mostrarMoverFicha2fase();
+                        break;
                     }
                     case MENU:{
                         mostrarMenuEleccion();
+                        break;
                     }
                 }
             }
@@ -293,10 +296,10 @@ public class VConsola extends JFrame implements IVista {
         this.estadoActual = estado;
         switch (this.estadoActual) {
             case MENU -> println("Ingrese (S/N) si desea cambiar a la vista grafica: ");
+            case INGRESARFICHA -> this.println("Su ficha es: " + this.controlador.getCharJugadorFicha() + "\n" + "Ingrese la ficha que quiere agregar: ");
             case BLOQUEADA -> println("Espere su turno...");
             case ESPERANDOCONEXION -> mostrarPantallaEspera();
-            case INGRESARFICHA -> this.println("Su ficha es: " + this.controlador.getCharJugadorFicha() + "\n" + "Ingrese la ficha que quiere agregar: ");
-            case SACARFICHA -> this.println("Su ficha es: " + this.controlador.getCharJugadorFicha() + "\n" + "Ingrese la posicion de la ficha a eliminar: ");
+            case SACARFICHA ->this.println("Su ficha es: " + this.controlador.getCharJugadorFicha() + "\n" + "Ingrese la posicion de la ficha a eliminar: ");
             case MOVERFICHA -> this.println("Su ficha es: " + this.controlador.getCharJugadorFicha() + "\n" + "Ingrese la ficha a mover: ");
             case MOVERFICHA2DAFASE -> this.println("Su ficha es: " + this.controlador.getCharJugadorFicha() + "\n" + "Ingrese la posicion a mover la ficha: ");
         }
@@ -437,8 +440,15 @@ public class VConsola extends JFrame implements IVista {
         METODO QUE MUESTRA LOS PUNTAJES HISTORICOS.
         - VERIFICAR SI FUNCIONA.
          */
-        println("===PUNTAJES HISTORICOS===");
-        println(this.controlador.desSerializar());
+        String[] puntaje = this.controlador.getPuntajesFinales();
+        String[] nombreJugadores = this.controlador.getNombreJugadores();
+        String parametro = "Los puntajes de esta partida son: " + "\n\r";
+        parametro += nombreJugadores[0] + ": " + puntaje[0] + "\n\r";
+        parametro += nombreJugadores[1] + ": " + puntaje[1] + "\n\r";
+        parametro += "===PUNTAJES HISTORICOS===" + "\n\r";
+        parametro += this.controlador.desSerializar();
+        //Llamo a la ventana con los resultados.
+        Resultados r = new Resultados(parametro, this);
     }
 
 

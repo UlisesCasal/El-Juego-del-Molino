@@ -1,10 +1,13 @@
 package Modelo;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Tablero implements Serializable {
+    @Serial
+    private static final long serialVersionUID = -8575964166394893990L;
     //Utilizare de tablero un tensor, que representara los 3 cuadrados, el 0-> mas externo, el 1-> el del medio y el 3-> interno.
     private Ficha[][][] tablero;
     protected static Ficha fichaNula = new Ficha(new Jugador("-1", -1));

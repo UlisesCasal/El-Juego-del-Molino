@@ -449,9 +449,6 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
 
 
     private void manejadorBotones(String name) {
-        System.out.println("===========================");
-        System.out.println("Ingreso a manejador botones!!!");
-        System.out.println("El estado es: " + this.estadoActual);
         this.textoInput = name;
         switch (this.estadoActual){
             case INGRESARFICHA -> {
@@ -821,6 +818,8 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
         String[] puntaje = this.controlador.getPuntajesFinales();
         String[] nombreJugadores = this.controlador.getNombreJugadores();
         String parametro = "Los puntajes de esta partida son: " + "\n\r";
+        parametro += nombreJugadores[0] + ": " + puntaje[0] + "\n\r";
+        parametro += nombreJugadores[1] + ": " + puntaje[1] + "\n\r";
         parametro += "===PUNTAJES HISTORICOS===" + "\n\r";
         parametro += this.controlador.desSerializar();
         //Llamo a la ventana con los resultados.

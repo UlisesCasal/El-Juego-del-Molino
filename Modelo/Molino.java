@@ -1,9 +1,12 @@
 package Modelo;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
 public class Molino implements Serializable {
+    @Serial
+    private static final long serialVersionUID = -8160069455747025471L;
     Ficha ficha1;
     Ficha ficha2;
     Ficha ficha3;
