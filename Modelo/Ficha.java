@@ -21,7 +21,7 @@ public class Ficha implements Serializable {
         this.posicion[2] = posicion[2];
     }
 
-    //VERIFICAR QUE DEVUELVE CUANDO NO LE SETEO NADA
+
     public int[] getPosicion() {
         return posicion;
     }

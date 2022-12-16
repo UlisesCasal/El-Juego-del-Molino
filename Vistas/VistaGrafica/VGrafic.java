@@ -35,7 +35,7 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
             public void windowClosing(WindowEvent e) {
                 controlador.desconectado();
                 super.windowClosing(e);
-                System.exit(0);
+                dispose();
             }
         });
         initComponents();
@@ -81,7 +81,7 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
         TextoInformativo = new javax.swing.JLabel();
         Fondo = new javax.swing.JLabel();
 
-        //setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         bg.setBackground(new java.awt.Color(255, 255, 255));
         bg.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -453,7 +453,7 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
                 this.ponerFicha();
             }
             case MOVERFICHA -> {
-                System.out.println("Entro al case mover ficha!!!");
+
                 mostrarMoverFicha1fase();
             }
             case BLOQUEADA -> {
@@ -556,7 +556,7 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
     @Override
     public void mostrarPuntajesFinales() {
 
-        // VERIFICAR:
+
         TextoInformativo.setText("Ganaste!!!, el rival se ha desconectado.");
         cambiarEstado(BLOQUEADA);
     }
@@ -738,12 +738,12 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
             limpiarConsola();
             mostrarTablero();
             this.println("Por favor ingrese una posicion válida");
-        }if (errores == Errores.NOSEPUDOAGREGARFICHA){ // VER SI ANDA
+        }if (errores == Errores.NOSEPUDOAGREGARFICHA){
             println("La posicion ingresada es inválida, vuelva a intentarlo...");
-            cambiarEstado(INGRESARFICHA); // VER SI ANDA
+            cambiarEstado(INGRESARFICHA);
         }if (errores == Errores.NOSEPUDOMOVERFICHA){
             println("No se pudo mover la ficha, vuelva a intentarlo...");
-            cambiarEstado(MOVERFICHA); // VER SI ANDA
+            cambiarEstado(MOVERFICHA);
         }
     }
 
@@ -753,15 +753,15 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
 
     @Override
     public void mostrarMoverFicha1fase() {
-        System.out.println("Entro al mostrarMoverFicha1Fase!!!");
+
         String fichaAMover = textoInput;
         int[] posicionFicha = traductor(fichaAMover);
         if (posicionFicha[0] != -1) {
-            System.out.println("Posicion correcta");
+
             boolean valido = this.controlador.verificarFicha(posicionFicha[0], posicionFicha[1], posicionFicha[2]);
             if (valido) {
                 limpiarConsola();
-                mostrarTablero(); // ver si lo dejo
+                mostrarTablero();
                 ficha = posicionFicha;
                 //Pongo el boton como apretado, ya que fue elegido
                 JButton botonElegido = getBoton(posicionFicha);
@@ -822,7 +822,7 @@ public class VGrafic extends javax.swing.JFrame implements IVista {
         parametro += this.controlador.desSerializar();
         //Llamo a la ventana con los resultados.
         Resultados r = new Resultados(parametro, this);
-        //this.dispose();
+
     }
 
     @Override

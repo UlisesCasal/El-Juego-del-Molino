@@ -1,6 +1,8 @@
 package Controlador;
 
-import Modelo.*;
+import Modelo.Eventos;
+import Modelo.IPartida;
+import Modelo.Jugador;
 import Services.Serializacion;
 import Vistas.Errores;
 import Vistas.EstadosVista;
@@ -11,11 +13,7 @@ import ar.edu.unlu.rmimvc.cliente.IControladorRemoto;
 import ar.edu.unlu.rmimvc.observer.IObservableRemoto;
 
 import java.rmi.RemoteException;
-import java.util.Arrays;
 import java.util.Objects;
-import java.util.ArrayList;
-import java.util.Objects;
-import static Modelo.Partida.serializador;
 public class Controlador implements IControladorRemoto {
 
     private IPartida modelo;
@@ -199,7 +197,7 @@ public class Controlador implements IControladorRemoto {
                     }
                     if ((evento == Eventos.FICHAAGREGADA) || (evento == Eventos.FICHAMOVIDA) || (evento == Eventos.FICHASACADA)) {
                         actualizarTablero((Eventos) evento);
-                        //this.vista.actualizarTablero();
+
 
                     }
                     if (evento == Eventos.FINPARTIDA) {
@@ -207,7 +205,7 @@ public class Controlador implements IControladorRemoto {
                     }
                     if (evento == Eventos.SACARFICHA) {
                         actualizarTablero(Eventos.FICHAAGREGADA);
-                        //this.vista.actualizarTablero();
+
                         if (Objects.equals(this.jugador, jugadorTurno)) {
                             cambiarEstadosVista(Eventos.SACARFICHA);
                         }
@@ -252,15 +250,15 @@ public class Controlador implements IControladorRemoto {
             int[] posicion;
             String charJugador;
             if (evento == Eventos.FICHAAGREGADA || evento == Eventos.FICHAMOVIDA) {
-                //fichaAgregada = this.modelo.getFichaAgregada();
+
                 posicion = this.modelo.getPosicionFicha(TipoFicha.AGREGADA);
-                charJugador = getCharJugadorFicha(TipoFicha.AGREGADA); // CAMBIAR METODO
+                charJugador = getCharJugadorFicha(TipoFicha.AGREGADA);
                 this.vista.actualizarTablero(posicion, charJugador, Eventos.FICHAAGREGADA);
             }
             if (evento == Eventos.FICHASACADA || evento == Eventos.FICHAMOVIDA) {
-                //fichaEliminada = this.modelo.getFichaEliminada();
+
                 posicion = this.modelo.getPosicionFicha(TipoFicha.ELIMINADA);
-                charJugador = getCharJugadorFicha(TipoFicha.ELIMINADA); // CAMBIAR METODO
+                charJugador = getCharJugadorFicha(TipoFicha.ELIMINADA);
                 this.vista.actualizarTablero(posicion, charJugador, Eventos.FICHASACADA);
             }
         }catch (RemoteException e){

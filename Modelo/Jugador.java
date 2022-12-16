@@ -19,11 +19,11 @@ public class Jugador implements Serializable {
 
     public Jugador(String nombre, int numero){
         this.nombre = nombre;
-        this.fichasNoPuestas = new Ficha[10]; // CAMBIAR A 9 , DEBE SER SIEMPRE +1
+        this.fichasNoPuestas = new Ficha[10]; // DEBE SER SIEMPRE +1
         inicializarFichas();
         this.puntaje = 0;
         this.numero = numero;
-        this.fichasTotales = 9;// cambiar
+        this.fichasTotales = 9;
     }
 
     private void inicializarFichas(){
@@ -64,7 +64,7 @@ public class Jugador implements Serializable {
             }
             i ++;
         }
-        this.fichasPuestas = fichasPuestasAux;//da error
+        this.fichasPuestas = fichasPuestasAux;
         this.fichasTotales --;
     }
 
@@ -91,7 +91,7 @@ public class Jugador implements Serializable {
 
     public Ficha getFichaNoPuesta(){
         Ficha ficha = null;
-        //VERIFICAR SI ESTO FUNCIONA EL MAYOR A CERO
+
         if ((fichasTotales >= 1) && (this.fichasNoPuestas.length-1 >= 0)) {
             //Saco la ficha de la ultima posicion siempre:
             ficha = this.fichasNoPuestas[this.fichasNoPuestas.length-1];
@@ -141,7 +141,7 @@ public class Jugador implements Serializable {
         POSIBLE ERROR:
          */
         if ((this.fichasPuestas.length) <= this.numeroPuestas + 1){
-            Ficha[] arregloAuxiliar = new Ficha[this.numeroPuestas + 3]; //POSIBLE CAUSANTE DE ERROR
+            Ficha[] arregloAuxiliar = new Ficha[this.numeroPuestas + 3];
             int i = 0;
             while (i < this.fichasPuestas.length){
                 arregloAuxiliar[i] = this.fichasPuestas[i];
@@ -175,7 +175,7 @@ public class Jugador implements Serializable {
 
     public void eliminarMolino(Ficha ficha) {
         int i = 0;
-        //VERIFICAR SI FUNCIONA CORRECTAMENTE:
+
         while (i < molinos.size()){
             if (molinos.get(i).pertenece(ficha)){
                 molinos.remove(i);
@@ -186,7 +186,7 @@ public class Jugador implements Serializable {
 
     public int getNumeroFichasRestante() {
         //Metodo que me devuelve la cantidad de fichas que le quedan por poner al jugador:
-        return 9 - (numeroPuestas); //Ver si cambiarlo por 9
+        return 9 - (numeroPuestas);
     }
 
     public boolean verificarFichasEliminables(){

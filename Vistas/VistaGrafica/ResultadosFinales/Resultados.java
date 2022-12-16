@@ -18,7 +18,6 @@ public class Resultados extends JFrame{
     public Resultados(String mostrar, IVista vista){
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.vistaQueLlamo = vista;
-        System.out.println("Entro a Resultados");
         this.iniciar();
         this.setContentPane(this.panel1);
         this.textoMostrar.setText(mostrar);

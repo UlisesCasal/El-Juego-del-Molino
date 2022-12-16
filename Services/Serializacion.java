@@ -32,12 +32,12 @@ public class Serializacion {
 
     public static String desSerializar(){
         if (jugadores == null){
-            System.out.println("Crea arreglo de jugadores!!!");
+
             jugadores = new ArrayList<>();
         }
         String salida;
         Object[] recuperado = serializador.readObjects();
-        System.out.println("la cantidad de jugadores recuperados es: " + recuperado.length);
+
 
         //PRIMERO RECUPERO LOS OBJETOS DE JUGADOR:
         for (int i = 0; i < recuperado.length; i ++){
@@ -53,7 +53,7 @@ public class Serializacion {
         Jugador auxiliar = null;
         for (int i = 0; i < jugadores.size(); i++) {
             for (int j = 0; j < jugadores.size() - 1; j++) {
-                if (jugadoresArray[j].getPuntaje() > jugadoresArray[j + 1].getPuntaje()){
+                if (jugadoresArray[j].getPuntaje() < jugadoresArray[j + 1].getPuntaje()){
                     auxiliar = jugadoresArray[j];
                     jugadoresArray[j] = jugadoresArray[j+1];
                     jugadoresArray[j+1] =  auxiliar;

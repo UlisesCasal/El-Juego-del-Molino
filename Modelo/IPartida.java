@@ -8,10 +8,13 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 public interface IPartida extends IObservableRemoto, Remote {
+    /*
     Ficha getFichaAgregada() throws RemoteException;
 
     Ficha getFichaEliminada() throws RemoteException;
 
+
+     */
     void iniciarPartida() throws RemoteException;
     void setJugador(String nombre) throws RemoteException;
     Jugador darTurno() throws RemoteException;
@@ -30,7 +33,8 @@ public interface IPartida extends IObservableRemoto, Remote {
     int getNumeroJugador(TipoFicha tipoFicha) throws RemoteException;
     Eventos getEstadoJugador() throws RemoteException;
     String[] getNombreJugadores() throws RemoteException;
-    List<Ficha> getFichasPuestas() throws RemoteException;
+
+    //List<Ficha> getFichasPuestas() throws RemoteException;
 
     void desconexion(String jugador) throws RemoteException;
 

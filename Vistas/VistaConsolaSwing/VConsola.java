@@ -130,7 +130,7 @@ public class VConsola extends JFrame implements IVista {
         if ((!nombre.equals("")) && this.controlador.nombreUnivoco(nombre)){
             this.controlador.setJugador(nombre);
             textoInput.setText("");
-            //cambiarEstado(MENU);
+
         }else{
             this.println("Por favor ingrese un nombre válido...");
         }
@@ -165,7 +165,7 @@ public class VConsola extends JFrame implements IVista {
 
     @Override
     public void mostrarTablero() {
-        limpiarConsola(); // Ver si dejar
+        limpiarConsola();
         println(tableroDinamico);
     }
 
@@ -288,7 +288,7 @@ public class VConsola extends JFrame implements IVista {
         return salida;
     }
 
-    // SACAR:
+
 
 
     @Override
@@ -335,10 +335,8 @@ public class VConsola extends JFrame implements IVista {
         String ficha = textoInput.getText().toUpperCase().trim();
         int[] posicion = traductor(ficha);
         if (posicion[0] != -1) {
-            //ultFichaIngre = null; //Asigno nulo asi cuando actualizo no me agrega otro char
-            //fichaEliminar = tablero.substring(tablero.indexOf(ficha), tablero.indexOf(ficha) + 5);
             this.controlador.sacarFicha(posicion[0], posicion[1], posicion[2]);
-            //QUEDA SACAR EL CHAR DEL JUGADOR
+
         }else{
             cambiarEstado(SACARFICHA);
 
@@ -377,7 +375,7 @@ public class VConsola extends JFrame implements IVista {
         String ficha = textoInput.getText().toUpperCase().trim();
         int[] posicion = traductor(ficha);
         if (posicion[0] != -1) {
-            //ultFichaIngre = ficha + "( )"; //Guardo la ultima ficha ingresada por si me da un evento de que se ingreso con exito, procedo a hacer el cambio
+
             this.controlador.ponerFicha(posicion[0], posicion[1], posicion[2]);
         }else {cambiarEstado(INGRESARFICHA);}
 
@@ -396,8 +394,8 @@ public class VConsola extends JFrame implements IVista {
             boolean valido = this.controlador.verificarFicha(posicionFicha[0], posicionFicha[1], posicionFicha[2]);
             textoInput.setText("");
             if (valido) {
-                //fichaEliminar = fichaAMover;
-                //fichaEliminar = tablero.substring(tablero.indexOf(fichaEliminar), tablero.indexOf(fichaEliminar) + 5);//La guardo ya que la debere eliminar
+
+
                 limpiarConsola();
                 mostrarTablero();
                 ficha = posicionFicha;
@@ -418,11 +416,11 @@ public class VConsola extends JFrame implements IVista {
             boolean valido = this.controlador.verificarPosicionVacia(posicionFichaMover[0], posicionFichaMover[1], posicionFichaMover[2]);
             textoInput.setText("");
             if (valido) {
-                //ultFichaIngre = fichaAMover + "( )";
+
                 this.controlador.moverFicha(ficha[0], ficha[1], ficha[2], posicionFichaMover[0], posicionFichaMover[1], posicionFichaMover[2]);
             } else {
                 cambiarEstado(MOVERFICHA);
-                //this.println("Por favor ingrese una posicion a mover valida: ");
+
             }
         }else {
             cambiarEstado(MOVERFICHA);

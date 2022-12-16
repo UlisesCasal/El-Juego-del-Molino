@@ -22,11 +22,11 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
     private Tablero tablero;
     private int turno = 1;
     private int numeroJugadores;
-    //private List<Observador>  observadores = new ArrayList<>();
+
     private Ficha fichaAgregada;
     private Ficha fichaEliminada;
     private boolean serializado;
-
+    /*
     @Override
     public Ficha getFichaAgregada() throws RemoteException {
         return fichaAgregada;
@@ -36,7 +36,7 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
         return fichaEliminada;
     }
 
-    public static Serializador serializador = new Serializador("datos.dat");
+     */
 
     public Partida(){
         this.tablero = null;
@@ -178,17 +178,17 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
         this.fichaEliminada = new Ficha(darTurno());
         this.fichaEliminada.setPosicion(new int[]{t,f,c});
         if (this.tablero.moverFichas(ficha,tmover,fmover,cmover,jugadorActual)){
-            //fichaEliminada = ficha; //Verificar
-            fichaAgregada = jugadorActual.getFicha(tmover,fmover,cmover);// verificar
+
+            fichaAgregada = jugadorActual.getFicha(tmover,fmover,cmover);
             notificarObservadores(Eventos.FICHAMOVIDA);
-            System.out.println("termino de notificar mover ficha!!!");  // sacar
+
             if (this.tablero.verificarRaya(tmover,fmover,cmover,jugadorActual,ficha)){
                 jugadorActual.incPuntaje();
                 notificarObservadores(Eventos.SACARFICHA);
             }else{
                 cambiarTurno();
             }
-            terminoLaPartida(); //VER SI ANDA
+            terminoLaPartida();
 
         }else{
             notificarObservadores(Eventos.FICHANOMOVIDA);
@@ -215,10 +215,7 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
     private void serializar() throws RemoteException {
         /*
         METODO QUE REALIZA LA SERIALIZACION
-        - VERIFICAR SI FUNCIONA CORRECTAMENTE
          */
-        int numeroJugadores = jugadores.size();
-        int contador = 0;
         if (!serializado) {
             this.jugadores.get(0).resetFichas();
             this.jugadores.get(1).resetFichas();
@@ -234,27 +231,18 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
         return salida;
     }
 
-    /*
-    public void notificar(Object evento) {
-        for (Observador observador : this.observadores) {
-            observador.actualizar(evento, this);
-        }
-    }*/
-    /*
-    @Override
-    public void agregarObservador(Observador observador) {
-        this.observadores.add(observador);
-    }
-    */
+    /**
     public List<Ficha> getFichasPuestas() throws RemoteException {
         /*
         METODO QUE RETORNA TODAS LAS FICHAS PUESTAS EN EL TABLERO:
-         */
+         *//*
         List<Ficha> fichas = jugadores.get(0).getFichas();
         List<Ficha> fichas2 = jugadores.get(1).getFichas();
         fichas.addAll(fichas2);
         return fichas;
     }
+    */
+
 
     @Override
     public void desconexion(String jugador) throws RemoteException {
@@ -331,8 +319,6 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
                 if (ficha.getJugador() == darTurno()) {
                     salida = true;
                 }
-                System.out.println("La ficha es de: " + ficha.getJugador().getNombre());
-                System.out.println("En la posicion: " + Arrays.toString(ficha.getPosicion()));
 
             }
         return salida;
@@ -343,18 +329,15 @@ public class Partida extends ObservableRemoto implements IPartida, Serializable 
         boolean salida = false;
         Ficha ficha = getFicha(t, f, c);
         if (ficha == null) {
-            System.out.println("ficha nula");
+
             salida = true;
-        }else{
-            System.out.println("El dueño de la ficha es: " + ficha.getJugador().getNombre());
-            System.out.println("En la posicion " + Arrays.toString(ficha.getPosicion()));
         }
         return  salida;
     }
 
     @Override
     public Jugador getUltimoJugadorAgregado() throws RemoteException{
-        return jugadores.get(jugadores.size() - 1); //verificar si no se va de rango
+        return jugadores.get(jugadores.size() - 1);
     }
 
     @Override
